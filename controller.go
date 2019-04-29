@@ -47,11 +47,11 @@ func (c *Controller) Success(result interface{}) {
 	})
 }
 
-func (c *Controller) Error(e Errors) string {
+func (c *Controller) Error(e Errors) error {
 	c.Ctx.JSON(http.StatusOK, gin.H{
 		"code":    e.Code,
 		"message": e.Message,
 		"data":    "",
 	})
-	return ""
+	return nil
 }
