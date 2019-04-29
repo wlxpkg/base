@@ -7,32 +7,32 @@ import (
 )
 
 type Controller struct {
-	ctx gin.Context
+	Ctx *gin.Context
 }
 
 func (c *Controller) Get(param string) string {
-	value := c.ctx.Query(param)
+	value := c.Ctx.Query(param)
 	return value
 }
 
 func (c *Controller) Getd(param string, defaultValue string) string {
-	value := c.ctx.DefaultQuery(param, defaultValue)
+	value := c.Ctx.DefaultQuery(param, defaultValue)
 	return value
 }
 
 func (c *Controller) Post(param string) string {
-	value := c.ctx.Request.PostFormValue(param)
+	value := c.Ctx.Request.PostFormValue(param)
 	return value
 }
 
 func (c *Controller) Postd(param string, defaultValue string) string {
-	value := c.ctx.DefaultPostForm(param, defaultValue)
+	value := c.Ctx.DefaultPostForm(param, defaultValue)
 	return value
 }
 
 func (c *Controller) Json(json interface{}) interface{} {
 	// var e = new(Errors)
-	if err := c.ctx.ShouldBindJSON(&json); err != nil {
+	if err := c.Ctx.ShouldBindJSON(&json); err != nil {
 		return c.Error(ERR_NOERROR)
 	}
 
@@ -40,7 +40,7 @@ func (c *Controller) Json(json interface{}) interface{} {
 }
 
 func (c *Controller) Success(result interface{}) {
-	c.ctx.JSON(http.StatusOK, gin.H{
+	c.Ctx.JSON(http.StatusOK, gin.H{
 		"code":    1,
 		"message": "",
 		"data":    result,
@@ -48,7 +48,7 @@ func (c *Controller) Success(result interface{}) {
 }
 
 func (c *Controller) Error(e Errors) string {
-	c.ctx.JSON(http.StatusOK, gin.H{
+	c.Ctx.JSON(http.StatusOK, gin.H{
 		"code":    e.Code,
 		"message": e.Message,
 		"data":    "",
