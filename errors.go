@@ -7,69 +7,17 @@ type Errors struct {
 
 var (
 	ERR_NOERROR = Errors{1, ""}
-	ERR_PARAM   = Errors{10100, "参数错误"}
+	SUCCESS     = Errors{1, ""}
+
+	ERR_PARAM         = Errors{10100, "参数错误"}
+	ERR_INVALID_TOKEN = Errors{10102, "非法的token"}
+	ERR_TCP_TIMEOUT   = Errors{10504, "TCP接口响应超时"}
+	ERR_HTTP_TIMEOUT  = Errors{10505, "HTTP接口响应超时"}
+
+	ERR_MYSQL              = Errors{20100, "MySQL错误"}
+	ERR_MYSQL_INSTALL_FAIL = Errors{20102, "数据插入失败"}
+	ERR_MYSQL_DELETE_FAIL  = Errors{20103, "数据删除失败"}
+	ERR_IDGEN_FAIL         = Errors{20404, "id生成失败"}
+	ERR_MYSQLPOOL_FAIL     = Errors{21404, "mysql连接池丢失"}
+	ERR_REDISPOOL_FAIL     = Errors{22404, "redis连接池丢失"}
 )
-
-// func (err *Errors) GetErr(e Errors) (error Errors) {
-// 	error = e
-// 	return
-// }
-
-// var (
-// 	ERR_NOERROR = Errors{1, ""}
-// 	ERR_PARAM   = Errors{10100, "参数错误"}
-// )
-
-// func GetErr() Errors {
-// 	var (
-// 		ERR_NOERROR = Errors{1, ""}
-// 		ERR_PARAM   = Errors{10100, "参数错误"}
-// 	)
-// 	return
-// }
-
-// type Error struct {
-// 	Code    int
-// 	Message string
-// }
-
-// func GetError(code int) Error {
-// 	message := map[int]string{ERR_NOERROR: "错误1", ERR_PARAM: "错误2", 1002: "错误3"}
-// 	r := Error{code, message[code]}
-// 	return r
-// }
-
-// func main() {
-//     fmt.Println("Area of r1 is: ", getMessage(ERR_A))
-//     fmt.Println("getMessage of r2 is: ", getMessage(ERR_B))
-// }
-
-// type ApiErr struct {
-// 	ERR_NOERROR Errors
-// 	ERR_PARAM   Errors
-// }
-
-// var ERR_NOERROR = Errors{1, ""}
-// var ERR_PARAM = Errors{10100, "参数错误"}
-
-// var ApiErr = [...]Errors{
-// 	ERR_NOERROR: {ERR_NOERROR, ""},
-// 	ERR_PARAM: {ERR_PARAM, "参数错误"}
-// }
-
-//var ApiErr
-// var (
-// 	ERR_NOERROR
-// )
-
-// func (e Error)  {
-
-// }
-
-// var errors map[int]string
-
-// // var ApiError map[int]string
-// var ApiError = map[int]string
-
-// ApiError[ERR_NOERROR] = ""
-// ApiError[ERR_PARAM] = "参数错误"
