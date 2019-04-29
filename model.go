@@ -1,4 +1,4 @@
-package core
+package pkg
 
 type Model struct {
 }

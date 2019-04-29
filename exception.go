@@ -1,4 +1,4 @@
-package e
+package pkg
 
 type Exception struct {
 }
