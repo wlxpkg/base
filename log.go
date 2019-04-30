@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-04-30 11:50:59
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-04-30 15:07:57
+ * @Last Modified time: 2019-04-30 16:31:50
  */
 package pkg
 
@@ -14,18 +14,18 @@ import (
 
 func init() {
 	var graylog_ip = config.GetEnv("GRAYLOG_IP", "192.168.3.3")
-	var graylog_port = config.GetEnv("GRAYLOG_UDP_PORT", "12500")
+	var graylog_port = config.GetEnv("GRAYLOG_PORT", "3012")
 
 	hook := graylog.NewAsyncGraylogHook(graylog_ip+":"+graylog_port, map[string]interface{}{})
 	defer hook.Flush()
 	log.AddHook(hook)
-	R(graylog_ip+":"+graylog_port, "inilog")
+	// R(graylog_ip+":"+graylog_port, "inilog")
 }
 
-func LogInfo(data interface{}) {
+func Info(data interface{}) {
 	log.Info(data)
 }
 
-func LogErr(err interface{}) {
+func Err(err interface{}) {
 	log.Error(err)
 }
