@@ -1,9 +1,10 @@
 package pkg
 
 import (
+	"strconv"
+
 	"github.com/go-redis/redis"
 	"github.com/gookit/config"
-	"strconv"
 )
 
 type Redis struct {

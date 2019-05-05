@@ -9,7 +9,7 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-var Eloquent *gorm.DB
+var DB *gorm.DB
 
 func init() {
 	var err error
@@ -20,18 +20,26 @@ func init() {
 	mysqlLink.WriteString("(" + config.GetEnv("MYSQL_HOST", "127.0.0.1"))
 	mysqlLink.WriteString(":" + config.GetEnv("MYSQL_PORT", "3306") + ")")
 	mysqlLink.WriteString("/" + config.GetEnv("MYSQL_DATABASE", "artifact"))
-	mysqlLink.WriteString("?charset=utf8&parseTime=True&loc=Local&timeout=10ms")
+	mysqlLink.WriteString("?charset=utf8&parseTime=True&loc=Local&timeout=100ms")
 
 	fmt.Printf("%T\n", mysqlLink.String()) // true
 
-	Eloquent, err = gorm.Open("mysql", mysqlLink.String())
+	DB, err = gorm.Open("mysql", mysqlLink.String())
 	if err != nil {
 		fmt.Printf("\nmysql connect err %v\n", err)
 	}
 
-	if Eloquent.Error != nil {
-		fmt.Printf("\ndatabase err %v\n", Eloquent.Error)
+	if DB.Error != nil {
+		fmt.Printf("\ndatabase err %v\n", DB.Error)
 	}
-	Eloquent.DB().SetMaxIdleConns(10)
-	//Eloquent.DB().SetMaxOpenConns(1000)
+	// set table prefix
+	// gorm.DefaultTableNameHandler = func(db *gorm.DB, defaultTableName string) string {
+	// 	return "course_" + defaultTableName
+	// }
+
+	// 全局禁用表名复数 TableName不受影响
+	DB.SingularTable(true)
+
+	DB.DB().SetMaxIdleConns(100)
+	//DB.DB().SetMaxOpenConns(1000)
 }
