@@ -6,8 +6,9 @@ type Errors struct {
 }
 
 var (
-	ERR_NOERROR = Errors{1, ""}
-	SUCCESS     = Errors{1, ""}
+	ERR_UNKNOW_ERROR = Errors{0, "未知错误"}
+	ERR_NOERROR      = Errors{1, ""}
+	SUCCESS          = Errors{1, ""}
 
 	ERR_PARAM         = Errors{10100, "参数错误"}
 	ERR_INVALID_TOKEN = Errors{10102, "非法的token"}

@@ -33,7 +33,7 @@ func (c *Controller) Postd(param string, defaultValue string) string {
 func (c *Controller) Json(json interface{}) interface{} {
 	// var e = new(Errors)
 	if err := c.Ctx.ShouldBindJSON(&json); err != nil {
-		return c.Error(ERR_NOERROR)
+		return c.Error(ERR_PARAM)
 	}
 
 	return json
@@ -53,5 +53,6 @@ func (c *Controller) Error(e Errors) error {
 		"message": e.Message,
 		"data":    "",
 	})
+	c.Ctx.Abort()
 	return nil
 }
