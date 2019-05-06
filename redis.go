@@ -1,7 +1,6 @@
 package pkg
 
 import (
-	"encoding/json"
 	"strconv"
 	"time"
 
@@ -25,12 +24,24 @@ func init() {
 }
 
 func Set(key string, value interface{}, ttl int) {
-	switch value.(type) {
+	/* switch value.(type) {
 	case string:
 		value = value
-	case array:
-		value = json.Marshal(value)
-	}
+		break
+	default:
+		// case array:
+		value, err := json.Marshal(value)
+
+		if err != nil {
+			panic(err)
+		}
+		break
+	} */
+	// value, err := json.Marshal(value)
+
+	// if err != nil {
+	// 	panic(err)
+	// }
 	err := Client.Set(key, value, time.Duration(ttl)*time.Second).Err()
 	if err != nil {
 		panic(err)
