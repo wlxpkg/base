@@ -11,6 +11,8 @@ import (
 	"fmt"
 	"runtime/debug"
 	"time"
+	"net/http"
+	"io/ioutil"
 )
 
 func R(data interface{}, name string) {
@@ -51,4 +53,17 @@ func (t *JSONTime) Scan(v interface{}) error {
 		return nil
 	}
 	return fmt.Errorf("can not convert %v to timestamp", v)
+}
+
+
+
+// 发送get请求
+func RequestGet(url string) string {
+	resp, err := http.Get(url)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	return string(body)
 }
