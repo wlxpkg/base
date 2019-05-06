@@ -1,6 +1,7 @@
 package pkg
 
 import (
+	"encoding/json"
 	"strconv"
 	"time"
 
@@ -24,35 +25,27 @@ func init() {
 }
 
 func Set(key string, value interface{}, ttl int) {
-	/* switch value.(type) {
-	case string:
-		value = value
-		break
-	default:
-		// case array:
-		value, err := json.Marshal(value)
+	val, err := json.Marshal(value)
 
-		if err != nil {
-			panic(err)
-		}
-		break
-	} */
-	// value, err := json.Marshal(value)
-
-	// if err != nil {
-	// 	panic(err)
-	// }
-	err := Client.Set(key, value, time.Duration(ttl)*time.Second).Err()
+	if err != nil {
+		panic(err)
+	}
+	err = Client.Set(key, string(val), time.Duration(ttl)*time.Second).Err()
 	if err != nil {
 		panic(err)
 	}
 }
 
-func Get(key string) string {
-	val, err := Client.Get(key).Result()
+func Get(key string, structs interface{}) interface{} {
+	value, err := Client.Get(key).Result()
 	if err != nil {
 		panic(err)
 	}
 
-	return val
+	str := []byte(value)
+	err = json.Unmarshal(str, &structs)
+	if err != nil {
+		panic(err)
+	}
+	return structs
 }
