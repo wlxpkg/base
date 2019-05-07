@@ -22,8 +22,6 @@ func init() {
 	mysqlLink.WriteString("/" + config.GetEnv("MYSQL_DATABASE", "artifact"))
 	mysqlLink.WriteString("?charset=utf8&parseTime=True&loc=Local&timeout=100ms")
 
-	fmt.Printf("%T\n", mysqlLink.String()) // true
-
 	DB, err = gorm.Open("mysql", mysqlLink.String())
 	if err != nil {
 		fmt.Printf("\nmysql connect err %v\n", err)
