@@ -1,4 +1,4 @@
-package pkg
+package cache
 
 import (
 	"encoding/json"
@@ -12,11 +12,11 @@ import (
 type Redis struct {
 }
 
-var Client *redis.Client
+var client *redis.Client
 
 func init() {
 	db, _ := strconv.Atoi(config.GetEnv("REDIS_SELECT", "1"))
-	Client = redis.NewClient(&redis.Options{
+	client = redis.NewClient(&redis.Options{
 		Addr:     config.GetEnv("REDIS_HOST", "127.0.0.1") + ":" + config.GetEnv("REDIS_PORT", "3306"),
 		Password: config.GetEnv("REDIS_PASSWORD", ""),
 		DB:       db,
@@ -30,14 +30,14 @@ func Set(key string, value interface{}, ttl int) {
 	if err != nil {
 		panic(err)
 	}
-	err = Client.Set(key, string(val), time.Duration(ttl)*time.Second).Err()
+	err = client.Set(key, string(val), time.Duration(ttl)*time.Second).Err()
 	if err != nil {
 		panic(err)
 	}
 }
 
 func Get(key string, structs interface{}) interface{} {
-	value, err := Client.Get(key).Result()
+	value, err := client.Get(key).Result()
 	if err != nil {
 		panic(err)
 	}

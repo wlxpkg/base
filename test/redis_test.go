@@ -2,13 +2,14 @@
  * @Author: qiuling
  * @Date: 2019-05-06 19:00:55
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-05-06 20:10:13
+ * @Last Modified time: 2019-05-07 10:07:35
  */
 
 package test
 
 import (
 	. "artifact/pkg"
+	cache "artifact/pkg/cache"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -33,16 +34,16 @@ var student = &Student{
 	9.99,
 }
 
-var valString string = "tttttest"
+var valString string = "test string value"
 
 func TestSetGet(t *testing.T) {
-	Set(testKey, student, 100)
-	Set(testKeyString, valString, 100)
+	cache.Set(testKey, student, 100)
+	cache.Set(testKeyString, valString, 100)
 
-	st := Get(testKey, &Student{})
+	st := cache.Get(testKey, &Student{})
 	R(st, "testGet")
 
-	str := Get(testKeyString, "")
+	str := cache.Get(testKeyString, "")
 	R(str, "testGetStr")
 
 	assert.Equal(t, st, student, "student")
