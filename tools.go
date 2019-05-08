@@ -9,10 +9,10 @@ package pkg
 import (
 	"database/sql/driver"
 	"fmt"
-	"runtime/debug"
-	"time"
 	"io/ioutil"
 	"net/http"
+	"runtime/debug"
+	"time"
 )
 
 func R(data interface{}, name string) {
@@ -64,4 +64,14 @@ func RequestGet(url string) (string, error) {
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	return string(body), err
+}
+
+// Paginator 分页统一结构
+func Paginator(page int, count int, list interface{}) map[string]interface{} {
+	data := make(map[string]interface{}, 3)
+	data["total_count"] = count
+	data["current_page"] = page
+	data["list"] = list
+
+	return data
 }
