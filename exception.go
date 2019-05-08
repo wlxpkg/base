@@ -4,7 +4,7 @@ import (
 	"io"
 	"runtime"
 
-	"./log"
+	"artifact/pkg/log"
 
 	"github.com/gin-gonic/gin"
 )
