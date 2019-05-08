@@ -24,6 +24,7 @@ func init() {
 	})
 }
 
+// Set cache data
 func Set(key string, value interface{}, ttl int) {
 	val, err := json.Marshal(value)
 
@@ -36,6 +37,7 @@ func Set(key string, value interface{}, ttl int) {
 	}
 }
 
+// Get cache data
 func Get(key string, structs interface{}) interface{} {
 	value, err := client.Get(key).Result()
 	if err != nil {

@@ -4,6 +4,8 @@ import (
 	"io"
 	"runtime"
 
+	"./log"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -81,7 +83,7 @@ func ErrorHandle(out io.Writer) gin.HandlerFunc {
 				// error stack
 				stack := make([]byte, 1024*8)
 				stack = stack[:runtime.Stack(stack, false)]
-				Err(Stack())
+				log.Err(Stack())
 				// httprequest, _ := httputil.DumpRequest(ctx.Request, false)
 				// logger.Printf("[Handler] panic recovered:\n%s\n%s\n%s", string(httprequest), err, Stack())
 				// default error
