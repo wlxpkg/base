@@ -79,16 +79,7 @@ func ErrorHandle(out io.Writer) gin.HandlerFunc {
 					// abortWithError(ctx, e)
 					return
 				}
-
-				// error stack
-				stack := make([]byte, 1024*8)
-				stack = stack[:runtime.Stack(stack, false)]
-				log.Err(Stack())
-				// httprequest, _ := httputil.DumpRequest(ctx.Request, false)
-				// logger.Printf("[Handler] panic recovered:\n%s\n%s\n%s", string(httprequest), err, Stack())
-				// default error
-				// internalServerError := GenError(http.StatusInternalServerError, ginErrors.ERROR)
-				// abortWithError(ctx, internalServerError)
+				log.Err(err)
 				ctl.Error(ERR_UNKNOW_ERROR)
 			}
 		}()
