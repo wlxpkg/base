@@ -95,8 +95,35 @@ func String2Time(paramTime string) (returnTime time.Time) {
 	return
 }
 
-// Time2Unix 时间对象[转换为]Unix时间戳
+// String2Unix 字符串格式[转换为]时间戳 eg:(1557398617)
+func String2Unix(paramTime string) int64 {
+	timeStruct := String2Time(paramTime)
+	second := timeStruct.Unix()
+	return second
+}
+
+// Time2Unix 时间对象[转换为]Unix时间戳 eg:(1557398617)
 func Time2Unix(paramTime time.Time) int64 {
 	second := paramTime.Unix()
 	return second
+}
+
+// Time2String 时间对象[转换为]字符串 eg:(2019-09-09 09:09:09)
+func Time2String(t time.Time) string {
+	temp := time.Date(t.Year(), t.Month(), t.Day(), t.Hour(), t.Minute(), t.Second(), t.Nanosecond(), time.Local)
+	str := temp.Format(TimeFormat)
+	return str
+}
+
+// Unix2String 时间戳[转换为]字符串 eg:(2019-09-09 09:09:09)
+func Unix2String(stamp int64) string {
+	str := time.Unix(stamp, 0).Format(TimeFormat)
+	return str
+}
+
+// Unix2Time unix时间戳[转换为]时间对象 eg:(2019-09-09T09:09:09+08:00)
+func Unix2Time(stamp int64) time.Time {
+	stampStr := Unix2String(stamp)
+	timer := String2Time(stampStr)
+	return timer
 }
