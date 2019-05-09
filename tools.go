@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-04-29 19:32:36
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-05-05 10:37:19
+ * @Last Modified time: 2019-05-09 18:55:06
  */
 package pkg
 
@@ -83,4 +83,22 @@ func RandomNum(min, max int) int {
 	}
 	rand.Seed(time.Now().Unix())
 	return rand.Intn(max-min) + min
+}
+
+/**
+ * 时间格式的相互转换
+ */
+
+// String2Time 字符串格式[转换为]time,Time(时间对象) eg:(2019-09-09T09:09:09+08:00)
+func String2Time(param_time string) (return_time time.Time) {
+
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	return_time, _ = time.ParseInLocation(TIME_LAYOUT, param_time, loc)
+	return
+}
+
+// Time2Unix 时间对象[转换为]Unix时间戳
+func Time2Unix(param_time time.Time) int64 {
+	second := param_time.Unix()
+	return second
 }
