@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-04-29 19:32:36
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-05-09 18:55:06
+ * @Last Modified time: 2019-05-09 19:00:44
  */
 package pkg
 
@@ -15,6 +15,8 @@ import (
 	"runtime/debug"
 	"time"
 )
+
+const TimeFormat = "2006-01-02 15:04:05"
 
 func R(data interface{}, name string) {
 	fmt.Printf("%v\n", name)
@@ -89,7 +91,7 @@ func RandomNum(min, max int) int {
 func String2Time(paramTime string) (returnTime time.Time) {
 
 	loc, _ := time.LoadLocation("Asia/Shanghai")
-	returnTime, _ = time.ParseInLocation(TIME_LAYOUT, paramTime, loc)
+	returnTime, _ = time.ParseInLocation(TimeFormat, paramTime, loc)
 	return
 }
 
