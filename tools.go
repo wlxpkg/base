@@ -10,6 +10,7 @@ import (
 	"database/sql/driver"
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"net/http"
 	"runtime/debug"
 	"time"
@@ -74,4 +75,12 @@ func Paginator(page int, count int, list interface{}) map[string]interface{} {
 	data["list"] = list
 
 	return data
+}
+
+func RandomNum(min, max int) int {
+	if min >= max || min == 0 || max == 0 {
+		return max
+	}
+	rand.Seed(time.Now().Unix())
+	return rand.Intn(max-min) + min
 }
