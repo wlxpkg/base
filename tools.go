@@ -85,20 +85,16 @@ func RandomNum(min, max int) int {
 	return rand.Intn(max-min) + min
 }
 
-/**
- * 时间格式的相互转换
- */
-
 // String2Time 字符串格式[转换为]time,Time(时间对象) eg:(2019-09-09T09:09:09+08:00)
-func String2Time(param_time string) (return_time time.Time) {
+func String2Time(paramTime string) (returnTime time.Time) {
 
 	loc, _ := time.LoadLocation("Asia/Shanghai")
-	return_time, _ = time.ParseInLocation(TIME_LAYOUT, param_time, loc)
+	returnTime, _ = time.ParseInLocation(TIME_LAYOUT, paramTime, loc)
 	return
 }
 
 // Time2Unix 时间对象[转换为]Unix时间戳
-func Time2Unix(param_time time.Time) int64 {
-	second := param_time.Unix()
+func Time2Unix(paramTime time.Time) int64 {
+	second := paramTime.Unix()
 	return second
 }
