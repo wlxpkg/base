@@ -49,12 +49,16 @@ func (c *Controller) Success(result interface{}) {
 	})
 }
 
-func (c *Controller) Error(e Errors) {
+func (c *Controller) Error(e error) {
+	errors, ok := Errs[e.Error()]
+	if !ok {
+		errors = Errs["ERR_UNKNOW_ERROR"]
+	}
+
 	c.Ctx.JSON(http.StatusOK, gin.H{
-		"code":    e.Code,
-		"message": e.Message,
+		"code":    errors.Code,
+		"message": errors.Message,
 		"data":    "",
 	})
 	c.Ctx.Abort()
-	// return nil
 }

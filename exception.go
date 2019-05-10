@@ -1,11 +1,10 @@
 package pkg
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"runtime"
-
-	"artifact/pkg/log"
 
 	"github.com/gin-gonic/gin"
 )
@@ -74,15 +73,9 @@ func ErrorHandle(out io.Writer) gin.HandlerFunc {
 			ctl := Controller{Ctx: ctx}
 
 			if err := recover(); err != nil {
-				//自定义错误，业务逻辑故意抛出的，返回统一格式数据
-				errMsg := fmt.Sprint(err)
-				errors, ok := Errs[errMsg]
-				if ok {
-					ctl.Error(errors)
-					return
-				}
-				log.Err(err)
-				ctl.Error(Errs["ERR_UNKNOW_ERROR"])
+				errs := errors.New(fmt.Sprint(err))
+				ctl.Error(errs)
+				return
 			}
 		}()
 		ctx.Next()
