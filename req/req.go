@@ -9,7 +9,7 @@
 package req
 
 import (
-	"artifact/pkg/log"
+	"artifact/pkg/log/log"
 	"errors"
 	"io/ioutil"
 	"net"
