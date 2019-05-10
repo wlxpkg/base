@@ -30,14 +30,16 @@ func (c *Controller) Postd(param string, defaultValue string) string {
 	return value
 }
 
-func (c *Controller) Json(json interface{}) interface{} {
-	// var e = new(Errors)
-	if err := c.Ctx.ShouldBindJSON(&json); err != nil {
-		return c.Error(ERR_PARAM)
-	}
+// func (c *Controller) Json(json interface{}) (json interface{}, error) {
+// 	// var e = new(Errors)
+// 	if err := c.Ctx.ShouldBindJSON(&json); err != nil {
+// 		log.Warn(err)
+// 		c.Error(Errs["ERR_PARAM"])
+// 		return
+// 	}
 
-	return json
-}
+// 	return
+// }
 
 func (c *Controller) Success(result interface{}) {
 	c.Ctx.JSON(http.StatusOK, gin.H{
@@ -47,12 +49,12 @@ func (c *Controller) Success(result interface{}) {
 	})
 }
 
-func (c *Controller) Error(e Errors) error {
+func (c *Controller) Error(e Errors) {
 	c.Ctx.JSON(http.StatusOK, gin.H{
 		"code":    e.Code,
 		"message": e.Message,
 		"data":    "",
 	})
 	c.Ctx.Abort()
-	return nil
+	// return nil
 }

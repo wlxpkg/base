@@ -1,6 +1,7 @@
 package pkg
 
 import (
+	"fmt"
 	"io"
 	"runtime"
 
@@ -73,14 +74,15 @@ func ErrorHandle(out io.Writer) gin.HandlerFunc {
 			ctl := Controller{Ctx: ctx}
 
 			if err := recover(); err != nil {
-				if e, ok := err.(Errors); ok {
-					//自定义错误，业务逻辑故意抛出的，返回统一格式数据
-					ctl.Error(e)
-					// abortWithError(ctx, e)
+				//自定义错误，业务逻辑故意抛出的，返回统一格式数据
+				errMsg := fmt.Sprint(err)
+				errors, ok := Errs[errMsg]
+				if ok {
+					ctl.Error(errors)
 					return
 				}
 				log.Err(err)
-				ctl.Error(ERR_UNKNOW_ERROR)
+				ctl.Error(Errs["ERR_UNKNOW_ERROR"])
 			}
 		}()
 		ctx.Next()

@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-04-29 19:32:36
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-05-09 19:00:44
+ * @Last Modified time: 2019-05-10 09:58:55
  */
 package pkg
 
@@ -35,7 +35,7 @@ type JSONTime struct {
 
 // MarshalJSON on JSONTime format Time field with Y-m-d H:i:s
 func (t JSONTime) MarshalJSON() ([]byte, error) {
-	formatted := fmt.Sprintf("\"%s\"", t.Format("2006-01-02 15:04:05"))
+	formatted := fmt.Sprintf("\"%s\"", t.Format(TimeFormat))
 	return []byte(formatted), nil
 }
 
