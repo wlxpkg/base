@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-05-10 14:23:40
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-05-10 17:18:17
+ * @Last Modified time: 2019-05-10 19:20:14
  */
 
 package pkg
@@ -57,7 +57,7 @@ func (t *JSONTime) Scan(v interface{}) error {
 	return fmt.Errorf("can not convert %v to timestamp", v)
 }
 
-func CreateID() (int64, error) {
+func CreateID() (idInt int64, err error) {
 	domain := config.GetEnv("IDGENERATOR_URL", "http://192.168.3.3")
 	uri := domain + "/getid"
 
@@ -65,8 +65,9 @@ func CreateID() (int64, error) {
 	if err != nil {
 		log.Warn(err)
 		err = errors.New("ERR_IDGEN_FAIL")
-		return 0, err
+		return
 	}
 
-	return strconv.ParseInt(idStr, 10, 64)
+	idInt, _ = strconv.ParseInt(idStr, 10, 64)
+	return
 }
