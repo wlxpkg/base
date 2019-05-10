@@ -35,6 +35,9 @@ type JSONTime struct {
 
 // MarshalJSON on JSONTime format Time field with Y-m-d H:i:s
 func (t JSONTime) MarshalJSON() ([]byte, error) {
+	if t.Time.IsZero() {
+		return []byte("null"), nil
+	}
 	formatted := fmt.Sprintf("\"%s\"", t.Format(TimeFormat))
 	return []byte(formatted), nil
 }
