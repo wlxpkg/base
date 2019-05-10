@@ -2,14 +2,14 @@
  * @Author: qiuling
  * @Date: 2019-05-06 19:00:55
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-05-07 10:07:35
+ * @Last Modified time: 2019-05-10 16:45:35
  */
 
 package test
 
 import (
 	. "artifact/pkg"
-	cache "artifact/pkg/cache"
+	"artifact/pkg/cache"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
