@@ -1,5 +1,5 @@
-hash: 2b9c01ab2392134026cf4fa2f81841c3726acfc26253b3f717e8a7783f3dc5a7
-updated: 2019-05-15T09:52:55.806687+08:00
+hash: bb7fdc6a8a6699260f44c2c71531b5f706afa670336044ad0474fb6b64321a56
+updated: 2019-05-15T18:14:40.741057+08:00
 imports:
 - name: github.com/BurntSushi/toml
   version: 3012a1dbe2e4bd1391d42b32f0577cb7bbc7f005
@@ -58,6 +58,8 @@ imports:
   version: 94122c33edd36123c84d5368cfb2b69df93a0ec8
 - name: github.com/pkg/errors
   version: ba968bfe8b2f7e042a574c888954fccecfa385b4
+- name: github.com/ql2005/multiconfig
+  version: c8ed353c9652b273e8b50b41b1d1c284ac8b137a
 - name: github.com/sirupsen/logrus
   version: 8bdbc7bcc01dcbb8ec23dc8a28e332258d25251f
 - name: github.com/ugorji/go

@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-05-13 16:01:39
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-05-15 14:49:32
+ * @Last Modified time: 2019-05-15 18:15:01
  */
 
 package pkg
@@ -13,7 +13,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/koding/multiconfig"
+	"github.com/ql2005/multiconfig"
 )
 
 type (
