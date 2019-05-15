@@ -24,6 +24,10 @@ var Errs = map[string]Errors{
 	"ERR_IDGEN_FAIL":         Errors{20404, "id生成失败"},
 	"ERR_MYSQLPOOL_FAIL":     Errors{21404, "mysql连接池丢失"},
 	"ERR_REDISPOOL_FAIL":     Errors{22404, "redis连接池丢失"},
+
+	"ERR_VIDEO_NOT_EXIST":        Errors{30100, "视频不存在"},
+	"ERR_VIDEO_EXCEEDED_MAXIMUM": Errors{30200, "翻页总条数超过最大限制"},
+	"ERR_GET_FAIL":               Errors{32304, "获取视频异常"},
 }
 
 func Excp(errString string) error {
