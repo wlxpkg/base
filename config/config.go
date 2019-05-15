@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-05-13 16:01:39
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-05-15 10:27:32
+ * @Last Modified time: 2019-05-15 14:49:32
  */
 
 package pkg
@@ -18,7 +18,7 @@ import (
 
 type (
 	// Server holds supported types by the multiconfig package
-	Conf struct {
+	/* Conf struct {
 		Port        int `default:"8000"`
 		Redis       redis
 		Mysql       mysql
@@ -28,7 +28,7 @@ type (
 		Beanstalk   beanstalk
 		Graylog     graylog
 		Oss         oss
-	}
+	} */
 
 	redis struct {
 		Host     string `default:"192.168.3.3"`
@@ -91,7 +91,17 @@ type (
 	}
 )
 
-var Config = new(Conf)
+var Config = new(struct {
+	Port        int `default:"8000"`
+	Redis       redis
+	Mysql       mysql
+	Mongo       mongo
+	Idgenerator idgenerator
+	Amqp        amqp
+	Beanstalk   beanstalk
+	Graylog     graylog
+	Oss         oss
+})
 
 func init() {
 	path := getCurrentDirectory()
