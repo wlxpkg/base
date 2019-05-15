@@ -2,14 +2,14 @@
  * @Author: qiuling
  * @Date: 2019-05-06 19:00:55
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-05-10 16:45:35
+ * @Last Modified time: 2019-05-15 11:49:35
  */
 
 package test
 
 import (
 	. "artifact/pkg"
-	"artifact/pkg/cache"
+	redis "artifact/pkg/cache"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -36,9 +36,17 @@ var student = &Student{
 
 var valString string = "test string value"
 
+var cache = redis.NewCache()
+
 func TestSetGet(t *testing.T) {
-	cache.Set(testKey, student, 100)
+	exists := cache.Exists(testKey)
+	assert.Equal(t, exists, false, "exists false")
+
+	cache.Set(testKey, student, 2)
 	cache.Set(testKeyString, valString, 100)
+
+	exists2 := cache.Exists(testKey)
+	assert.Equal(t, exists2, true, "exists true")
 
 	st := cache.Get(testKey, &Student{})
 	R(st, "testGet")

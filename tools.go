@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-04-29 19:32:36
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-05-10 17:17:32
+ * @Last Modified time: 2019-05-13 20:10:03
  */
 package pkg
 
@@ -16,12 +16,12 @@ import (
 const TimeFormat = "2006-01-02 15:04:05"
 
 func R(data interface{}, name string) {
-	fmt.Printf("%v\n", name)
+	fmt.Printf("%v :\n", name)
 	fmt.Printf("%+v\n", data)
 }
 
 func D(data interface{}) {
-	fmt.Printf("%s\n", debug.Stack())
+	fmt.Printf("%s :\n", debug.Stack())
 	fmt.Printf("%+v\n", data)
 }
 

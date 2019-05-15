@@ -1,11 +1,11 @@
 package pkg
 
 import (
+	. "artifact/pkg/config"
 	"bytes"
 	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/gookit/config"
 	"github.com/jinzhu/gorm"
 )
 
@@ -15,11 +15,11 @@ func init() {
 	var err error
 	mysqlLink := bytes.NewBufferString("")
 
-	mysqlLink.WriteString(config.GetEnv("MYSQL_USERNAME", "root"))
-	mysqlLink.WriteString(":" + config.GetEnv("MYSQL_PASSWORD", "root") + "@tcp")
-	mysqlLink.WriteString("(" + config.GetEnv("MYSQL_HOST", "127.0.0.1"))
-	mysqlLink.WriteString(":" + config.GetEnv("MYSQL_PORT", "3306") + ")")
-	mysqlLink.WriteString("/" + config.GetEnv("MYSQL_DATABASE", "artifact"))
+	mysqlLink.WriteString(Config.Mysql.Username)
+	mysqlLink.WriteString(":" + Config.Mysql.Password + "@tcp")
+	mysqlLink.WriteString("(" + Config.Mysql.Host)
+	mysqlLink.WriteString(":" + Config.Mysql.Port + ")")
+	mysqlLink.WriteString("/" + Config.Mysql.Database)
 	mysqlLink.WriteString("?charset=utf8&parseTime=True&loc=Local&timeout=100ms")
 
 	DB, err = gorm.Open("mysql", mysqlLink.String())

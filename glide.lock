@@ -1,8 +1,14 @@
-hash: b293a3adbf2be504ebf1f08916486a175285326ce8adae07cab773e2187d7bef
-updated: 2019-05-09T15:41:51.160601+08:00
+hash: 2b9c01ab2392134026cf4fa2f81841c3726acfc26253b3f717e8a7783f3dc5a7
+updated: 2019-05-15T09:52:55.806687+08:00
 imports:
+- name: github.com/BurntSushi/toml
+  version: 3012a1dbe2e4bd1391d42b32f0577cb7bbc7f005
 - name: github.com/facebookgo/stack
   version: 751773369052141c013c6e827a71e8f35c07879c
+- name: github.com/fatih/camelcase
+  version: 44e46d280b43ec1531bb25252440e34f1b800b65
+- name: github.com/fatih/structs
+  version: 878a968ab22548362a09bdb3322f98b00f470d46
 - name: github.com/gemnasium/logrus-graylog-hook
   version: b3082031ff2ac00241f0499cafca1dfabec6b387
 - name: github.com/gin-contrib/sse
@@ -40,6 +46,8 @@ imports:
   version: 04140366298a54a039076d798123ffa108fff46c
 - name: github.com/json-iterator/go
   version: 0ff49de124c6f76f8494e194af75bde0f1a49a29
+- name: github.com/koding/multiconfig
+  version: 69c27309b2d751c576b59ea9c3726597c2375da3
 - name: github.com/konsorten/go-windows-terminal-sequences
   version: f55edac94c9bbba5d6182a4be46d86a2c9b5b50e
 - name: github.com/mattn/go-isatty

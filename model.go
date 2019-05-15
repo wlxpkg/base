@@ -2,12 +2,14 @@
  * @Author: qiuling
  * @Date: 2019-05-10 14:23:40
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-05-10 19:20:14
+ * @Last Modified time: 2019-05-15 11:53:18
  */
 
 package pkg
 
 import (
+	"artifact/pkg/cache"
+	. "artifact/pkg/config"
 	"artifact/pkg/log"
 	"artifact/pkg/req"
 	"database/sql/driver"
@@ -15,14 +17,13 @@ import (
 	"fmt"
 	"strconv"
 	"time"
-
-	"github.com/gookit/config"
 )
 
 type Model struct {
+	// cache *cache.Cache
 }
 
-// JSONTime format json time field by myself
+var Cache = cache.NewCache()
 
 // JSONTime format json time field by myself
 type JSONTime struct {
@@ -58,7 +59,7 @@ func (t *JSONTime) Scan(v interface{}) error {
 }
 
 func CreateID() (idInt int64, err error) {
-	domain := config.GetEnv("IDGENERATOR_URL", "http://192.168.3.3")
+	domain := Config.Idgenerator.Url
 	uri := domain + "/getid"
 
 	idStr, err := req.Get(uri)

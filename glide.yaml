@@ -8,8 +8,6 @@ import:
   version: ^6.15.2
 - package: github.com/go-sql-driver/mysql
   version: ^1.4.1
-- package: github.com/gookit/config
-  version: ^2.0.3
 - package: github.com/jinzhu/gorm
   version: ^1.9.8
 - package: github.com/pkg/errors
@@ -18,6 +16,11 @@ import:
   version: ^1.4.1
 - package: github.com/Gurpartap/logrus-stack
 - package: github.com/facebookgo/stack
+- package: github.com/koding/multiconfig
+- package: github.com/BurntSushi/toml
+  version: ^0.3.1
+- package: github.com/fatih/camelcase
+  version: ^1.0.0
 testImport:
 - package: github.com/stretchr/testify
   version: ^1.3.0
