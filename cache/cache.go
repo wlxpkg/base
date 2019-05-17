@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/go-redis/redis"
+	"github.com/mitchellh/mapstructure"
 )
 
 type Cache struct {
@@ -35,7 +36,7 @@ func NewCache() (cache *Cache) {
 	return
 }
 
-func (c *Cache) setAutoPrefix(auto bool) {
+func (c *Cache) SetAutoPrefix(auto bool) {
 	c.autoPrefix = auto
 }
 
@@ -43,12 +44,12 @@ func (c *Cache) prefixKey(key string) string {
 	if c.autoPrefix && !strings.Contains(key, c.prefix) {
 		return c.prefix + ":" + key
 	}
-	c.setAutoPrefix(true)
+	c.SetAutoPrefix(true)
 	return key
 }
 
-// mapData 将数据转为 map 结构
-func mapData(data interface{}) map[string]interface{} {
+// MapData 将数据转为 map 结构
+func (c *Cache) MapData(data interface{}) map[string]interface{} {
 	mdata := make(map[string]interface{})
 	j, _ := json.Marshal(data)
 
@@ -58,6 +59,27 @@ func mapData(data interface{}) map[string]interface{} {
 		return mdata
 	}
 	return mdata
+}
+
+// StructData 将 map 数据转为 struct
+func (c *Cache) StructData(data interface{}, structs interface{}) (structData interface{}) {
+	// /j, _ := json.Marshal(data)
+	// err := json.Unmarshal(j, &structs)
+	// if err != nil {
+	// 	log.Warn(err)
+	// 	return
+	// }
+
+	// structData = structs
+
+	err := mapstructure.Decode(data, &structs)
+	if err != nil {
+		log.Warn(err)
+		return
+	}
+	structData = structs
+
+	return
 }
 
 /**********************************************************************/
@@ -97,6 +119,16 @@ func (c *Cache) Get(key string, structs interface{}) (data interface{}) {
 	return
 }
 
+// Del cache data
+func (c *Cache) Del(key string) {
+	key = c.prefixKey(key)
+	err := client.Del(key).Err()
+	if err != nil {
+		log.Warn(err)
+		return
+	}
+}
+
 // Exists 检测 key 是否存在
 func (c *Cache) Exists(key string) (isExists bool) {
 	key = c.prefixKey(key)
@@ -127,7 +159,7 @@ func (c *Cache) Expire(key string, ttl int) {
 /**************************  Hash  ********************************/
 
 // HSet
-func (c *Cache) HSet(key string, field string, value string) {
+func (c *Cache) HSet(key string, field string, value interface{}) {
 	key = c.prefixKey(key)
 	err := client.HSet(key, field, value).Err()
 	if err != nil {
@@ -138,7 +170,7 @@ func (c *Cache) HSet(key string, field string, value string) {
 
 // HMSet
 func (c *Cache) HMSet(key string, data interface{}) {
-	value := mapData(data)
+	value := c.MapData(data)
 
 	key = c.prefixKey(key)
 	err := client.HMSet(key, value).Err()
@@ -158,6 +190,15 @@ func (c *Cache) HGet(key string, field string) (value string) {
 		return
 	}
 	return
+}
+
+func (c *Cache) HDel(key string, field string) {
+	key = c.prefixKey(key)
+	err := client.HDel(key, field).Err()
+	if err != nil {
+		log.Warn(err)
+		return
+	}
 }
 
 func (c *Cache) HGetAll(key string) (value map[string]string) {

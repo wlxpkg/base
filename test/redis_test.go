@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-05-06 19:00:55
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-05-15 11:49:35
+ * @Last Modified time: 2019-05-17 17:55:13
  */
 
 package test
@@ -15,22 +15,19 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var testKey string = "test:getkey"
-var testKeyString string = "test:keyString"
-
 type Student struct {
-	Name    string
-	Age     int
-	Guake   bool
-	Classes []string
-	Price   float32
+	Name  string `json:"name"`
+	Age   int    `json:"age"`
+	Guake bool   `json:"guake"`
+	// Classes []string
+	Price float32 `json:"price"`
 }
 
 var student = &Student{
 	"Xiao Ming",
 	16,
 	true,
-	[]string{"Math", "English", "Chinese"},
+	// []string{"Math", "English", "Chinese"},
 	9.99,
 }
 
@@ -39,6 +36,9 @@ var valString string = "test string value"
 var cache = redis.NewCache()
 
 func TestSetGet(t *testing.T) {
+	testKey := "test:getkey"
+	testKeyString := "test:keyString"
+
 	exists := cache.Exists(testKey)
 	assert.Equal(t, exists, false, "exists false")
 
@@ -56,4 +56,28 @@ func TestSetGet(t *testing.T) {
 
 	assert.Equal(t, st, student, "student")
 	assert.Equal(t, str, valString, "valString")
+}
+
+func TestHSetGet(t *testing.T) {
+	testKey := "test:hkey"
+	filde := "man"
+	hValue := true
+
+	cache.HSet(testKey, filde, hValue)
+	cache.Expire(testKey, 100)
+
+	value := cache.HGet(testKey, filde)
+	R(value, "hget value")
+	assert.Equal(t, hValue, value, "hset hget")
+
+	cache.HMSet(testKey, student)
+	cache.HDel(testKey, filde)
+
+	allValue := cache.HGetAll(testKey)
+	R(allValue, "hget allValue")
+
+	// var outType Student
+	// st := cache.StructData(allValue, &outType)
+	// R(st, "st Value")
+	// assert.Equal(t, allValue, st, "st value")
 }
