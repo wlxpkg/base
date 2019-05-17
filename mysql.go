@@ -10,20 +10,24 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-var mysqlLink = bytes.NewBufferString("")
+var DB *gorm.DB
 
 func init() {
+	DB = newDB()
+}
+
+func newDB() (orm *gorm.DB) {
+	// var orm *gorm.DB
+	var err error
+
+	mysqlLink := bytes.NewBufferString("")
+
 	mysqlLink.WriteString(Config.Mysql.Username)
 	mysqlLink.WriteString(":" + Config.Mysql.Password + "@tcp")
 	mysqlLink.WriteString("(" + Config.Mysql.Host)
 	mysqlLink.WriteString(":" + Config.Mysql.Port + ")")
 	mysqlLink.WriteString("/" + Config.Mysql.Database)
 	mysqlLink.WriteString("?charset=utf8&parseTime=True&loc=Local&timeout=100ms")
-}
-
-func newDB() (orm *gorm.DB) {
-	// var orm *gorm.DB
-	var err error
 
 	for orm, err = gorm.Open("mysql", mysqlLink.String()); err != nil; {
 		log.Err("mysql connect err: " + err.Error())
@@ -41,5 +45,3 @@ func newDB() (orm *gorm.DB) {
 
 	return
 }
-
-var DB = newDB()
