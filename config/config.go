@@ -104,8 +104,8 @@ var Config = new(struct {
 })
 
 func init() {
-	path := getCurrentDirectory()
-	parent := getParentDirectory(path)
+	path := GetCurrentDirectory()
+	parent := GetParentDirectory(path)
 
 	m := multiconfig.NewWithPath(parent + "/config/" + "config.toml")
 	m.MustLoad(Config)
@@ -120,11 +120,11 @@ func substr(s string, pos, length int) string {
 	return string(runes[pos:l])
 }
 
-func getParentDirectory(dirctory string) string {
+func GetParentDirectory(dirctory string) string {
 	return substr(dirctory, 0, strings.LastIndex(dirctory, "/"))
 }
 
-func getCurrentDirectory() string {
+func GetCurrentDirectory() string {
 	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
 	if err != nil {
 		log.Info(err)
