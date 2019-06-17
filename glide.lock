@@ -1,10 +1,12 @@
-hash: 2e845dc5ceb8def4799c6341fc49aedf2ec634a1108a7e262e634b4664a041d3
-updated: 2019-06-17T16:42:32.418807+08:00
+hash: b7366068e9271d9a31f6405f9b7ee422ee0b57a199fee82d5fbf4c2b6d9f691f
+updated: 2019-06-17T19:42:44.655658+08:00
 imports:
 - name: github.com/BurntSushi/toml
   version: 3012a1dbe2e4bd1391d42b32f0577cb7bbc7f005
 - name: github.com/casbin/casbin
   version: 06f40d719334c39a5d3751ca9b1d93c331cef062
+- name: github.com/dgrijalva/jwt-go
+  version: 06ea1031745cb8b3dab3f6a236daf2b0aa468b7e
 - name: github.com/facebookgo/stack
   version: 751773369052141c013c6e827a71e8f35c07879c
 - name: github.com/fatih/camelcase
