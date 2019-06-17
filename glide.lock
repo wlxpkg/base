@@ -1,14 +1,16 @@
-hash: dcb9023d86110257e87a31c7680c8a14bd9c9362b8f31fe020ee996c7e687630
-updated: 2019-05-16T16:20:09.056136+08:00
+hash: 2e845dc5ceb8def4799c6341fc49aedf2ec634a1108a7e262e634b4664a041d3
+updated: 2019-06-17T16:42:32.418807+08:00
 imports:
 - name: github.com/BurntSushi/toml
   version: 3012a1dbe2e4bd1391d42b32f0577cb7bbc7f005
+- name: github.com/casbin/casbin
+  version: 06f40d719334c39a5d3751ca9b1d93c331cef062
 - name: github.com/facebookgo/stack
   version: 751773369052141c013c6e827a71e8f35c07879c
 - name: github.com/fatih/camelcase
   version: 44e46d280b43ec1531bb25252440e34f1b800b65
 - name: github.com/fatih/structs
-  version: 878a968ab22548362a09bdb3322f98b00f470d46
+  version: 4966fc68f5b7593aafa6cbbba2d65ec6e1416047
 - name: github.com/gemnasium/logrus-graylog-hook
   version: b3082031ff2ac00241f0499cafca1dfabec6b387
 - name: github.com/gin-contrib/sse
@@ -20,7 +22,7 @@ imports:
   - internal/json
   - render
 - name: github.com/go-redis/redis
-  version: d22fde8721cc915a55aeb6b00944a76a92bfeb6e
+  version: 75795aa4236dc7341eefac3bbe945e68c99ef9df
   subpackages:
   - internal
   - internal/consistenthash
@@ -35,13 +37,13 @@ imports:
   subpackages:
   - proto
 - name: github.com/gookit/config
-  version: dd5df3d23fb0b588e61b890d9611088c4601442b
+  version: a119c2215dd90c9ce79a2c3c85cfabbd5ddd3fd6
 - name: github.com/Gurpartap/logrus-stack
   version: 89c00d8a28f43c567d92eb81a2945301a6a9fbb9
 - name: github.com/imdario/mergo
   version: 7c29201646fa3de8506f701213473dd407f19646
 - name: github.com/jinzhu/gorm
-  version: b7156195f7f3415f97c20abbd6aff894b847fee8
+  version: 01b66011427614f01e84a473b0303c917179f2a0
 - name: github.com/jinzhu/inflection
   version: 04140366298a54a039076d798123ffa108fff46c
 - name: github.com/json-iterator/go
@@ -61,7 +63,7 @@ imports:
 - name: github.com/ql2005/multiconfig
   version: c8ed353c9652b273e8b50b41b1d1c284ac8b137a
 - name: github.com/sirupsen/logrus
-  version: 8bdbc7bcc01dcbb8ec23dc8a28e332258d25251f
+  version: 839c75faf7f98a33d445d181f3018b5c3409a45e
 - name: github.com/ugorji/go
   version: 1d65431a5776db967ae5481e33b789f9ffcea0ec
   subpackages:

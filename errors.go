@@ -13,7 +13,7 @@ var Errs = map[string]Errors{
 	"SUCCESS":          Errors{1, ""},
 
 	"ERR_PARAM":         Errors{10100, "参数错误"},
-	"ERR_INVALID_TOKEN": Errors{10102, "非法的token"},
+	"ERR_INVALID_TOKEN": Errors{10102, "无效的token"},
 	"ERR_TCP_TIMEOUT":   Errors{10504, "TCP接口响应超时"},
 	"ERR_HTTP_TIMEOUT":  Errors{10505, "HTTP接口响应超时"},
 

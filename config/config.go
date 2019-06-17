@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-05-13 16:01:39
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-05-15 18:15:01
+ * @Last Modified time: 2019-06-17 15:49:42
  */
 
 package pkg
@@ -55,7 +55,9 @@ type (
 	}
 
 	idgenerator struct {
-		Url string
+		Url  string
+		Host string `default:"192.168.3.3"`
+		Port string `default:"6389"`
 	}
 
 	amqp struct {

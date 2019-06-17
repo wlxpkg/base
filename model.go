@@ -2,20 +2,18 @@
  * @Author: qiuling
  * @Date: 2019-05-10 14:23:40
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-05-15 11:53:18
+ * @Last Modified time: 2019-06-17 17:20:16
  */
 
 package pkg
 
 import (
 	"artifact/pkg/cache"
-	. "artifact/pkg/config"
 	"artifact/pkg/log"
-	"artifact/pkg/req"
 	"database/sql/driver"
 	"errors"
 	"fmt"
-	"strconv"
+	"strings"
 	"time"
 )
 
@@ -58,17 +56,27 @@ func (t *JSONTime) Scan(v interface{}) error {
 	return fmt.Errorf("can not convert %v to timestamp", v)
 }
 
-func CreateID() (idInt int64, err error) {
-	domain := Config.Idgenerator.Url
-	uri := domain + "/getid"
-
-	idStr, err := req.Get(uri)
+// CreateID id生成器生成id
+func CreateID() (idStr string, err error) {
+	idStr, err = cache.Getid()
 	if err != nil {
 		log.Warn(err)
 		err = errors.New("ERR_IDGEN_FAIL")
 		return
 	}
 
-	idInt, _ = strconv.ParseInt(idStr, 10, 64)
+	return
+}
+
+// BatchID id生成器批量生成id
+func BatchID(num int) (ids []string, err error) {
+	idsStr, err := cache.Batchid(num)
+	if err != nil {
+		log.Warn(err)
+		err = errors.New("ERR_IDGEN_FAIL")
+		return
+	}
+
+	ids = strings.Split(idsStr, ",")
 	return
 }

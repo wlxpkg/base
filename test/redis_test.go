@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-05-06 19:00:55
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-05-17 17:55:13
+ * @Last Modified time: 2019-06-17 17:21:38
  */
 
 package test
@@ -80,4 +80,12 @@ func TestHSetGet(t *testing.T) {
 	// st := cache.StructData(allValue, &outType)
 	// R(st, "st Value")
 	// assert.Equal(t, allValue, st, "st value")
+}
+
+func TestIdgen(t *testing.T) {
+	id, _ := redis.Getid()
+	R(id, "Getid")
+
+	ids, _ := redis.Batchid(10)
+	R(ids, "Batchid")
 }
