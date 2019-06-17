@@ -1,8 +1,10 @@
-hash: 7dc3e4a3c882d3c9d84f1cab432735587727656d1834b3d72e26071422108680
-updated: 2019-06-17T15:07:20.316705+08:00
+hash: 97627b562a3168364ff6398a7c4803e20c3683793dca52fe0ebe35a8c73fb10d
+updated: 2019-06-17T15:12:43.27363+08:00
 imports:
 - name: github.com/BurntSushi/toml
   version: 3012a1dbe2e4bd1391d42b32f0577cb7bbc7f005
+- name: github.com/casbin/gorm-adapter
+  version: e74a050c51a4c12323e72f0c7ab445fb2daf6b40
 - name: github.com/facebookgo/stack
   version: 751773369052141c013c6e827a71e8f35c07879c
 - name: github.com/fatih/camelcase
