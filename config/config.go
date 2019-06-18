@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-05-13 16:01:39
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-17 15:49:42
+ * @Last Modified time: 2019-06-18 10:53:09
  */
 
 package pkg
@@ -91,6 +91,11 @@ type (
 		Secret string
 		Arn    string
 	}
+
+	jwt struct {
+		Secret string
+		Uid    string
+	}
 )
 
 var Config = new(struct {
@@ -103,6 +108,7 @@ var Config = new(struct {
 	Beanstalk   beanstalk
 	Graylog     graylog
 	Oss         oss
+	Jwt         jwt
 })
 
 func init() {

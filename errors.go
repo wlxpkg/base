@@ -14,6 +14,7 @@ var Errs = map[string]Errors{
 
 	"ERR_PARAM":         Errors{10100, "参数错误"},
 	"ERR_INVALID_TOKEN": Errors{10102, "无效的token"},
+	"ERR_UNAUTHORIZED":  Errors{10104, "您没有权限访问该数据"},
 	"ERR_TCP_TIMEOUT":   Errors{10504, "TCP接口响应超时"},
 	"ERR_HTTP_TIMEOUT":  Errors{10505, "HTTP接口响应超时"},
 
