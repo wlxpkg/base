@@ -1,5 +1,5 @@
-hash: f12f01e8016cc2b84266b27fc29000a247790a85255c69ab700a05961eb46ec2
-updated: 2019-06-18T17:52:25.138804+08:00
+hash: ac6f652afcb586dd8ba7a7d26f41da207faa362d801478a6506a4e363c6402e6
+updated: 2019-06-18T19:00:33.196541+08:00
 imports:
 - name: github.com/BurntSushi/toml
   version: 3012a1dbe2e4bd1391d42b32f0577cb7bbc7f005
@@ -66,6 +66,11 @@ imports:
   version: 9aa49832a739dcd78a5542ff189fb82c3e423116
 - name: github.com/konsorten/go-windows-terminal-sequences
   version: f55edac94c9bbba5d6182a4be46d86a2c9b5b50e
+- name: github.com/lib/pq
+  version: 2ff3cb3adc01768e0a552b3a02575a6df38a9bea
+  subpackages:
+  - oid
+  - scram
 - name: github.com/mattn/go-isatty
   version: c1975dc15c1d481e8da23f6ed313bb071136b98f
 - name: github.com/mitchellh/mapstructure
