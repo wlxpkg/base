@@ -2,14 +2,16 @@
  * @Author: qiuling
  * @Date: 2019-06-17 15:33:04
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-17 19:10:16
+ * @Last Modified time: 2019-06-18 15:15:49
  */
 
 package middleware
 
 import (
+	"artifact/pkg/biz"
 	"errors"
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -18,26 +20,54 @@ import (
 func Casbin() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
-		uid := getUser(c)
+		token, userInfo, err := getUser(c)
 
-		fmt.Printf("%+v\n", uid)
+		if err != nil {
+			err = errors.New("ERR_INVALID_TOKEN")
+			Abort(c, err)
+		}
+
+		// e := casbin.NewEnforcer("authz_model.conf", "authz_policy.csv")
+
+		// fmt.Printf("%+v\n", token)
+		// fmt.Printf("%+v\n", userInfo)
+
+		hostname, _ := os.Hostname()
+		middleware := map[string]string{
+			"token":    token,
+			"userID":   userInfo["user_id"],
+			"hostname": hostname,
+		}
 
 		// 设置 example 变量
-		c.Set("example", uid)
+		c.Set("middleware", middleware)
+		c.Set("userInfo", userInfo)
 
 		c.Next()
 	}
 }
 
-func getUser(c *gin.Context) (err error) {
+func getUser(c *gin.Context) (token string, userInfo map[string]string, err error) {
 	authorization := c.GetHeader("authorization")
 	jwt := strings.TrimPrefix(authorization, "Bearer ")
 
-	fmt.Printf("%+v\n", jwt)
+	fmt.Printf("jwt:%+v\n", jwt)
 
 	if jwt == "" {
 		err = errors.New("ERR_INVALID_TOKEN")
+		return
 	}
+
+	token, err = biz.Jwt2Token(jwt)
+
+	if token == "" || err != nil {
+		err = errors.New("ERR_INVALID_TOKEN")
+		return
+	}
+
+	userInfo = biz.TokenGetUser(token)
+	// fmt.Printf("userInfo:%+v\n", userInfo)
+
 	return
 	// method := r.Method
 	// path := r.URL.Path

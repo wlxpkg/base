@@ -4,6 +4,7 @@ import (
 	. "artifact/pkg/config"
 	"artifact/pkg/log"
 	"encoding/json"
+	"fmt"
 	"strings"
 	"time"
 
@@ -36,8 +37,14 @@ func NewCache() (cache *Cache) {
 	return
 }
 
-func (c *Cache) SetAutoPrefix(auto bool) {
+func (c *Cache) SetAutoPrefix(auto bool) *Cache {
 	c.autoPrefix = auto
+	return c
+}
+
+func (c *Cache) SetPrefix(prefix string) *Cache {
+	c.prefix = prefix
+	return c
 }
 
 func (c *Cache) prefixKey(key string) string {
@@ -103,6 +110,7 @@ func (c *Cache) Set(key string, value interface{}, ttl int) {
 // Get cache data
 func (c *Cache) Get(key string, structs interface{}) (data interface{}) {
 	key = c.prefixKey(key)
+	fmt.Printf("key:  %+v\n", key)
 	value, err := client.Get(key).Result()
 	if err != nil {
 		log.Warn(err)
