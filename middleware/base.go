@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-18 15:01:17
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-18 15:08:41
+ * @Last Modified time: 2019-06-18 15:46:45
  */
 package middleware
 
@@ -26,4 +26,8 @@ func Abort(c *gin.Context, e error) {
 		"data":    "",
 	})
 	c.Abort()
+}
+
+func GetPolicy() {
+
 }

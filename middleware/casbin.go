@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-17 15:33:04
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-18 15:15:49
+ * @Last Modified time: 2019-06-18 15:47:11
  */
 
 package middleware
@@ -14,6 +14,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/casbin/casbin"
 	"github.com/gin-gonic/gin"
 )
 
@@ -27,9 +28,9 @@ func Casbin() gin.HandlerFunc {
 			Abort(c, err)
 		}
 
-		// e := casbin.NewEnforcer("authz_model.conf", "authz_policy.csv")
+		e := casbin.NewEnforcer("authz_model.conf", "authz_policy.csv")
 
-		// fmt.Printf("%+v\n", token)
+		fmt.Printf("%+v\n", e)
 		// fmt.Printf("%+v\n", userInfo)
 
 		hostname, _ := os.Hostname()
