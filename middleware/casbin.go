@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-17 15:33:04
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-18 19:15:08
+ * @Last Modified time: 2019-06-19 14:59:58
  */
 
 package middleware
@@ -13,7 +13,6 @@ import (
 	"artifact/pkg/model"
 	"bytes"
 	"errors"
-	"fmt"
 	"os"
 	"strings"
 
@@ -24,9 +23,9 @@ import (
 func Casbin() gin.HandlerFunc {
 
 	a := model.NewAdapter("mysql", mysqlLink(), true)
-	e := casbin.NewEnforcer("lauthz-rbac-model.conf", a)
-	err := e.LoadPolicy()
-	fmt.Printf("LoadPolicy ERR: %+v\n", err)
+	e := casbin.NewEnforcer("../vendor/artifact/pkg/middleware/lauthz-rbac-model.conf", a)
+	_ = e.LoadPolicy()
+	// fmt.Printf("LoadPolicy ERR: %+v\n", err)
 
 	return func(c *gin.Context) {
 
@@ -36,14 +35,20 @@ func Casbin() gin.HandlerFunc {
 		if err != nil {
 			err = errors.New("ERR_INVALID_TOKEN")
 			Abort(c, err)
+			return
 		}
 
 		method := c.Request.Method
 		path := c.Request.URL.Path
 
+		// fmt.Printf("userID:%+v\n", userID)
+		// fmt.Printf("method:%+v\n", method)
+		// fmt.Printf("path:%+v\n", path)
+
 		if !e.Enforce(userID, path, method) {
 			err = errors.New("ERR_UNAUTHORIZED")
 			Abort(c, err)
+			return
 		}
 
 		hostname, _ := os.Hostname()
@@ -55,7 +60,7 @@ func Casbin() gin.HandlerFunc {
 
 		// 设置 example 变量
 		c.Set("middleware", middleware)
-		c.Set("userInfo", userInfo)
+		c.Set("middlewareUserInfo", userInfo)
 
 		c.Next()
 	}
@@ -65,7 +70,7 @@ func getUser(c *gin.Context) (token string, userInfo map[string]string, err erro
 	authorization := c.GetHeader("authorization")
 	jwt := strings.TrimPrefix(authorization, "Bearer ")
 
-	fmt.Printf("jwt:%+v\n", jwt)
+	// fmt.Printf("jwt:%+v\n", jwt)
 
 	if jwt == "" {
 		err = errors.New("ERR_INVALID_TOKEN")
