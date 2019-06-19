@@ -84,7 +84,7 @@ func Unix2Time(stamp int64) time.Time {
 }
 
 // 生成随机字符串
-func randStr(len int64) string {
+func RandStr(len int64) string {
    str := "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
    bytes := []byte(str)
    result := []byte{}
