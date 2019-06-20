@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-18 18:55:48
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-18 19:01:16
+ * @Last Modified time: 2019-06-18 19:41:24
  */
 // Copyright 2017 The casbin Authors. All Rights Reserved.
 //
@@ -31,7 +31,7 @@ import (
 )
 
 type CasbinRule struct {
-	PType string `gorm:"size:100"`
+	Ptype string `gorm:"size:100"`
 	V0    string `gorm:"size:100"`
 	V1    string `gorm:"size:100"`
 	V2    string `gorm:"size:100"`
@@ -174,7 +174,7 @@ func (a *Adapter) dropTable() {
 }
 
 func loadPolicyLine(line CasbinRule, model model.Model) {
-	lineText := line.PType
+	lineText := line.Ptype
 	if line.V0 != "" {
 		lineText += ", " + line.V0
 	}
@@ -212,10 +212,10 @@ func (a *Adapter) LoadPolicy(model model.Model) error {
 	return nil
 }
 
-func savePolicyLine(ptype string, rule []string) CasbinRule {
+func savePolicyLine(Ptype string, rule []string) CasbinRule {
 	line := CasbinRule{}
 
-	line.PType = ptype
+	line.Ptype = Ptype
 	if len(rule) > 0 {
 		line.V0 = rule[0]
 	}
@@ -243,9 +243,9 @@ func (a *Adapter) SavePolicy(model model.Model) error {
 	a.dropTable()
 	a.createTable()
 
-	for ptype, ast := range model["p"] {
+	for Ptype, ast := range model["p"] {
 		for _, rule := range ast.Policy {
-			line := savePolicyLine(ptype, rule)
+			line := savePolicyLine(Ptype, rule)
 			err := a.db.Create(&line).Error
 			if err != nil {
 				return err
@@ -253,9 +253,9 @@ func (a *Adapter) SavePolicy(model model.Model) error {
 		}
 	}
 
-	for ptype, ast := range model["g"] {
+	for Ptype, ast := range model["g"] {
 		for _, rule := range ast.Policy {
-			line := savePolicyLine(ptype, rule)
+			line := savePolicyLine(Ptype, rule)
 			err := a.db.Create(&line).Error
 			if err != nil {
 				return err
@@ -267,24 +267,24 @@ func (a *Adapter) SavePolicy(model model.Model) error {
 }
 
 // AddPolicy adds a policy rule to the storage.
-func (a *Adapter) AddPolicy(sec string, ptype string, rule []string) error {
-	line := savePolicyLine(ptype, rule)
+func (a *Adapter) AddPolicy(sec string, Ptype string, rule []string) error {
+	line := savePolicyLine(Ptype, rule)
 	err := a.db.Create(&line).Error
 	return err
 }
 
 // RemovePolicy removes a policy rule from the storage.
-func (a *Adapter) RemovePolicy(sec string, ptype string, rule []string) error {
-	line := savePolicyLine(ptype, rule)
+func (a *Adapter) RemovePolicy(sec string, Ptype string, rule []string) error {
+	line := savePolicyLine(Ptype, rule)
 	err := rawDelete(a.db, line) //can't use db.Delete as we're not using primary key http://jinzhu.me/gorm/crud.html#delete
 	return err
 }
 
 // RemoveFilteredPolicy removes policy rules that match the filter from the storage.
-func (a *Adapter) RemoveFilteredPolicy(sec string, ptype string, fieldIndex int, fieldValues ...string) error {
+func (a *Adapter) RemoveFilteredPolicy(sec string, Ptype string, fieldIndex int, fieldValues ...string) error {
 	line := CasbinRule{}
 
-	line.PType = ptype
+	line.Ptype = Ptype
 	if fieldIndex <= 0 && 0 < fieldIndex+len(fieldValues) {
 		line.V0 = fieldValues[0-fieldIndex]
 	}
@@ -308,7 +308,7 @@ func (a *Adapter) RemoveFilteredPolicy(sec string, ptype string, fieldIndex int,
 }
 
 func rawDelete(db *gorm.DB, line CasbinRule) error {
-	queryArgs := []interface{}{line.PType}
+	queryArgs := []interface{}{line.Ptype}
 
 	queryStr := "p_type = ?"
 	if line.V0 != "" {
