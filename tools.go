@@ -85,7 +85,7 @@ func Unix2Time(stamp int64) time.Time {
 
 // 生成随机字符串
 func RandStr(l int) string {
-	str := "0123456789abcdefghijklmnopqrstuvwxyz"
+	str := "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ"
 	bytes := []byte(str)
 	result := []byte{}
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
