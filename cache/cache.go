@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/go-redis/redis"
-	"github.com/mitchellh/mapstructure"
 )
 
 type Cache struct {
@@ -68,27 +67,6 @@ func (c *Cache) MapData(data interface{}) map[string]interface{} {
 	return mdata
 }
 
-// StructData 将 map 数据转为 struct
-func (c *Cache) StructData(data interface{}, structs interface{}) (structData interface{}) {
-	// /j, _ := json.Marshal(data)
-	// err := json.Unmarshal(j, &structs)
-	// if err != nil {
-	// 	log.Warn(err)
-	// 	return
-	// }
-
-	// structData = structs
-
-	err := mapstructure.Decode(data, &structs)
-	if err != nil {
-		log.Warn(err)
-		return
-	}
-	structData = structs
-
-	return
-}
-
 /**********************************************************************/
 
 // Set cache data
@@ -108,22 +86,24 @@ func (c *Cache) Set(key string, value interface{}, ttl int) {
 }
 
 // Get cache data
-func (c *Cache) Get(key string, structs interface{}) (data interface{}) {
+func (c *Cache) Get(key string, structs interface{}) (err error) {
 	key = c.prefixKey(key)
-	fmt.Printf("key:  %+v\n", key)
+
 	value, err := client.Get(key).Result()
 	if err != nil {
-		log.Warn(err)
+		if err != redis.Nil {
+			log.Warn(err)
+		}
 		return
 	}
 
 	str := []byte(value)
 	err = json.Unmarshal(str, &structs)
 	if err != nil {
+		fmt.Printf("err2: \n%#v\n", err)
 		log.Warn(err)
 		return
 	}
-	data = structs
 	return
 }
 
@@ -212,6 +192,19 @@ func (c *Cache) HDel(key string, field string) {
 func (c *Cache) HGetAll(key string) (value map[string]string) {
 	key = c.prefixKey(key)
 	value, err := client.HGetAll(key).Result()
+
+	if err != nil {
+		log.Warn(err)
+		return
+	}
+	return
+}
+
+/******************************* set *********************************/
+
+func (c *Cache) SMembers(key string) (value []string) {
+	key = c.prefixKey(key)
+	value, err := client.SMembers(key).Result()
 
 	if err != nil {
 		log.Warn(err)

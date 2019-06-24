@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-05-06 19:00:55
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-17 17:21:38
+ * @Last Modified time: 2019-06-24 14:56:56
  */
 
 package test
@@ -23,7 +23,7 @@ type Student struct {
 	Price float32 `json:"price"`
 }
 
-var student = &Student{
+var student = Student{
 	"Xiao Ming",
 	16,
 	true,
@@ -48,10 +48,14 @@ func TestSetGet(t *testing.T) {
 	exists2 := cache.Exists(testKey)
 	assert.Equal(t, exists2, true, "exists true")
 
-	st := cache.Get(testKey, &Student{})
-	R(st, "testGet")
+	var st Student
+	err := cache.Get(testKey, &st)
+	R(err, "err")
+	R(st, "st")
 
-	str := cache.Get(testKeyString, "")
+	var str string
+	err2 := cache.Get(testKeyString, &str)
+	R(err2, "err2")
 	R(str, "testGetStr")
 
 	assert.Equal(t, st, student, "student")

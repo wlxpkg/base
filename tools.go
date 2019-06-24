@@ -2,21 +2,24 @@
  * @Author: qiuling
  * @Date: 2019-04-29 19:32:36
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-05-15 18:27:42
+ * @Last Modified time: 2019-06-24 14:21:23
  */
 package pkg
 
 import (
+	"artifact/pkg/log"
+	"encoding/json"
 	"fmt"
 	"math/rand"
 	"runtime/debug"
+	"strconv"
 	"time"
 )
 
 const TimeFormat = "2006-01-02 15:04:05"
 
 func R(data interface{}, name string) {
-	fmt.Printf(name+": \n%+v\n", data)
+	fmt.Printf(name+": \n%#v\n", data)
 }
 
 func D(data interface{}) {
@@ -85,7 +88,7 @@ func Unix2Time(stamp int64) time.Time {
 
 // 生成随机字符串
 func RandStr(l int) string {
-	str := "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ"
+	str := "0123456789abcdefghijklmnopqrstuvwxyz"
 	bytes := []byte(str)
 	result := []byte{}
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
@@ -93,4 +96,37 @@ func RandStr(l int) string {
 		result = append(result, bytes[r.Intn(len(bytes))])
 	}
 	return string(result)
+}
+
+// String2Int 字符串 转 int
+func String2Int(str string) (int, error) {
+	return strconv.Atoi(str)
+}
+
+// String2Int64 字符串 转 int64
+func String2Int64(str string) (int64, error) {
+	return strconv.ParseInt(str, 10, 64)
+}
+
+// int 转 string
+func Int2String(intval int) string {
+	return strconv.Itoa(intval)
+}
+
+// int64 转 string
+func Int642String(intval int64) string {
+	return strconv.FormatInt(intval, 10)
+}
+
+// Data2Map 将数据转为 map
+func Data2Map(data interface{}) map[string]interface{} {
+	mdata := make(map[string]interface{})
+	j, _ := json.Marshal(data)
+
+	err := json.Unmarshal(j, &mdata)
+	if err != nil {
+		log.Warn(err)
+		return mdata
+	}
+	return mdata
 }
