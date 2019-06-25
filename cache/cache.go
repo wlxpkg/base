@@ -29,10 +29,13 @@ func init() {
 }
 
 func NewCache() (cache *Cache) {
-	cache = &Cache{
-		autoPrefix: true,
-		prefix:     Config.Redis.Prefix,
-	}
+	cache = new(Cache)
+	cache.autoPrefix = true
+	cache.prefix = Config.Redis.Prefix
+	// cache = &Cache{
+	// 	autoPrefix: true,
+	// 	prefix:     Config.Redis.Prefix,
+	// }
 	return
 }
 
