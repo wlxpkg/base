@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-25 20:44:57
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-26 18:16:33
+ * @Last Modified time: 2019-06-27 15:36:51
  */
 package req
 
@@ -12,6 +12,8 @@ import (
 	"artifact/pkg/log"
 	"encoding/json"
 	"errors"
+
+	"github.com/tidwall/gjson"
 )
 
 type Restful struct {
@@ -93,23 +95,27 @@ func (r *Restful) Req(method string, route string) (data interface{}, err error)
 // serviceData 解析数据
 func (r *Restful) serviceData(resp string) (resData interface{}, err error) {
 	// R(resp, "resp")
-	var data RespData
-	err = json.Unmarshal([]byte(resp), &data)
+	// var data RespData
+	// err = json.Unmarshal([]byte(resp), &data)
 
-	if err != nil {
-		dataStr, _ := json.Marshal(r.client.data)
-		log.Warn("微服务数据解析失败! service: " + r.client.baseUrl + " req: " + Byte2String(dataStr) + "resp: " + resp + "err:" + err.Error())
-		return
-	}
+	// if err != nil {
+	// 	dataStr, _ := json.Marshal(r.client.data)
+	// 	log.Warn("微服务数据解析失败! service: " + r.client.baseUrl + " req: " + Byte2String(dataStr) + "resp: " + resp + "err:" + err.Error())
+	// 	return
+	// }
+
+	code := gjson.Get(resp, "code")
+	message := gjson.Get(resp, "message")
+	data := gjson.Get(resp, "data")
 
 	if r.exp {
-		if data.Code != 1 {
-			err = errors.New(data.Message)
+		if code.Int() != 1 {
+			err = errors.New(message.String())
 			return
 		}
-		resData = data.Data
+		resData = data.String()
 	} else {
-		resData = data
+		resData = resp
 	}
 
 	return
