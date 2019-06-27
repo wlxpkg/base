@@ -1,5 +1,5 @@
-hash: c304216af5e7dd6f27c35cc851463f4ca3f5dfb26a86e1c19593d0c70beca1eb
-updated: 2019-06-27T14:47:53.352347+08:00
+hash: d94f6aa18fc2f4eab668efd8aa2048a218bbfd4bece82d3df52773554c7fa749
+updated: 2019-06-27T16:01:29.271357+08:00
 imports:
 - name: github.com/BurntSushi/toml
   version: 3012a1dbe2e4bd1391d42b32f0577cb7bbc7f005
@@ -80,6 +80,12 @@ imports:
   version: 839c75faf7f98a33d445d181f3018b5c3409a45e
 - name: github.com/tidwall/gjson
   version: eee0b6226f0d1db2675a176fdfaa8419bcad4ca8
+- name: github.com/tidwall/match
+  version: 33827db735fff6510490d69a8622612558a557ed
+- name: github.com/tidwall/pretty
+  version: 1166b9ac2b65e46a43d8618d30d1554f4652d49b
+- name: github.com/tv42/base58
+  version: b6649477bfe6276322b4eeaae8f5e947b49cec92
 - name: github.com/ugorji/go
   version: 1d65431a5776db967ae5481e33b789f9ffcea0ec
   subpackages:

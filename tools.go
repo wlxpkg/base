@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-04-29 19:32:36
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-26 18:04:31
+ * @Last Modified time: 2019-06-27 16:07:32
  */
 package pkg
 
@@ -10,11 +10,14 @@ import (
 	"artifact/pkg/log"
 	"encoding/json"
 	"fmt"
+	"math/big"
 	"math/rand"
 	"runtime/debug"
 	"strconv"
 	"time"
 	"unsafe"
+
+	"github.com/tv42/base58"
 )
 
 type RespData struct {
@@ -141,4 +144,18 @@ func Data2Map(data interface{}) map[string]interface{} {
 		return mdata
 	}
 	return mdata
+}
+
+// Base58Encode int64 -> 58进制转换
+func Base58Encode(id int64) string {
+	bigint := new(big.Int).SetInt64(id)
+
+	str := base58.EncodeBig(nil, bigint)
+	return Byte2String(str)
+}
+
+// Base58Decode 58进制字符串转 int64
+func Base58Decode(str string) int64 {
+	dint, _ := base58.DecodeToBig([]byte(str))
+	return dint.Int64()
 }
