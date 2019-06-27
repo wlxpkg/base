@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-05-13 16:01:39
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-18 10:53:09
+ * @Last Modified time: 2019-06-26 14:24:31
  */
 
 package pkg
@@ -17,19 +17,6 @@ import (
 )
 
 type (
-	// Server holds supported types by the multiconfig package
-	/* Conf struct {
-		Port        int `default:"8000"`
-		Redis       redis
-		Mysql       mysql
-		Mongo       mongo
-		Idgenerator idgenerator
-		Amqp        amqp
-		Beanstalk   beanstalk
-		Graylog     graylog
-		Oss         oss
-	} */
-
 	redis struct {
 		Host     string `default:"192.168.3.3"`
 		Port     string `default:"6379"`
@@ -96,6 +83,35 @@ type (
 		Secret string
 		Uid    string
 	}
+
+	server struct {
+		Tools     string
+		User      string
+		Course    string
+		Discovery string
+		Common    string
+		Grant     string
+		Shop      string
+		Message   string
+	}
+
+	fubei struct {
+		Url            string
+		AlipayCallback string
+		WechatCallback string
+	}
+
+	wechat struct {
+	}
+
+	alipay struct {
+	}
+
+	pay struct {
+		Fubei  fubei
+		Wechat wechat
+		Alipay alipay
+	}
 )
 
 var Config = new(struct {
@@ -109,6 +125,8 @@ var Config = new(struct {
 	Graylog     graylog
 	Oss         oss
 	Jwt         jwt
+	Server      server
+	Pay         pay
 })
 
 func init() {

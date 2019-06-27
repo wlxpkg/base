@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-04-29 19:32:36
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-24 14:21:23
+ * @Last Modified time: 2019-06-26 18:04:31
  */
 package pkg
 
@@ -14,7 +14,14 @@ import (
 	"runtime/debug"
 	"strconv"
 	"time"
+	"unsafe"
 )
+
+type RespData struct {
+	Code    int64
+	Message string
+	Data    interface{}
+}
 
 const TimeFormat = "2006-01-02 15:04:05"
 
@@ -116,6 +123,11 @@ func Int2String(intval int) string {
 // int64 转 string
 func Int642String(intval int64) string {
 	return strconv.FormatInt(intval, 10)
+}
+
+// Byte2String 字节数组转 string
+func Byte2String(b []byte) string {
+	return *(*string)(unsafe.Pointer(&b))
 }
 
 // Data2Map 将数据转为 map
