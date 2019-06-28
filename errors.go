@@ -30,6 +30,8 @@ var Errs = map[string]Errors{
 	"ERR_VIDEO_NOT_EXIST":        Errors{30100, "视频不存在"},
 	"ERR_VIDEO_EXCEEDED_MAXIMUM": Errors{30200, "翻页总条数超过最大限制"},
 	"ERR_GET_FAIL":               Errors{32304, "获取视频异常"},
+
+	"ERR_PAY_FUBEI_FAIL": Errors{40001, "支付请求失败"},
 }
 
 func Excp(errString string) error {

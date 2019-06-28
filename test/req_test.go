@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-25 17:34:31
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-26 17:19:50
+ * @Last Modified time: 2019-06-27 19:15:04
  */
 package test
 
@@ -24,7 +24,9 @@ func TestHttp(t *testing.T) {
 	// GET
 	data["aaa"] = "bbb"
 	data["ccc"] = "ddd"
-	response, err := client.SetData(data).Request("GET", "/test/osstoken")
+	response, err := client.
+		SetData(data).
+		Request("GET", "/test/osstoken")
 
 	R(response, "response")
 	R(err, "err")

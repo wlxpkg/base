@@ -2,12 +2,13 @@
  * @Author: qiuling
  * @Date: 2019-04-29 19:32:36
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-27 16:07:32
+ * @Last Modified time: 2019-06-27 22:46:10
  */
 package pkg
 
 import (
 	"artifact/pkg/log"
+	"crypto/md5"
 	"encoding/json"
 	"fmt"
 	"math/big"
@@ -34,7 +35,7 @@ func R(data interface{}, name string) {
 
 func D(data interface{}) {
 	fmt.Printf("%s :\n", debug.Stack())
-	fmt.Printf("%+v\n", data)
+	fmt.Printf("%#v\n", data)
 }
 
 // Paginator 分页统一结构
@@ -158,4 +159,12 @@ func Base58Encode(id int64) string {
 func Base58Decode(str string) int64 {
 	dint, _ := base58.DecodeToBig([]byte(str))
 	return dint.Int64()
+}
+
+// Md5
+func Md5(str string) string {
+	data := []byte(str)
+	has := md5.Sum(data)
+	md5str := fmt.Sprintf("%x", has) //将[]byte转成16进制
+	return md5str
 }
