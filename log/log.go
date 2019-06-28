@@ -2,15 +2,15 @@
  * @Author: qiuling
  * @Date: 2019-04-30 11:50:59
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-05-09 16:15:34
+ * @Last Modified time: 2019-06-28 16:06:03
  */
 package log
 
 import (
-	graylog "github.com/gemnasium/logrus-graylog-hook"
-	"github.com/gookit/config"
+	. "artifact/pkg/config"
 
-	// "github.com/pkg/errors"
+	graylog "github.com/gemnasium/logrus-graylog-hook"
+
 	logrus_stack "github.com/Gurpartap/logrus-stack"
 	"github.com/sirupsen/logrus"
 )
@@ -18,8 +18,8 @@ import (
 var log = logrus.New()
 
 func init() {
-	var graylog_ip = config.GetEnv("GRAYLOG_IP", "192.168.3.3")
-	var graylog_port = config.GetEnv("GRAYLOG_PORT", "3012")
+	graylog_ip := Config.Graylog.Host
+	graylog_port := Config.Graylog.Port
 
 	hookStack := logrus_stack.StandardHook()
 	hook := graylog.NewGraylogHook(graylog_ip+":"+graylog_port, map[string]interface{}{})

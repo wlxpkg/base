@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-25 20:44:57
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-27 15:36:51
+ * @Last Modified time: 2019-06-28 18:26:47
  */
 package req
 
@@ -10,10 +10,7 @@ import (
 	. "artifact/pkg"
 	. "artifact/pkg/config"
 	"artifact/pkg/log"
-	"encoding/json"
-	"errors"
-
-	"github.com/tidwall/gjson"
+	// "encoding/json"
 )
 
 type Restful struct {
@@ -81,10 +78,11 @@ func (r *Restful) SetData(data map[string]string) *Restful {
 // Req 发送请求
 func (r *Restful) Req(method string, route string) (data interface{}, err error) {
 	resp, err := r.client.Request(method, route)
+	// resp := "{\"code\":1,\"message\":\"\",\"data\":{\"user_id\":\"1134660407147180032\",\"avatar\":\"http:\\/\\/thirdwx.qlogo.cn\\/mmopen\\/vi_32\\/Q3auHgzwzM48ybqIC8FzI2xAbkVEY4gsyL8XSSicX1R42woyg7sUEceXJesG1QL9BOH33B26DQsZZGKMsx6r0xA\\/132\",\"nickname\":\"阿Q\",\"jwt\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImp0aSI6Im12T3pAMVU5Qk8ifQ.eyJqdGkiOiJtdk96QDFVOUJPIiwiaWF0IjoxNTYxNzEzNDkyLCJleHAiOjE1NjE3NTY2OTIsImFydGlmYWN0IjoiUHowaVBORm9VNUlhSExtcFpRNHVTNU9PdHVwS2dxY1giLCJ0b2tlbiI6ImI3YTVhMWI5ODMzODBhY2U1ZmIxZjJmNjkwNzk1N2I0In0.eT6O-Y0etAuv1urK5lgsFWWHuM_x9bVr9Wief9uNDDw\"}}"
 
 	if err != nil {
-		dataStr, _ := json.Marshal(r.client.data)
-		log.Warn("微服务请求失败! service: " + r.client.baseUrl + " data: " + Byte2String(dataStr) + "method: " + method + "route: " + route)
+		reqStr, _ := json.Marshal(r.client.data)
+		log.Warn("微服务请求失败! service: " + r.client.baseUrl + " reqData: " + Byte2String(reqStr) + "method: " + method + "route: " + route)
 		return
 	}
 
@@ -94,21 +92,41 @@ func (r *Restful) Req(method string, route string) (data interface{}, err error)
 
 // serviceData 解析数据
 func (r *Restful) serviceData(resp string) (resData interface{}, err error) {
-	// R(resp, "resp")
-	// var data RespData
-	// err = json.Unmarshal([]byte(resp), &data)
 
-	// if err != nil {
-	// 	dataStr, _ := json.Marshal(r.client.data)
-	// 	log.Warn("微服务数据解析失败! service: " + r.client.baseUrl + " req: " + Byte2String(dataStr) + "resp: " + resp + "err:" + err.Error())
-	// 	return
-	// }
+	/* result, ok := gjson.Parse(resp).Value().(map[string]interface{})
+	if !ok {
+		reqStr, _ := json.Marshal(r.client.data)
+		log.Warn("微服务数据解析失败! service: " + r.client.baseUrl + " reqData: " + Byte2String(reqStr) + "resp: " + resp)
+		err = Excp("ERR_DATA_DECODE")
+		return
+	} */
+	result, err := JsonDecode(resp)
+	if err != nil {
+		reqStr, _ := json.Marshal(r.client.data)
+		log.Warn("微服务数据解析失败! service: " + r.client.baseUrl + " reqData: " + Byte2String(reqStr) + "resp: " + resp)
+		return
+	}
 
-	code := gjson.Get(resp, "code")
-	message := gjson.Get(resp, "message")
-	data := gjson.Get(resp, "data")
+	// R(result, "result")
+	code := result["code"].(float64)
+	message := result["message"].(string)
+	data := result["data"]
 
 	if r.exp {
+		if code != 1 {
+			err = Excp(message)
+			return
+		}
+		resData = data
+	} else {
+		resData = resp
+	}
+
+	// result := gjson.GetMany(resp, "code", "message", "data")
+	// code := gjson.Get(resp, "code")
+	// message := gjson.Get(resp, "message")
+	// data := gjson.Get(resp, "data")
+	/* if r.exp {
 		if code.Int() != 1 {
 			err = errors.New(message.String())
 			return
@@ -116,7 +134,7 @@ func (r *Restful) serviceData(resp string) (resData interface{}, err error) {
 		resData = data.String()
 	} else {
 		resData = resp
-	}
+	} */
 
 	return
 }

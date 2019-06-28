@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-05-10 14:43:57
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-26 17:39:12
+ * @Last Modified time: 2019-06-28 18:17:52
  */
 
 // http 请求连接池
@@ -12,7 +12,9 @@ import (
 	// . "artifact/pkg"
 	"artifact/pkg/log"
 	"bytes"
-	"encoding/json"
+
+	jsoniter "github.com/json-iterator/go"
+
 	"errors"
 	"io/ioutil"
 	"net"
@@ -22,8 +24,9 @@ import (
 	"time"
 )
 
-// var client *http.Client
+var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
+// var client *http.Client
 const (
 	MaxIdleConns        = 100
 	MaxIdleConnsPerHost = 100

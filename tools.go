@@ -2,14 +2,13 @@
  * @Author: qiuling
  * @Date: 2019-04-29 19:32:36
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-27 22:46:10
+ * @Last Modified time: 2019-06-28 18:34:07
  */
 package pkg
 
 import (
 	"artifact/pkg/log"
 	"crypto/md5"
-	"encoding/json"
 	"fmt"
 	"math/big"
 	"math/rand"
@@ -18,8 +17,13 @@ import (
 	"time"
 	"unsafe"
 
+	jsoniter "github.com/json-iterator/go"
+
+	"github.com/tidwall/gjson"
 	"github.com/tv42/base58"
 )
+
+var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 type RespData struct {
 	Code    int64
@@ -167,4 +171,20 @@ func Md5(str string) string {
 	has := md5.Sum(data)
 	md5str := fmt.Sprintf("%x", has) //将[]byte转成16进制
 	return md5str
+}
+
+// JsonDecode
+func JsonEncode(data interface{}) ([]byte, error) {
+	return json.Marshal(data)
+}
+
+// JsonDecode 你懂的
+func JsonDecode(data string) (result map[string]interface{}, err error) {
+	result, ok := gjson.Parse(data).Value().(map[string]interface{})
+	if !ok {
+		log.Warn("数据解析失败! data: " + data)
+		err = Excp("ERR_DATA_DECODE")
+		return
+	}
+	return
 }

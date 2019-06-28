@@ -32,6 +32,9 @@ import:
 - package: github.com/tidwall/gjson
   version: ^1.2.1
 - package: github.com/tv42/base58
+- package: github.com/prep/beanstalk
+  version: ^1.2.5
+- package: github.com/buger/jsonparser
 testImport:
 - package: github.com/stretchr/testify
   version: ^1.3.0

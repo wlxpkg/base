@@ -1,6 +1,8 @@
-hash: d94f6aa18fc2f4eab668efd8aa2048a218bbfd4bece82d3df52773554c7fa749
-updated: 2019-06-27T16:01:29.271357+08:00
+hash: edba19b1e383605e54744d8abf2cee8e095d11f8738edfb30e52fbe91a45251e
+updated: 2019-06-28T16:51:47.51375+08:00
 imports:
+- name: github.com/buger/jsonparser
+  version: bf1c66bbce23153d89b23f8960071a680dbef54b
 - name: github.com/BurntSushi/toml
   version: 3012a1dbe2e4bd1391d42b32f0577cb7bbc7f005
 - name: github.com/casbin/casbin
@@ -48,12 +50,8 @@ imports:
   version: e91709a02e0e8ff8b86b7aa913fdc9ae9498e825
   subpackages:
   - proto
-- name: github.com/gookit/config
-  version: a119c2215dd90c9ce79a2c3c85cfabbd5ddd3fd6
 - name: github.com/Gurpartap/logrus-stack
   version: 89c00d8a28f43c567d92eb81a2945301a6a9fbb9
-- name: github.com/imdario/mergo
-  version: 7c29201646fa3de8506f701213473dd407f19646
 - name: github.com/jinzhu/gorm
   version: 01b66011427614f01e84a473b0303c917179f2a0
 - name: github.com/jinzhu/inflection
@@ -74,6 +72,8 @@ imports:
   version: 94122c33edd36123c84d5368cfb2b69df93a0ec8
 - name: github.com/pkg/errors
   version: ba968bfe8b2f7e042a574c888954fccecfa385b4
+- name: github.com/prep/beanstalk
+  version: e9ac7caae42f8691e3206753c484406e7d5780ce
 - name: github.com/ql2005/multiconfig
   version: c8ed353c9652b273e8b50b41b1d1c284ac8b137a
 - name: github.com/sirupsen/logrus

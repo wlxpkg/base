@@ -2,13 +2,12 @@
  * @Author: qiuling
  * @Date: 2019-05-13 16:01:39
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-26 14:24:31
+ * @Last Modified time: 2019-06-28 16:12:02
  */
 
 package pkg
 
 import (
-	"artifact/pkg/log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -48,21 +47,21 @@ type (
 	}
 
 	amqp struct {
-		Address string `default:"192.168.3.3"`
-		Port    int    `default:"5672"`
-		User    string `default:"artifact"`
-		Pass    string `default:"artifact"`
-		Vhost   string `default:"/artifact"`
+		Host  string `default:"192.168.3.3"`
+		Port  string `default:"5672"`
+		User  string `default:"artifact"`
+		Pass  string `default:"artifact"`
+		Vhost string `default:"/artifact"`
 	}
 
 	beanstalk struct {
-		Addr string `default:"192.168.3.3"`
-		Port int    `default:"11300"`
+		Host string `default:"192.168.3.3"`
+		Port string `default:"11300"`
 	}
 
 	graylog struct {
 		Host string `default:"192.168.3.3"`
-		Port int    `default:"3012"`
+		Port string `default:"3012"`
 	}
 
 	oss struct {
@@ -153,7 +152,8 @@ func GetParentDirectory(dirctory string) string {
 func GetCurrentDirectory() string {
 	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
 	if err != nil {
-		log.Info(err)
+		panic(err)
+		// log.Info(err)
 	}
 	return strings.Replace(dir, "\\", "/", -1)
 }
