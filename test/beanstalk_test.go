@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-28 19:13:57
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-28 23:43:44
+ * @Last Modified time: 2019-06-29 16:13:49
  */
 package test
 
@@ -15,20 +15,27 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+var pPool *beanstalk.Producer
+
 // var data = make(map[string]string)
 func TestPublish(t *testing.T) {
-	pPool := beanstalk.NewProducer()
+	var err error
+	pPool, err = beanstalk.NewProducerPool()
 
-	// R(pPool, "pooooo")
-	// err := pPool.Conn()
-	// R(err, "err")
-	// R(pPool, "p1")
-
-	pool, err := pPool.NewPool()
 	if err != nil {
 		log.Err("Unable to create beanstalk producer pool: " + err.Error())
 	}
-	defer pool.Stop()
+	defer pPool.Stop()
+
+	jobID, err := publish()
+
+	R(jobID, "job")
+	R(err, "err")
+
+	assert.Equal(t, 1, 1, "TestLog")
+}
+
+func publish() (uint64, error) {
 
 	data["name"] = "测试角色"
 	data["slug"] = "customer"
@@ -36,12 +43,9 @@ func TestPublish(t *testing.T) {
 	data["type"] = "99"
 	data["is_default"] = "0"
 
-	tube, message, param, _ := pPool.MakeData("/test/publist", data, 15)
-
-	jobID, err := pool.Put(tube, message, param)
+	jobID, err := pPool.Publish("/test/publist", data, 15)
 
 	R(jobID, "job")
 	R(err, "err")
-
-	assert.Equal(t, 1, 1, "TestLog")
+	return jobID, err
 }

@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-28 15:38:14
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-28 23:28:39
+ * @Last Modified time: 2019-06-29 16:14:19
  */
 package beanstalk
 
@@ -13,24 +13,25 @@ import (
 	"log"
 	"os"
 	"strings"
+	"sync"
 	"time"
 
 	bt "github.com/prep/beanstalk"
 )
 
 type Producer struct {
-	bt.ProducerPool
-	link    string
-	options *bt.Options
-	// Pool    chan *bt.ProducerPool
+	producers []*bt.Producer
+	putC      chan *bt.Put
+	PutTokens chan *bt.Put
+	stopOnce  sync.Once
 }
 
-func NewProducer() *Producer {
-	p := new(Producer)
-	// R(Config.Beanstalk.Host, "host")
-	// R(Config.Beanstalk.Port, "Port")
-
+func NewProducerPool() (*Producer, error) {
 	link := "beanstalk://" + Config.Beanstalk.Host + ":" + Config.Beanstalk.Port
+
+	var urls []string
+	urls = append(urls, link)
+	urls = append(urls, link)
 
 	options := &bt.Options{
 		// ReserveTimeout defines how long a beanstalk reserve command should wait
@@ -51,26 +52,71 @@ func NewProducer() *Producer {
 		ErrorLog: log.New(os.Stderr, "ERROR: ", 0),
 	}
 
-	// pool, err := beanstalk.NewProducerPool([]string{link}, options)
-	// if err != nil {
-	// 	graylog.Err("Unable to create beanstalk producer pool: " + err.Error())
-	// }
-	// defer pool.Stop()
-	p.link = link
-	p.options = options
+	pool := &Producer{putC: make(chan *bt.Put)}
+	pool.PutTokens = make(chan *bt.Put, len(urls))
 
-	/* pool, err := beanstalk.NewProducerPool([]string{p.link}, p.options)
-	if err != nil {
-		graylog.Err("Unable to create beanstalk producer pool: " + err.Error())
+	for _, url := range urls {
+		producer, err := bt.NewProducer(url, pool.putC, options)
+		if err != nil {
+			return nil, err
+		}
+
+		pool.producers = append(pool.producers, producer)
+		pool.PutTokens <- bt.NewPut(pool.putC, options)
 	}
-	defer pool.Stop()
 
-	p.Pool = make(chan *beanstalk.ProducerPool)
-	p.Pool <- pool
+	for _, producer := range pool.producers {
+		producer.Start()
+	}
 
-	R(p, "p0")
-	defer close(p.Pool) */
-	return p
+	return pool, nil
+}
+
+func (pool Producer) Publish(topic string, message interface{}, delay int64) (uint64, error) {
+	putParams := &bt.PutParams{
+		Priority: 1024,
+		Delay:    time.Duration(delay) * time.Second,
+		TTR:      30 * time.Second,
+	}
+
+	// params = putParams
+	// pool := <-p.Pool
+
+	// R(pool, "p2")
+
+	routing := strings.Split(topic, "/")
+	tube := routing[1]
+
+	msg := map[string]interface{}{
+		"topic":   topic,
+		"message": message,
+	}
+
+	messageData, err := JsonEncode(msg)
+	if err != nil {
+		graylog.Info(err)
+		return 0, err
+	}
+	// R(tube, "tube")
+	// R(Byte2String(messageData), "messageData")
+
+	put := <-pool.PutTokens
+	id, err := put.Request(tube, messageData, putParams)
+	pool.PutTokens <- put
+
+	return id, err
+}
+
+// Stop shuts down all the producers in the pool.
+func (pool *Producer) Stop() {
+	pool.stopOnce.Do(func() {
+		for i, producer := range pool.producers {
+			producer.Stop()
+			pool.producers[i] = nil
+		}
+
+		pool.producers = []*bt.Producer{}
+	})
 }
 
 /* func (p Producer) Conn() Producer {
@@ -84,52 +130,3 @@ func NewProducer() *Producer {
 	p.Pool <- pool
 	return p
 } */
-
-func (p Producer) NewPool() (*bt.ProducerPool, error) {
-	return bt.NewProducerPool([]string{p.link, p.link, p.link, p.link, p.link, p.link}, p.options)
-}
-
-func (p Producer) MakeData(topic string, message interface{}, delay int64) (tube string, messageData []byte, putParams *bt.PutParams, err error) {
-	putParams = &bt.PutParams{
-		Priority: 1024,
-		Delay:    time.Duration(delay) * time.Second,
-		TTR:      30 * time.Second,
-	}
-
-	// params = putParams
-	// pool := <-p.Pool
-
-	// R(pool, "p2")
-
-	routing := strings.Split(topic, "/")
-	tube = routing[1]
-
-	msg := map[string]interface{}{
-		"topic":   topic,
-		"message": message,
-	}
-
-	messageData, err = JsonEncode(msg)
-	if err != nil {
-		graylog.Info(err)
-		return
-	}
-	R(tube, "tube")
-	R(Byte2String(messageData), "messageData")
-
-	// jobID = 111
-	// err = Excp("!11")
-	// return
-
-	/* // jobID, err = p.pool.Put(tube, messageData, putParams)
-	jobID, err = pool.Put("default", []byte("Hello World"), putParams)
-	p.Pool <- pool
-	R(jobID, "jobID")
-	R(err, "err")
-	if err != nil {
-		return
-	}
-	return */
-
-	return
-}
