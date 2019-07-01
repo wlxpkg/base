@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-28 19:13:57
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-01 10:24:54
+ * @Last Modified time: 2019-07-01 10:57:29
  */
 package test
 
@@ -11,8 +11,6 @@ import (
 	"artifact/pkg/beanstalk"
 	"artifact/pkg/log"
 	"testing"
-
-	bt "github.com/prep/beanstalk"
 )
 
 var pPool *beanstalk.ProducerPool
@@ -49,8 +47,18 @@ func publish() (uint64, error) {
 }
 
 func TestConsumer(t *testing.T) {
-	beanstalk.NewConsumer("test", func(job *bt.Job) (bool, error) {
-		R(job, "job")
+	beanstalk.NewConsumer("test", func(jsonStr string) (bool, error) {
+		R(jsonStr, "jsonStr")
+		json, _ := JsonDecode(jsonStr)
+
+		topic := json["topic"].(string)
+		R(topic, "topic")
+
+		message := json["message"].(map[string]interface{})
+		R(message, "message")
+
+		msgName := message["name"].(string)
+		R(msgName, "msgName")
 
 		return true, nil
 	})

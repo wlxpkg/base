@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-28 15:39:03
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-01 10:31:30
+ * @Last Modified time: 2019-07-01 10:56:51
  */
 package beanstalk
 
@@ -19,7 +19,7 @@ import (
 	bt "github.com/prep/beanstalk"
 )
 
-type Callback func(job *bt.Job) (bool, error)
+type Callback func(message string) (bool, error)
 
 func NewConsumer(tube string, callback Callback) {
 	link := "beanstalk://" + Config.Beanstalk.Host + ":" + Config.Beanstalk.Port
@@ -42,18 +42,18 @@ func NewConsumer(tube string, callback Callback) {
 	for {
 		select {
 		case job := <-pool.C:
-			R(job, "job")
-			log.Info("Received job with id: " + Uint642String(job.ID))
+			logmsg := fmt.Sprintf("收到延时任务 id: %d body: %s\n", job.ID, string(job.Body))
+			log.Info(logmsg)
 
-			ok, err := callback(job)
+			ok, err := callback(Byte2String(job.Body))
 
 			if ok && err == nil {
 				_ = job.Delete()
 			} else {
-				logmsg := fmt.Sprintf("Burying job %d with body: %s\n", job.ID, string(job.Body))
+				logmsg := fmt.Sprintf("回退延时任务 id: %d body: %s\n", job.ID, string(job.Body))
 				log.Warn(logmsg)
+				_ = job.Bury()
 			}
-
 		}
 	}
 }
