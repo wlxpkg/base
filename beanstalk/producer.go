@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-28 15:38:14
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-29 16:14:19
+ * @Last Modified time: 2019-06-29 17:17:37
  */
 package beanstalk
 
@@ -19,19 +19,20 @@ import (
 	bt "github.com/prep/beanstalk"
 )
 
-type Producer struct {
+type ProducerPool struct {
 	producers []*bt.Producer
 	putC      chan *bt.Put
-	PutTokens chan *bt.Put
+	putTokens chan *bt.Put
 	stopOnce  sync.Once
 }
 
-func NewProducerPool() (*Producer, error) {
+func NewProducerPool() (*ProducerPool, error) {
+	pool := &ProducerPool{putC: make(chan *bt.Put)}
+
 	link := "beanstalk://" + Config.Beanstalk.Host + ":" + Config.Beanstalk.Port
 
 	var urls []string
-	urls = append(urls, link)
-	urls = append(urls, link)
+	urls = append(urls, link, link, link)
 
 	options := &bt.Options{
 		// ReserveTimeout defines how long a beanstalk reserve command should wait
@@ -52,8 +53,7 @@ func NewProducerPool() (*Producer, error) {
 		ErrorLog: log.New(os.Stderr, "ERROR: ", 0),
 	}
 
-	pool := &Producer{putC: make(chan *bt.Put)}
-	pool.PutTokens = make(chan *bt.Put, len(urls))
+	pool.putTokens = make(chan *bt.Put, len(urls))
 
 	for _, url := range urls {
 		producer, err := bt.NewProducer(url, pool.putC, options)
@@ -62,7 +62,7 @@ func NewProducerPool() (*Producer, error) {
 		}
 
 		pool.producers = append(pool.producers, producer)
-		pool.PutTokens <- bt.NewPut(pool.putC, options)
+		pool.putTokens <- bt.NewPut(pool.putC, options)
 	}
 
 	for _, producer := range pool.producers {
@@ -72,7 +72,16 @@ func NewProducerPool() (*Producer, error) {
 	return pool, nil
 }
 
-func (pool Producer) Publish(topic string, message interface{}, delay int64) (uint64, error) {
+// Publish 发送延迟消息
+func (pool *ProducerPool) Publish(
+	topic string,
+	message interface{},
+	delay int64,
+) (uint64, error) {
+
+	messageStr, _ := JsonEncode(message)
+	R("发送延迟消息: "+topic+", 消息内容: "+Byte2String(messageStr)+", 延迟:"+Int642String(delay)+" 秒", "")
+
 	putParams := &bt.PutParams{
 		Priority: 1024,
 		Delay:    time.Duration(delay) * time.Second,
@@ -82,7 +91,7 @@ func (pool Producer) Publish(topic string, message interface{}, delay int64) (ui
 	// params = putParams
 	// pool := <-p.Pool
 
-	// R(pool, "p2")
+	R(pool, "p2")
 
 	routing := strings.Split(topic, "/")
 	tube := routing[1]
@@ -100,15 +109,15 @@ func (pool Producer) Publish(topic string, message interface{}, delay int64) (ui
 	// R(tube, "tube")
 	// R(Byte2String(messageData), "messageData")
 
-	put := <-pool.PutTokens
+	put := <-pool.putTokens
 	id, err := put.Request(tube, messageData, putParams)
-	pool.PutTokens <- put
+	pool.putTokens <- put
 
 	return id, err
 }
 
 // Stop shuts down all the producers in the pool.
-func (pool *Producer) Stop() {
+func (pool *ProducerPool) Stop() {
 	pool.stopOnce.Do(func() {
 		for i, producer := range pool.producers {
 			producer.Stop()

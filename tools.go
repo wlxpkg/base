@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-04-29 19:32:36
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-28 18:34:07
+ * @Last Modified time: 2019-06-29 17:05:07
  */
 package pkg
 
@@ -131,6 +131,10 @@ func Int2String(intval int) string {
 // int64 转 string
 func Int642String(intval int64) string {
 	return strconv.FormatInt(intval, 10)
+}
+
+func Uint642String(intval uint64) string {
+	return strconv.FormatUint(intval, 10)
 }
 
 // Byte2String 字节数组转 string
