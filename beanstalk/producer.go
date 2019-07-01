@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-28 15:38:14
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-29 17:17:37
+ * @Last Modified time: 2019-07-01 17:00:34
  */
 package beanstalk
 
@@ -90,9 +90,6 @@ func (pool *ProducerPool) Publish(
 
 	// params = putParams
 	// pool := <-p.Pool
-
-	R(pool, "p2")
-
 	routing := strings.Split(topic, "/")
 	tube := routing[1]
 

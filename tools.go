@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-04-29 19:32:36
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-29 17:05:07
+ * @Last Modified time: 2019-07-01 17:35:28
  */
 package pkg
 
@@ -34,12 +34,12 @@ type RespData struct {
 const TimeFormat = "2006-01-02 15:04:05"
 
 func R(data interface{}, name string) {
-	fmt.Printf(name+": \n%#v\n", data)
+	fmt.Printf("\n"+name+": \n%#v\n", data)
 }
 
 func D(data interface{}) {
-	fmt.Printf("%s :\n", debug.Stack())
-	fmt.Printf("%#v\n", data)
+	fmt.Printf("\n%s :\n", debug.Stack())
+	fmt.Printf("\n%#v\n", data)
 }
 
 // Paginator 分页统一结构

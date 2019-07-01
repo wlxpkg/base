@@ -1,5 +1,5 @@
-hash: edba19b1e383605e54744d8abf2cee8e095d11f8738edfb30e52fbe91a45251e
-updated: 2019-06-28T16:51:47.51375+08:00
+hash: 7fba727d819b6b082a2c752d24ffc44cd2800fdbae162edc649e63ef74a5301f
+updated: 2019-07-01T14:13:01.324847+08:00
 imports:
 - name: github.com/buger/jsonparser
   version: bf1c66bbce23153d89b23f8960071a680dbef54b
@@ -53,7 +53,7 @@ imports:
 - name: github.com/Gurpartap/logrus-stack
   version: 89c00d8a28f43c567d92eb81a2945301a6a9fbb9
 - name: github.com/jinzhu/gorm
-  version: 01b66011427614f01e84a473b0303c917179f2a0
+  version: 836fb2c19d84dac7b0272958dfb9af7cf0d0ade4
 - name: github.com/jinzhu/inflection
   version: 04140366298a54a039076d798123ffa108fff46c
 - name: github.com/json-iterator/go
@@ -78,8 +78,10 @@ imports:
   version: c8ed353c9652b273e8b50b41b1d1c284ac8b137a
 - name: github.com/sirupsen/logrus
   version: 839c75faf7f98a33d445d181f3018b5c3409a45e
+- name: github.com/streadway/amqp
+  version: 75d898a42a940fbc854dfd1a4199eabdc00cf024
 - name: github.com/tidwall/gjson
-  version: eee0b6226f0d1db2675a176fdfaa8419bcad4ca8
+  version: d7c940e59395fdcaff4584cb442b2e7808f6711e
 - name: github.com/tidwall/match
   version: 33827db735fff6510490d69a8622612558a557ed
 - name: github.com/tidwall/pretty
