@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-07-01 17:09:59
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-01 22:03:59
+ * @Last Modified time: 2019-07-02 16:16:19
  */
 package amqp
 
@@ -44,7 +44,7 @@ func (c *Consumer) Start() {
 	for {
 		c.run()
 
-		R(time.Now().Format("2006-01-02 15:04:05"), "断开连接")
+		R(time.Now().Format("2006-01-02 15:04:05"), " amqp 断开连接")
 		// 一旦连接断开，那么需要隔一段时间去重连
 		// 这里最好有一个时间间隔
 		time.Sleep(3 * time.Second)

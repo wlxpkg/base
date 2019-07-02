@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-28 19:13:57
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-01 10:57:29
+ * @Last Modified time: 2019-07-02 17:29:48
  */
 package test
 
@@ -11,6 +11,7 @@ import (
 	"artifact/pkg/beanstalk"
 	"artifact/pkg/log"
 	"testing"
+	"time"
 )
 
 var pPool *beanstalk.ProducerPool
@@ -25,14 +26,22 @@ func TestPublish(t *testing.T) {
 	}
 	defer pPool.Stop()
 
-	jobID, err := publish()
+	consumer := beanstalk.NewConsumer("test")
+	receiver := beanstalk.NewReceiver()
 
-	R(jobID, "job")
-	R(err, "err")
+	consumer.RegisterReceiver(receiver)
 
+	for i := 1; i <= 3; i++ {
+		// 延迟执行
+		time.AfterFunc(time.Duration(i*5)*time.Second, func() {
+			publish()
+		})
+	}
+
+	consumer.Start()
 }
 
-func publish() (uint64, error) {
+func publish() {
 
 	data["name"] = "测试角色"
 	data["slug"] = "customer"
@@ -43,23 +52,4 @@ func publish() (uint64, error) {
 
 	R(jobID, "job")
 	R(err, "err")
-	return jobID, err
-}
-
-func TestConsumer(t *testing.T) {
-	beanstalk.NewConsumer("test", func(jsonStr string) (bool, error) {
-		R(jsonStr, "jsonStr")
-		json, _ := JsonDecode(jsonStr)
-
-		topic := json["topic"].(string)
-		R(topic, "topic")
-
-		message := json["message"].(map[string]interface{})
-		R(message, "message")
-
-		msgName := message["name"].(string)
-		R(msgName, "msgName")
-
-		return true, nil
-	})
 }

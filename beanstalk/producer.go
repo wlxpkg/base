@@ -2,16 +2,13 @@
  * @Author: qiuling
  * @Date: 2019-06-28 15:38:14
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-01 17:00:34
+ * @Last Modified time: 2019-07-02 16:28:05
  */
 package beanstalk
 
 import (
 	. "artifact/pkg"
-	. "artifact/pkg/config"
-	graylog "artifact/pkg/log"
-	"log"
-	"os"
+	"artifact/pkg/log"
 	"strings"
 	"sync"
 	"time"
@@ -29,29 +26,7 @@ type ProducerPool struct {
 func NewProducerPool() (*ProducerPool, error) {
 	pool := &ProducerPool{putC: make(chan *bt.Put)}
 
-	link := "beanstalk://" + Config.Beanstalk.Host + ":" + Config.Beanstalk.Port
-
-	var urls []string
-	urls = append(urls, link, link, link)
-
-	options := &bt.Options{
-		// ReserveTimeout defines how long a beanstalk reserve command should wait
-		// before it should timeout. The default and minimum value is 1 second.
-		ReserveTimeout: 3 * time.Second,
-		// ReconnectTimeout defines how long a producer or consumer should wait
-		// between reconnect attempts. The default is 3 seconds, with a minimum of 1
-		// second.
-		ReconnectTimeout: 3 * time.Second,
-		// ReadWriteTimeout defines how long each read or write operation is  allowed
-		// to block until the connection is considered broken. The default is
-		// disabled and the minimum value is 1ms.
-		ReadWriteTimeout: 5 * time.Second,
-
-		// InfoLog is used to log info messages to, but can be nil.
-		InfoLog: log.New(os.Stdout, "INFO: ", 0),
-		// ErrorLog is used to log error messages to, but can be nil.
-		ErrorLog: log.New(os.Stderr, "ERROR: ", 0),
-	}
+	urls, options := GetOptions()
 
 	pool.putTokens = make(chan *bt.Put, len(urls))
 
@@ -100,7 +75,7 @@ func (pool *ProducerPool) Publish(
 
 	messageData, err := JsonEncode(msg)
 	if err != nil {
-		graylog.Info(err)
+		log.Info(err)
 		return 0, err
 	}
 	// R(tube, "tube")
@@ -128,7 +103,7 @@ func (pool *ProducerPool) Stop() {
 /* func (p Producer) Conn() Producer {
 	pool, err := beanstalk.NewProducerPool([]string{p.link}, p.options)
 	if err != nil {
-		graylog.Err("Unable to create beanstalk producer pool: " + err.Error())
+		log.Err("Unable to create beanstalk producer pool: " + err.Error())
 	}
 	defer pool.Stop()
 

@@ -2,52 +2,110 @@
  * @Author: qiuling
  * @Date: 2019-06-28 15:39:03
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-01 10:56:51
+ * @Last Modified time: 2019-07-02 17:28:48
  */
 package beanstalk
 
 import (
 	. "artifact/pkg"
-	. "artifact/pkg/config"
 	"artifact/pkg/log"
 	"fmt"
-	syslog "log"
-	"os"
+	"sync"
 	"time"
 
-	"github.com/prep/beanstalk"
 	bt "github.com/prep/beanstalk"
 )
 
 type Callback func(message string) (bool, error)
 
-func NewConsumer(tube string, callback Callback) {
-	link := "beanstalk://" + Config.Beanstalk.Host + ":" + Config.Beanstalk.Port
+type Consumer struct {
+	wg        sync.WaitGroup
+	tube      string
+	pool      *bt.ConsumerPool
+	receivers []Receiver
+}
 
-	options := &bt.Options{
-		ReserveTimeout:   3 * time.Second,
-		ReconnectTimeout: 3 * time.Second,
-		ReadWriteTimeout: 5 * time.Second,
-		InfoLog:          syslog.New(os.Stdout, "INFO: ", 0),
-		ErrorLog:         syslog.New(os.Stderr, "ERROR: ", 0),
+func NewConsumer(tube string) *Consumer {
+	return &Consumer{
+		tube: tube,
 	}
-	pool, err := beanstalk.NewConsumerPool([]string{link, link}, []string{tube}, options)
+}
+
+// RegisterReceiver 注册一个用于接收指定队列指定路由的数据接收者
+func (c *Consumer) RegisterReceiver(receiver Receiver) {
+	c.receivers = append(c.receivers, receiver)
+}
+
+func (c *Consumer) Start() {
+	for {
+		c.run()
+
+		R(time.Now().Format("2006-01-02 15:04:05"), "beanstalk 断开连接")
+		// 一旦连接断开，那么需要隔一段时间去重连
+		// 这里最好有一个时间间隔
+		time.Sleep(3 * time.Second)
+	}
+}
+
+func (c *Consumer) run() {
+	var err error
+	urls, options := GetOptions()
+	c.pool, err = bt.NewConsumerPool(urls, []string{c.tube}, options)
+	R(c.pool, "beanstalk消费者 连接成功")
 	if err != nil {
 		log.Err("Unable to create beanstalk consumer pool: " + err.Error())
 	}
-	defer pool.Stop()
+	// defer c.pool.Stop()
 
-	pool.Play()
+	for _, receiver := range c.receivers {
+		c.wg.Add(1)
+		go c.listen(receiver) // 每个接收者单独启动一个goroutine用来初始化queue并接收消息
+	}
+
+	c.wg.Wait()
+
+	log.Err("所有处理queue的任务都意外退出了")
+
+	// 理论上c.run()在程序的执行过程中是不会结束的
+	// 那么则需要重新连接，这里尝试销毁当前连接
+	defer c.distory()
+
+	/*
+		pool.Play()
+
+		for {
+			select {
+			case job := <-pool.C:
+				logmsg := fmt.Sprintf("收到延时任务 id: %d body: %s\n", job.ID, string(job.Body))
+				log.Info(logmsg)
+
+				ok, err := callback(Byte2String(job.Body))
+
+				if ok && err == nil {
+					_ = job.Delete()
+				} else {
+					logmsg := fmt.Sprintf("回退延时任务 id: %d body: %s\n", job.ID, string(job.Body))
+					log.Warn(logmsg)
+					_ = job.Bury()
+				}
+			}
+		} */
+}
+
+func (c *Consumer) listen(receiver Receiver) {
+	defer c.wg.Done()
+
+	c.pool.Play()
 
 	for {
 		select {
-		case job := <-pool.C:
+		case job := <-c.pool.C:
 			logmsg := fmt.Sprintf("收到延时任务 id: %d body: %s\n", job.ID, string(job.Body))
 			log.Info(logmsg)
 
-			ok, err := callback(Byte2String(job.Body))
+			ok := receiver.OnReceive(Byte2String(job.Body))
 
-			if ok && err == nil {
+			if ok {
 				_ = job.Delete()
 			} else {
 				logmsg := fmt.Sprintf("回退延时任务 id: %d body: %s\n", job.ID, string(job.Body))
@@ -56,4 +114,8 @@ func NewConsumer(tube string, callback Callback) {
 			}
 		}
 	}
+}
+
+func (c *Consumer) distory() {
+	go c.pool.Stop()
 }
