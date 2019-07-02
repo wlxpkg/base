@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-05-13 16:01:39
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-28 16:12:02
+ * @Last Modified time: 2019-07-02 13:58:59
  */
 
 package pkg
@@ -114,7 +114,7 @@ type (
 )
 
 var Config = new(struct {
-	Port        int `default:"8000"`
+	Port        string `default:"8000"`
 	Redis       redis
 	Mysql       mysql
 	Mongo       mongo
