@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-04-29 19:32:36
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-01 17:35:28
+ * @Last Modified time: 2019-07-02 14:07:21
  */
 package pkg
 
@@ -121,6 +121,12 @@ func String2Int(str string) (int, error) {
 // String2Int64 字符串 转 int64
 func String2Int64(str string) (int64, error) {
 	return strconv.ParseInt(str, 10, 64)
+}
+
+// String2Uint string 转 uint
+func String2Uint(str string) uint {
+	u64, _ := strconv.ParseUint(str, 10, 0)
+	return uint(u64)
 }
 
 // int 转 string
