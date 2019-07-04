@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-04-29 19:32:36
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-02 14:07:21
+ * @Last Modified time: 2019-07-04 11:29:27
  */
 package pkg
 
@@ -146,6 +146,11 @@ func Uint642String(intval uint64) string {
 // Byte2String 字节数组转 string
 func Byte2String(b []byte) string {
 	return *(*string)(unsafe.Pointer(&b))
+}
+
+// float64 转 string
+func Float642String(v float64) string {
+	return strconv.FormatFloat(v, 'E', -1, 64)
 }
 
 // Data2Map 将数据转为 map
