@@ -2,13 +2,13 @@
  * @Author: qiuling
  * @Date: 2019-06-17 15:33:04
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-24 19:17:53
+ * @Last Modified time: 2019-07-04 19:05:44
  */
 
 package middleware
 
 import (
-	. "artifact/pkg"
+	// . "artifact/pkg"
 	. "artifact/pkg/config"
 	"artifact/pkg/model"
 	"bytes"
@@ -27,7 +27,7 @@ func Casbin() gin.HandlerFunc {
 
 	return func(c *gin.Context) {
 
-		token, userInfo, err := GetUser(c)
+		token, userInfo, err := getUser(c)
 		userID := userInfo["user_id"]
 
 		if err != nil {

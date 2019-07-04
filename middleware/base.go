@@ -2,13 +2,15 @@
  * @Author: qiuling
  * @Date: 2019-06-18 15:01:17
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-24 19:17:28
+ * @Last Modified time: 2019-07-04 19:04:48
  */
 package middleware
 
 import (
 	. "artifact/pkg"
+	"artifact/pkg/biz"
 	"artifact/pkg/log"
+	"errors"
 	"net/http"
 	"regexp"
 	"strings"
@@ -29,6 +31,29 @@ func Abort(c *gin.Context, e error) {
 		"data":    "",
 	})
 	c.Abort()
+}
+
+func getUser(c *gin.Context) (token string, userInfo map[string]string, err error) {
+	authorization := c.GetHeader("authorization")
+	jwt := strings.TrimPrefix(authorization, "Bearer ")
+
+	// fmt.Printf("jwt:%+v\n", jwt)
+
+	if jwt == "" {
+		err = errors.New("ERR_INVALID_TOKEN")
+		return
+	}
+
+	token, err = biz.Jwt2Token(jwt)
+
+	if token == "" || err != nil {
+		err = errors.New("ERR_INVALID_TOKEN")
+		return
+	}
+
+	userInfo = biz.TokenGetUser(token)
+	// fmt.Printf("userInfo:%+v\n", userInfo)
+	return
 }
 
 func middlewareData(userInfo map[string]string, token string, permission int64) Middleware {

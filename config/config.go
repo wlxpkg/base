@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-05-13 16:01:39
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-02 13:58:59
+ * @Last Modified time: 2019-07-04 19:14:11
  */
 
 package pkg
@@ -104,6 +104,8 @@ type (
 	}
 
 	alipay struct {
+		ReturnUrl string
+		NotifyUrl string
 	}
 
 	pay struct {

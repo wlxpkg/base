@@ -1,9 +1,6 @@
 package pkg
 
 import (
-	// . "artifact/pkg/middleware"
-	"artifact/pkg/biz"
-	"errors"
 	"net/http"
 	"strings"
 
@@ -24,8 +21,7 @@ type Middleware struct {
 	Permission int64
 	Token      string
 	UserID     int64
-	// Hostname   string
-	UserInfo UserInfo
+	UserInfo   UserInfo
 }
 
 type Controller struct {
@@ -35,19 +31,29 @@ type Controller struct {
 	Token      string
 	Permission int64
 	Jwt        string
+	Client     string
 	ClientID   string
 	AppName    string
 	AppVersion string
 }
 
-func NewController(ctx *gin.Context) (ctl Controller) {
-	ctl = Controller{Ctx: ctx}
-	ctl = getLoginInfo(ctx, ctl)
-	ctl = getHeaders(ctx, ctl)
+func NewController(ctx *gin.Context) (ctl *Controller) {
+	ctl = &Controller{Ctx: ctx}
+	ctl.getLoginInfo()
+	ctl.getHeaders()
 	return
 }
 
-func getLoginInfo(c *gin.Context, ctl Controller) Controller {
+func (ctl *Controller) getLoginInfo() {
+	c := ctl.Ctx
+
+	path := c.Request.URL.Path
+	routeSli := strings.Split(path, "/")
+	R(routeSli, "routeSli")
+
+	// if routeSli[1] == "login" || routeSli[1] == "callback" {
+	// 	return ctl
+	// }
 
 	if m, ok := c.Get("middleware"); ok && m != nil {
 		middleware, _ := m.(Middleware)
@@ -57,68 +63,29 @@ func getLoginInfo(c *gin.Context, ctl Controller) Controller {
 		ctl.Token = middleware.Token
 		ctl.Permission = middleware.Permission
 	} else {
-		token, userInfo, err := GetUser(c)
-
-		if err != nil {
-			ctl.Error(err)
-		}
-
-		pid, _ := String2Int64(userInfo["pid"])
-		uid, _ := String2Int64(userInfo["user_id"])
-
-		info := UserInfo{
-			UserID:   uid,
-			Code:     userInfo["code"],
-			Phone:    userInfo["phone"],
-			Jwt:      userInfo["jwt"],
-			Avator:   userInfo["avator"],
-			Nickname: userInfo["nickname"],
-			Pid:      pid,
-		}
-
+		// 必须通过中间件拿数据
+		// 要么后台的用 casbin
+		// 要么前台的用 member
 		ctl.Permission = 0
-		ctl.UserInfo = info
-		ctl.Token = token
-		ctl.UserID = uid
+		ctl.UserInfo = UserInfo{}
+		ctl.Token = ""
+		ctl.UserID = 0
 	}
 
-	return ctl
+	return
 }
 
-func getHeaders(c *gin.Context, ctl Controller) Controller {
+func (ctl *Controller) getHeaders() {
+	c := ctl.Ctx
 
 	authorization := c.GetHeader("authorization")
 	jwt := strings.TrimPrefix(authorization, "Bearer ")
 
 	ctl.Jwt = jwt
+	ctl.Client = c.GetHeader("client")
 	ctl.ClientID = c.GetHeader("client-id")
 	ctl.AppName = c.GetHeader("app-name")
 	ctl.AppVersion = c.GetHeader("version")
-
-	return ctl
-}
-
-func GetUser(c *gin.Context) (token string, userInfo map[string]string, err error) {
-	authorization := c.GetHeader("authorization")
-	jwt := strings.TrimPrefix(authorization, "Bearer ")
-
-	// fmt.Printf("jwt:%+v\n", jwt)
-
-	if jwt == "" {
-		err = errors.New("ERR_INVALID_TOKEN")
-		return
-	}
-
-	token, err = biz.Jwt2Token(jwt)
-
-	if token == "" || err != nil {
-		err = errors.New("ERR_INVALID_TOKEN")
-		return
-	}
-
-	userInfo = biz.TokenGetUser(token)
-	// fmt.Printf("userInfo:%+v\n", userInfo)
-	return
 }
 
 func (c *Controller) Get(param string) string {
