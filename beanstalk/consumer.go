@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-28 15:39:03
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-02 17:28:48
+ * @Last Modified time: 2019-07-09 16:41:47
  */
 package beanstalk
 
@@ -100,8 +100,8 @@ func (c *Consumer) listen(receiver Receiver) {
 	for {
 		select {
 		case job := <-c.pool.C:
-			logmsg := fmt.Sprintf("收到延时任务 id: %d body: %s\n", job.ID, string(job.Body))
-			log.Info(logmsg)
+			// logmsg := fmt.Sprintf("收到延时任务 id: %d body: %s\n", job.ID, string(job.Body))
+			// log.Info(logmsg)
 
 			ok := receiver.OnReceive(Byte2String(job.Body))
 

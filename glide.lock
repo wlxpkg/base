@@ -1,15 +1,18 @@
-hash: 7fba727d819b6b082a2c752d24ffc44cd2800fdbae162edc649e63ef74a5301f
-updated: 2019-07-01T14:13:01.324847+08:00
+hash: f7ae3c7471428cf515bbf8d5ea8411aa1d0d3db507118e843623f0d0ea359cc0
+updated: 2019-07-09T14:55:10.348895+08:00
 imports:
+- name: github.com/beanstalkd/go-beanstalk
+  version: 390b03b3064ae19363bc8afd4a947ec12ea52bf6
 - name: github.com/buger/jsonparser
   version: bf1c66bbce23153d89b23f8960071a680dbef54b
 - name: github.com/BurntSushi/toml
   version: 3012a1dbe2e4bd1391d42b32f0577cb7bbc7f005
 - name: github.com/casbin/casbin
-  version: 06f40d719334c39a5d3751ca9b1d93c331cef062
+  version: aaed1b7a7eac65d37ec4e15e308429fdf0bd6a9e
   subpackages:
   - config
   - effect
+  - errors
   - log
   - model
   - persist
@@ -76,6 +79,8 @@ imports:
   version: e9ac7caae42f8691e3206753c484406e7d5780ce
 - name: github.com/ql2005/multiconfig
   version: c8ed353c9652b273e8b50b41b1d1c284ac8b137a
+- name: github.com/silenceper/pool
+  version: e6b389d645e39cf78930486d9f0290a77b178592
 - name: github.com/sirupsen/logrus
   version: 839c75faf7f98a33d445d181f3018b5c3409a45e
 - name: github.com/streadway/amqp

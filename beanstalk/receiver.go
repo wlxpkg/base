@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-07-02 15:59:10
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-02 17:25:46
+ * @Last Modified time: 2019-07-09 16:25:08
  */
 package beanstalk
 
@@ -26,16 +26,16 @@ func NewReceiver() *Receive {
 // OnReceive 消息处理, 此处为demo
 func (r *Receive) OnReceive(jsonStr string) bool {
 	R(jsonStr, "收到 beanstalk 消息")
-	json, _ := JsonDecode(jsonStr)
+	// json, _ := JsonDecode(jsonStr)
 
-	topic := json["topic"].(string)
-	R(topic, "topic")
+	// topic := json["topic"].(string)
+	// R(topic, "topic")
 
-	message := json["message"].(map[string]interface{})
-	R(message, "message")
+	// message := json["message"].(map[string]interface{})
+	// R(message, "message")
 
-	msgName := message["name"].(string)
-	R(msgName, "msgName")
+	// msgName := message["name"].(string)
+	// R(msgName, "msgName")
 
 	return true
 }
