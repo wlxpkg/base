@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-18 15:01:17
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-04 19:04:48
+ * @Last Modified time: 2019-07-09 20:38:27
  */
 package middleware
 
@@ -52,6 +52,12 @@ func getUser(c *gin.Context) (token string, userInfo map[string]string, err erro
 	}
 
 	userInfo = biz.TokenGetUser(token)
+	len := len(userInfo)
+
+	if len == 0 {
+		err = errors.New("ERR_INVALID_TOKEN")
+		return
+	}
 	// fmt.Printf("userInfo:%+v\n", userInfo)
 	return
 }
