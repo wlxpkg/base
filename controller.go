@@ -72,7 +72,6 @@ func (ctl *Controller) getLoginInfo() {
 		ctl.Token = middleware.Token
 		ctl.Permission = middleware.Permission
 	}
-	return
 }
 
 func (ctl *Controller) getHeaders() {
