@@ -28,11 +28,11 @@ var Errs = map[string]Errors{
 	"ERR_REDISPOOL_FAIL":     Errors{2104, "redis连接池丢失"},
 	"ERR_IDGEN_FAIL":         Errors{2404, "id生成失败"},
 
-	"ERR_PAY_FUBEI_FAIL": Errors{40000, "支付请求失败"},
+	"ERR_PAY_FUBEI_FAIL": Errors{20000, "支付请求失败"},
 
-	"ERR_VIDEO_NOT_EXIST":        Errors{50000, "视频不存在"},
-	"ERR_VIDEO_EXCEEDED_MAXIMUM": Errors{50001, "翻页总条数超过最大限制"},
-	"ERR_GET_FAIL":               Errors{50002, "获取视频异常"},
+	"ERR_VIDEO_NOT_EXIST":        Errors{25000, "视频不存在"},
+	"ERR_VIDEO_EXCEEDED_MAXIMUM": Errors{25001, "翻页总条数超过最大限制"},
+	"ERR_GET_FAIL":               Errors{25002, "获取视频异常"},
 }
 
 func Excp(errString string) error {
