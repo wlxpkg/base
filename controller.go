@@ -8,13 +8,13 @@ import (
 )
 
 type UserInfo struct {
-	UserID   int64
-	Code     string
-	Phone    string
-	Jwt      string
-	Avator   string
-	Nickname string
-	Pid      int64
+	UserID   int64  `json:"user_id"`
+	Code     string `json:"code"`
+	Phone    string `json:"phone"`
+	Jwt      string `json:"jwt"`
+	Avatar   string `json:"avatar"`
+	Nickname string `json:"nickname"`
+	Pid      int64  `json:"pid"`
 }
 
 type Middleware struct {

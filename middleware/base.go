@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-18 15:01:17
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-09 20:38:27
+ * @Last Modified time: 2019-07-12 14:21:25
  */
 package middleware
 
@@ -76,7 +76,7 @@ func middlewareData(userInfo map[string]string, token string, permission int64) 
 		Code:     userInfo["code"],
 		Phone:    userInfo["phone"],
 		Jwt:      userInfo["jwt"],
-		Avator:   userInfo["avator"],
+		Avatar:   userInfo["avatar"],
 		Nickname: userInfo["nickname"],
 		Pid:      pid,
 	}
