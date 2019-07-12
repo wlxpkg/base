@@ -1,7 +1,6 @@
 package pkg
 
 import (
-	"artifact/shop/internal/pkg"
 	"net/http"
 	"strings"
 
@@ -129,19 +128,9 @@ func (c *Controller) Success(result interface{}) {
 }
 
 func (c *Controller) Error(e error) {
-	var code int
-	var message string
-	selfErrors, ok := pkg.SelfErrs[e.Error()]
+	errors, ok := Errs[e.Error()]
 	if !ok {
-		errors, ok := Errs[e.Error()]
-		if !ok {
-			errors = Errs["ERR_UNKNOW_ERROR"]
-		}
-		code = errors.Code
-		message = errors.Message
-	} else {
-		code = selfErrors.Code
-		message = selfErrors.Message
+		errors = Errs["ERR_UNKNOW_ERROR"]
 	}
 
 	c.Ctx.JSON(http.StatusOK, gin.H{
