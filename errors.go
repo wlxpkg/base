@@ -33,6 +33,13 @@ var Errs = map[string]Errors{
 	"ERR_VIDEO_NOT_EXIST":        Errors{25000, "视频不存在"},
 	"ERR_VIDEO_EXCEEDED_MAXIMUM": Errors{25001, "翻页总条数超过最大限制"},
 	"ERR_GET_FAIL":               Errors{25002, "获取视频异常"},
+
+	"ERR_ORDER_NOT_EXIST":   {21000, "订单不存在"},
+	"ERR_ORDER_ALREADY_PAY": {21001, "订单已经支付"},
+	"ERR_ORDER_TIME_OUT":    {21002, "订单已经超时，请重新下单"},
+
+	"ERR_WALLET_PAY_FAIL": {22000, "钱包支付失败"},
+	"ERR_WALLET_PAY_EXP":  {22001, "钱包数额不正确"},
 }
 
 func Excp(errString string) error {
