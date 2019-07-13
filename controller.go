@@ -8,13 +8,13 @@ import (
 )
 
 type UserInfo struct {
-	UserID   int64
-	Code     string
-	Phone    string
-	Jwt      string
-	Avator   string
-	Nickname string
-	Pid      int64
+	UserID   int64  `json:"user_id"`
+	Code     string `json:"code"`
+	Phone    string `json:"phone"`
+	Jwt      string `json:"jwt"`
+	Avatar   string `json:"avatar"`
+	Nickname string `json:"nickname"`
+	Pid      int64  `json:"pid"`
 }
 
 type Middleware struct {
@@ -44,16 +44,25 @@ func NewController(ctx *gin.Context) (ctl *Controller) {
 	return
 }
 
+// 必须通过中间件拿数据
+// 要么后台的用 casbin
+// 要么前台的用 member
 func (ctl *Controller) getLoginInfo() {
 	c := ctl.Ctx
 
 	path := c.Request.URL.Path
 	routeSli := strings.Split(path, "/")
-	R(routeSli, "routeSli")
+	// R(routeSli, "routeSli")
 
-	// if routeSli[1] == "login" || routeSli[1] == "callback" {
-	// 	return ctl
-	// }
+	// 初始值
+	ctl.Permission = 0
+	ctl.UserInfo = UserInfo{}
+	ctl.Token = ""
+	ctl.UserID = 0
+
+	if routeSli[1] == "login" || routeSli[1] == "callback" {
+		return
+	}
 
 	if m, ok := c.Get("middleware"); ok && m != nil {
 		middleware, _ := m.(Middleware)
@@ -62,17 +71,7 @@ func (ctl *Controller) getLoginInfo() {
 		ctl.UserInfo = middleware.UserInfo
 		ctl.Token = middleware.Token
 		ctl.Permission = middleware.Permission
-	} else {
-		// 必须通过中间件拿数据
-		// 要么后台的用 casbin
-		// 要么前台的用 member
-		ctl.Permission = 0
-		ctl.UserInfo = UserInfo{}
-		ctl.Token = ""
-		ctl.UserID = 0
 	}
-
-	return
 }
 
 func (ctl *Controller) getHeaders() {
