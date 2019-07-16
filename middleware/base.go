@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-18 15:01:17
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-12 14:21:25
+ * @Last Modified time: 2019-07-15 19:50:56
  */
 package middleware
 
@@ -72,13 +72,14 @@ func middlewareData(userInfo map[string]string, token string, permission int64) 
 	pid, _ := String2Int64(p)
 
 	info := UserInfo{
-		UserID:   userID,
-		Code:     userInfo["code"],
-		Phone:    userInfo["phone"],
-		Jwt:      userInfo["jwt"],
-		Avatar:   userInfo["avatar"],
-		Nickname: userInfo["nickname"],
-		Pid:      pid,
+		UserID:     userID,
+		Code:       userInfo["code"],
+		Phone:      userInfo["phone"],
+		Jwt:        userInfo["jwt"],
+		Avatar:     userInfo["avatar"],
+		Nickname:   userInfo["nickname"],
+		OfficialID: userInfo["official_id"],
+		Pid:        pid,
 	}
 
 	middleware := Middleware{

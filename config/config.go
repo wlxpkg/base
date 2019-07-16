@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-05-13 16:01:39
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-04 19:14:11
+ * @Last Modified time: 2019-07-12 19:21:17
  */
 
 package pkg
@@ -101,6 +101,8 @@ type (
 	}
 
 	wechat struct {
+		Id       string
+		Callback string
 	}
 
 	alipay struct {
