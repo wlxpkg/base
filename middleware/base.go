@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-18 15:01:17
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-15 19:50:56
+ * @Last Modified time: 2019-07-19 16:25:31
  */
 package middleware
 
@@ -33,7 +33,7 @@ func Abort(c *gin.Context, e error) {
 	c.Abort()
 }
 
-func getUser(c *gin.Context) (token string, userInfo map[string]string, err error) {
+func getUser(c *gin.Context) (userInfo map[string]string, err error) {
 	authorization := c.GetHeader("authorization")
 	jwt := strings.TrimPrefix(authorization, "Bearer ")
 
@@ -44,14 +44,14 @@ func getUser(c *gin.Context) (token string, userInfo map[string]string, err erro
 		return
 	}
 
-	token, err = biz.Jwt2Token(jwt)
+	user_id, err := biz.Jwt2Token(jwt)
 
-	if token == "" || err != nil {
+	if user_id == "" || err != nil {
 		err = errors.New("ERR_INVALID_TOKEN")
 		return
 	}
 
-	userInfo = biz.TokenGetUser(token)
+	userInfo = biz.TokenGetUser(user_id)
 	len := len(userInfo)
 
 	if len == 0 {
@@ -62,7 +62,7 @@ func getUser(c *gin.Context) (token string, userInfo map[string]string, err erro
 	return
 }
 
-func middlewareData(userInfo map[string]string, token string, permission int64) Middleware {
+func middlewareData(userInfo map[string]string, permission int64) Middleware {
 	// hostname, _ := os.Hostname()
 	// R(userInfo, "userInfo")
 
@@ -84,7 +84,6 @@ func middlewareData(userInfo map[string]string, token string, permission int64) 
 
 	middleware := Middleware{
 		Permission: permission,
-		Token:      token,
 		UserID:     userID,
 		UserInfo:   info,
 	}

@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-17 15:33:04
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-04 19:05:44
+ * @Last Modified time: 2019-07-19 15:13:56
  */
 
 package middleware
@@ -27,7 +27,7 @@ func Casbin() gin.HandlerFunc {
 
 	return func(c *gin.Context) {
 
-		token, userInfo, err := getUser(c)
+		userInfo, err := getUser(c)
 		userID := userInfo["user_id"]
 
 		if err != nil {
@@ -45,7 +45,7 @@ func Casbin() gin.HandlerFunc {
 			return
 		}
 
-		middleware := middlewareData(userInfo, token, 1)
+		middleware := middlewareData(userInfo, 1)
 		// 设置 example 变量
 		c.Set("middleware", middleware)
 

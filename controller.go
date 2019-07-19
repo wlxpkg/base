@@ -70,7 +70,6 @@ func (ctl *Controller) getLoginInfo() {
 		// R(middleware, "middleware")
 		ctl.UserID = middleware.UserID
 		ctl.UserInfo = middleware.UserInfo
-		ctl.Token = middleware.Token
 		ctl.Permission = middleware.Permission
 	}
 }

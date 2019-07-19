@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-17 19:32:28
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-12 14:02:51
+ * @Last Modified time: 2019-07-19 14:40:10
  */
 
 package biz
@@ -23,14 +23,7 @@ type User struct {
 	Pid      string `json:"pid"`
 }
 
-func TokenGetUser(token string) (userInfo map[string]string) {
-	key := "token:" + token
-	var uid string
-	err := cache.Get(key, &uid)
-	if err != nil || uid == "" {
-		return
-	}
-
+func TokenGetUser(uid string) (userInfo map[string]string) {
 	baseKey := "base:" + uid
 	userInfo = cache.HGetAll(baseKey)
 	return
