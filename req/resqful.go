@@ -42,6 +42,7 @@ func (r *Restful) setService() {
 	serverUrl["grant"] = "http://" + config.Grant
 	serverUrl["shop"] = "http://" + config.Shop
 	serverUrl["message"] = "http://" + config.Message
+	serverUrl["game"] = "http://" + config.Game
 
 	r.service = serverUrl
 }
