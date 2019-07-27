@@ -13,6 +13,7 @@ var Errs = map[string]Errors{
 	"SUCCESS":          Errors{1, ""},
 
 	"ERR_PARAM":         Errors{1000, "参数错误"},
+	"ERR_UNLOGIN":       Errors{1001, "请先注册登录"},
 	"ERR_INVALID_TOKEN": Errors{1002, "无效的token"},
 	"ERR_UNAUTHORIZED":  Errors{1004, "您没有权限访问该数据"},
 	"ERR_DATA_DECODE":   Errors{1005, "数据解析失败"},
@@ -34,7 +35,7 @@ var Errs = map[string]Errors{
 	"ERR_VIDEO_EXCEEDED_MAXIMUM": Errors{25001, "翻页总条数超过最大限制"},
 	"ERR_GET_FAIL":               Errors{25002, "获取视频异常"},
 
-	"ERR_ORDER_NOT_EXIST":   {21000, "订单不存在"},
+	"ERR_ORDER_NOT_EXIST":   Errors{21000, "订单不存在"},
 	"ERR_ORDER_ALREADY_PAY": {21001, "订单已经支付"},
 	"ERR_ORDER_TIME_OUT":    {21002, "订单已经超时，请重新下单"},
 

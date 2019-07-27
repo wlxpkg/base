@@ -8,13 +8,14 @@ import (
 )
 
 type UserInfo struct {
-	UserID   int64  `json:"user_id"`
-	Code     string `json:"code"`
-	Phone    string `json:"phone"`
-	Jwt      string `json:"jwt"`
-	Avatar   string `json:"avatar"`
-	Nickname string `json:"nickname"`
-	Pid      int64  `json:"pid"`
+	UserID     int64  `json:"user_id"`
+	Code       string `json:"code"`
+	Phone      string `json:"phone"`
+	Jwt        string `json:"jwt"`
+	Avatar     string `json:"avatar"`
+	Nickname   string `json:"nickname"`
+	Pid        int64  `json:"pid"`
+	OfficialID string `json:"official_id"`
 }
 
 type Middleware struct {
@@ -69,7 +70,6 @@ func (ctl *Controller) getLoginInfo() {
 		// R(middleware, "middleware")
 		ctl.UserID = middleware.UserID
 		ctl.UserInfo = middleware.UserInfo
-		ctl.Token = middleware.Token
 		ctl.Permission = middleware.Permission
 	}
 }

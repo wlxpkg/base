@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-05-13 16:01:39
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-04 19:14:11
+ * @Last Modified time: 2019-07-19 15:20:37
  */
 
 package pkg
@@ -102,6 +102,8 @@ type (
 	}
 
 	wechat struct {
+		Id       string
+		Callback string
 	}
 
 	alipay struct {
@@ -113,6 +115,11 @@ type (
 		Fubei  fubei
 		Wechat wechat
 		Alipay alipay
+	}
+
+	rsa struct {
+		Public  string
+		Private string
 	}
 )
 
@@ -129,6 +136,7 @@ var Config = new(struct {
 	Jwt         jwt
 	Server      server
 	Pay         pay
+	Rsa         rsa
 })
 
 func init() {

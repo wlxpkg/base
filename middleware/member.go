@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-20 16:58:11
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-04 19:09:44
+ * @Last Modified time: 2019-07-19 15:14:10
  */
 package middleware
 
@@ -18,7 +18,7 @@ import (
 func Member() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
-		token, userInfo, err := getUser(c)
+		userInfo, err := getUser(c)
 		userID, _ := String2Int64(userInfo["user_id"])
 
 		if err != nil {
@@ -34,7 +34,7 @@ func Member() gin.HandlerFunc {
 
 		permission := getPermission(c, userID)
 
-		middleware := middlewareData(userInfo, token, permission)
+		middleware := middlewareData(userInfo, permission)
 		// R(middleware, "middleware")
 
 		// 设置 example 变量
