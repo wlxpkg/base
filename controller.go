@@ -1,6 +1,7 @@
 package pkg
 
 import (
+	. "artifact/pkg/config"
 	"net/http"
 	"strings"
 
@@ -88,6 +89,20 @@ func (ctl *Controller) getHeaders() {
 	ctl.AppVersion = c.GetHeader("version")
 }
 
+// CheckSecret 检测 ServiceSecret,
+// 看看是不是内部请求
+func (ctl *Controller) CheckSecret() bool {
+	c := ctl.Ctx
+
+	serviceSecret := c.GetHeader("ServiceSecret")
+
+	if serviceSecret != Config.Service.Secret {
+		return false
+	} else {
+		return true
+	}
+}
+
 func (c *Controller) Get(param string) string {
 	value := c.Ctx.Query(param)
 	return value
@@ -115,7 +130,6 @@ func (c *Controller) Postd(param string, defaultValue string) string {
 // 		c.Error(Errs["ERR_PARAM"])
 // 		return
 // 	}
-
 // 	return
 // }
 

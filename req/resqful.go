@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-25 20:44:57
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-28 18:26:47
+ * @Last Modified time: 2019-07-30 17:16:35
  */
 package req
 
@@ -76,8 +76,15 @@ func (r *Restful) SetData(data map[string]string) *Restful {
 	return r
 }
 
+// SetSecret 内部服务请求设置 ServiceSecret
+func (r *Restful) SetSecret() *Restful {
+	r.client.AddHeader("ServiceSecret", Config.Service.Secret)
+	return r
+}
+
 // Req 发送请求
 func (r *Restful) Req(method string, route string) (data interface{}, err error) {
+	r = r.SetSecret() // 全部调用 SetSecret
 	resp, err := r.client.Request(method, route)
 	// resp := "{\"code\":1,\"message\":\"\",\"data\":{\"user_id\":\"1134660407147180032\",\"avatar\":\"http:\\/\\/thirdwx.qlogo.cn\\/mmopen\\/vi_32\\/Q3auHgzwzM48ybqIC8FzI2xAbkVEY4gsyL8XSSicX1R42woyg7sUEceXJesG1QL9BOH33B26DQsZZGKMsx6r0xA\\/132\",\"nickname\":\"阿Q\",\"jwt\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImp0aSI6Im12T3pAMVU5Qk8ifQ.eyJqdGkiOiJtdk96QDFVOUJPIiwiaWF0IjoxNTYxNzEzNDkyLCJleHAiOjE1NjE3NTY2OTIsImFydGlmYWN0IjoiUHowaVBORm9VNUlhSExtcFpRNHVTNU9PdHVwS2dxY1giLCJ0b2tlbiI6ImI3YTVhMWI5ODMzODBhY2U1ZmIxZjJmNjkwNzk1N2I0In0.eT6O-Y0etAuv1urK5lgsFWWHuM_x9bVr9Wief9uNDDw\"}}"
 

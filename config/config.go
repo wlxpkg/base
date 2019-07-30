@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-05-13 16:01:39
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-19 15:20:37
+ * @Last Modified time: 2019-07-30 15:10:52
  */
 
 package pkg
@@ -95,6 +95,10 @@ type (
 		Game      string
 	}
 
+	service struct {
+		Secret string
+	}
+
 	fubei struct {
 		Url            string
 		AlipayCallback string
@@ -135,6 +139,7 @@ var Config = new(struct {
 	Oss         oss
 	Jwt         jwt
 	Server      server
+	Service     service
 	Pay         pay
 	Rsa         rsa
 })
