@@ -90,7 +90,7 @@ func (ctl *Controller) getHeaders() {
 }
 
 // CheckSecret 检测 ServiceSecret,
-// 看看是不是内部请求
+// 内部服务请调用该方法, false 则异常 ERR_UNAUTHORIZED
 func (ctl *Controller) CheckSecret() bool {
 	c := ctl.Ctx
 
