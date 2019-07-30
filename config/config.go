@@ -92,6 +92,7 @@ type (
 		Grant     string
 		Shop      string
 		Message   string
+		Game      string
 	}
 
 	fubei struct {

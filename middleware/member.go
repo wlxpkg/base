@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-20 16:58:11
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-19 15:14:10
+ * @Last Modified time: 2019-07-30 10:34:34
  */
 package middleware
 
@@ -11,6 +11,7 @@ import (
 	"artifact/pkg/model"
 	"errors"
 	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -34,7 +35,14 @@ func Member() gin.HandlerFunc {
 
 		permission := getPermission(c, userID)
 
-		middleware := middlewareData(userInfo, permission)
+		var flower int64
+		if userInfo["has_flower"] == "1" {
+			flower = -1
+		} else {
+			flower = model.GetFlower(userID)
+		}
+
+		middleware := middlewareData(userInfo, permission, flower)
 		// R(middleware, "middleware")
 
 		// 设置 example 变量
@@ -44,18 +52,17 @@ func Member() gin.HandlerFunc {
 }
 
 // getPermission 检测会员是否有权限
-// <0 有权限无限次数, >0 有权限有限次数, =0 无权限
-func getPermission(c *gin.Context, userID int64) int64 {
+func getPermission(c *gin.Context, userID int64) bool {
 	if userID == 0 {
-		return 0
+		return false
 	}
 	path := c.Request.URL.Path
 	method := c.Request.Method
 
 	route := getRoute(path, method)
 	if route == "" {
-		// 无需鉴权则直接返回 0
-		return 0
+		// 无需鉴权则直接返回 false
+		return false
 	}
 
 	clientID := c.GetHeader("client-id")
@@ -83,21 +90,20 @@ func getRoute(path string, method string) (route string) {
 	return
 }
 
-func checkRole(userID int64, route string, method string, clientID string) (count int64) {
+func checkRole(userID int64, route string, method string, clientID string) (permission bool) {
 	// return 0
 	roleIds := model.GetRoleIds(route, method)
-	count = 0
+	permission = false
 
 	for _, roleId := range roleIds {
-		memberRole := model.MemberRole(userID, roleId, clientID)
+		expireAt := model.MemberRole(userID, roleId, clientID)
 
-		if memberRole == -1 {
-			count = -1
-			return
-		} else if memberRole > 0 {
-			count += memberRole
-		} else {
-			continue
+		if expireAt == "" {
+			return false
+		}
+
+		if String2Unix(expireAt) > time.Now().Unix() {
+			return true
 		}
 	}
 	return

@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-18 15:01:17
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-19 16:25:31
+ * @Last Modified time: 2019-07-30 10:32:46
  */
 package middleware
 
@@ -62,7 +62,7 @@ func getUser(c *gin.Context) (userInfo map[string]string, err error) {
 	return
 }
 
-func middlewareData(userInfo map[string]string, permission int64) Middleware {
+func middlewareData(userInfo map[string]string, permission bool, flower int64) Middleware {
 	// hostname, _ := os.Hostname()
 	// R(userInfo, "userInfo")
 
@@ -71,14 +71,19 @@ func middlewareData(userInfo map[string]string, permission int64) Middleware {
 	p := userInfo["pid"]
 	pid, _ := String2Int64(p)
 
+	hasFlower := false
+	if userInfo["has_flower"] == "1" {
+		hasFlower = true
+	}
+
 	info := UserInfo{
 		UserID:     userID,
 		Code:       userInfo["code"],
 		Phone:      userInfo["phone"],
-		Jwt:        userInfo["jwt"],
 		Avatar:     userInfo["avatar"],
 		Nickname:   userInfo["nickname"],
 		OfficialID: userInfo["official_id"],
+		HasFlower:  hasFlower,
 		Pid:        pid,
 	}
 
@@ -86,6 +91,7 @@ func middlewareData(userInfo map[string]string, permission int64) Middleware {
 		Permission: permission,
 		UserID:     userID,
 		UserInfo:   info,
+		Flower:     flower,
 	}
 
 	return middleware
