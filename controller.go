@@ -11,26 +11,26 @@ type UserInfo struct {
 	UserID     int64  `json:"user_id"`
 	Code       string `json:"code"`
 	Phone      string `json:"phone"`
-	Jwt        string `json:"jwt"`
 	Avatar     string `json:"avatar"`
 	Nickname   string `json:"nickname"`
 	Pid        int64  `json:"pid"`
 	OfficialID string `json:"official_id"`
+	HasFlower  bool   `json:"has_flower"`
 }
 
 type Middleware struct {
-	Permission int64
-	Token      string
+	Permission bool
 	UserID     int64
 	UserInfo   UserInfo
+	Flower     int64
 }
 
 type Controller struct {
 	Ctx        *gin.Context
 	UserID     int64
 	UserInfo   UserInfo
-	Token      string
-	Permission int64
+	Permission bool
+	Flower     int64
 	Jwt        string
 	Client     string
 	ClientID   string
@@ -42,6 +42,7 @@ func NewController(ctx *gin.Context) (ctl *Controller) {
 	ctl = &Controller{Ctx: ctx}
 	ctl.getLoginInfo()
 	ctl.getHeaders()
+
 	return
 }
 
@@ -56,9 +57,8 @@ func (ctl *Controller) getLoginInfo() {
 	// R(routeSli, "routeSli")
 
 	// 初始值
-	ctl.Permission = 0
+	ctl.Permission = false
 	ctl.UserInfo = UserInfo{}
-	ctl.Token = ""
 	ctl.UserID = 0
 
 	if routeSli[1] == "login" || routeSli[1] == "callback" {
@@ -71,6 +71,7 @@ func (ctl *Controller) getLoginInfo() {
 		ctl.UserID = middleware.UserID
 		ctl.UserInfo = middleware.UserInfo
 		ctl.Permission = middleware.Permission
+		ctl.Flower = middleware.Flower
 	}
 }
 
