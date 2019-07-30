@@ -39,6 +39,9 @@ var Errs = map[string]Errors{
 	"ERR_ORDER_ALREADY_PAY": {21001, "订单已经支付"},
 	"ERR_ORDER_TIME_OUT":    {21002, "订单已经超时，请重新下单"},
 
+	"ERR_LINK_APPLY_AGENT_INVALD":        {21101, "申请代理的链接失败"},
+	"ERR_LINK_APPLY_AGENT_ALREADY_AGENT": {21102, "申请代理的用户已经是代理用户"},
+
 	"ERR_WALLET_PAY_FAIL": {22000, "钱包支付失败"},
 	"ERR_WALLET_PAY_EXP":  {22001, "钱包数额不正确"},
 }
