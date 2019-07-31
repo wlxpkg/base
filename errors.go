@@ -43,9 +43,8 @@ var Errs = map[string]Errors{
 	"ERR_LINK_APPLY_AGENT_INVALD":        {21101, "申请代理的链接失败"},
 	"ERR_LINK_APPLY_AGENT_ALREADY_AGENT": {21102, "申请代理的用户已经是代理用户"},
 
-	"ERR_WALLET_PAY_FAIL":       {22000, "钱包支付失败"},
-	"ERR_WALLET_PAY_EXP":        {22001, "钱包数额不正确"},
-	"ERR_INVITE_PAY_NOT_ENOUGH": {220010, "邀请人数不足够"},
+	"ERR_WALLET_PAY_FAIL": {22000, "钱包支付失败"},
+	"ERR_WALLET_PAY_EXP":  {22001, "钱包数额不正确"},
 }
 
 func Excp(errString string) error {
