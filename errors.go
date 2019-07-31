@@ -35,15 +35,17 @@ var Errs = map[string]Errors{
 	"ERR_VIDEO_EXCEEDED_MAXIMUM": Errors{25001, "翻页总条数超过最大限制"},
 	"ERR_GET_FAIL":               Errors{25002, "获取视频异常"},
 
-	"ERR_ORDER_NOT_EXIST":   Errors{21000, "订单不存在"},
-	"ERR_ORDER_ALREADY_PAY": {21001, "订单已经支付"},
-	"ERR_ORDER_TIME_OUT":    {21002, "订单已经超时，请重新下单"},
+	"ERR_ORDER_NOT_EXIST":            Errors{21000, "订单不存在"},
+	"ERR_ORDER_ALREADY_PAY":          {21001, "订单已经支付"},
+	"ERR_ORDER_TIME_OUT":             {21002, "订单已经超时，请重新下单"},
+	"ERR_ORDER_RESET_TYPE_NOT_EXIST": {21003, "重置订单的支付类型不存在"},
 
 	"ERR_LINK_APPLY_AGENT_INVALD":        {21101, "申请代理的链接失败"},
 	"ERR_LINK_APPLY_AGENT_ALREADY_AGENT": {21102, "申请代理的用户已经是代理用户"},
 
-	"ERR_WALLET_PAY_FAIL": {22000, "钱包支付失败"},
-	"ERR_WALLET_PAY_EXP":  {22001, "钱包数额不正确"},
+	"ERR_WALLET_PAY_FAIL":       {22000, "钱包支付失败"},
+	"ERR_WALLET_PAY_EXP":        {22001, "钱包数额不正确"},
+	"ERR_INVITE_PAY_NOT_ENOUGH": {220010, "邀请人数不足够"},
 }
 
 func Excp(errString string) error {
