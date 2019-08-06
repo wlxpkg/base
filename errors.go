@@ -42,8 +42,11 @@ var Errs = map[string]Errors{
 	"ERR_ORDER_ALREADY_CLOSE":     Errors{21001, "订单已经关闭"},
 	"ERR_ORDER_TIME_OUT":          Errors{21006, "订单已经超时，请重新下单"},
 
-	"ERR_LINK_APPLY_AGENT_INVALD":        Errors{21101, "申请代理的链接失败"},
+	"ERR_LINK_APPLY_AGENT_INVALID":       Errors{21101, "申请代理的链接失败"},
 	"ERR_LINK_APPLY_AGENT_ALREADY_AGENT": Errors{21102, "申请代理的用户已经是代理用户"},
+	"ERR_LINK_GROUP_BOOKING_INVALID":     Errors{21103, "拼团已结束"},
+	"ERR_LINK_GROUP_BUYING_INVALID":      Errors{21104, "团购链接已失效"},
+	"GROUP_BOOKING_COMPLETE_FAILED":      Errors{21105, "人数不达标，无法提前完成拼团"},
 
 	"ERR_WALLET_PAY_FAIL": Errors{22000, "钱包支付失败"},
 	"ERR_WALLET_PAY_EXP":  Errors{22001, "钱包数额不正确"},
