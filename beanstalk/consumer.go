@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-28 15:39:03
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-09 16:41:47
+ * @Last Modified time: 2019-08-07 10:19:18
  */
 package beanstalk
 
@@ -51,7 +51,7 @@ func (c *Consumer) run() {
 	var err error
 	urls, options := GetOptions()
 	c.pool, err = bt.NewConsumerPool(urls, []string{c.tube}, options)
-	R(c.pool, "beanstalk消费者 连接成功")
+	R("连接成功", "beanstalk消费者 ")
 	if err != nil {
 		log.Err("Unable to create beanstalk consumer pool: " + err.Error())
 	}
