@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-07-01 17:09:59
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-02 16:16:19
+ * @Last Modified time: 2019-08-07 10:17:59
  */
 package amqp
 
@@ -60,8 +60,7 @@ func (c *Consumer) run() {
 
 	// 获取新的channel对象
 	c.conn, c.channel, _ = Conn()
-	R(c.channel, "AMQP 消费队列 连接成功")
-	// c.channel = config.Global.RabbitMQ.Channel()
+	R("连接成功", "AMQP 消费队列 ")
 
 	// 初始化Exchange
 	_ = PrepareExchange(c.channel)
