@@ -47,6 +47,7 @@ var Errs = map[string]Errors{
 
 	"ERR_WALLET_PAY_FAIL": Errors{22000, "钱包支付失败"},
 	"ERR_WALLET_PAY_EXP":  Errors{22001, "钱包数额不正确"},
+	"ERR_GET_PRICE":       Errors{22003, "获取商品价格失败"},
 	"ERR_PAY_TYPE":        Errors{22002, "支付方式不正确"},
 
 	"ERR_GOODS_EXIST":       Errors{23000, "商品已存在"},

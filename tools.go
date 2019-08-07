@@ -150,7 +150,7 @@ func Byte2String(b []byte) string {
 
 // float64 转 string
 func Float642String(v float64) string {
-	return strconv.FormatFloat(v, 'g', 1, 64)
+	return strconv.FormatFloat(v, 'g', 10, 64)
 }
 
 // Data2Map 将数据转为 map
