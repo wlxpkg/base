@@ -2,13 +2,14 @@
  * @Author: qiuling
  * @Date: 2019-06-28 15:39:03
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-08-07 10:19:18
+ * @Last Modified time: 2019-08-08 18:09:51
  */
 package beanstalk
 
 import (
 	. "artifact/pkg"
 	"artifact/pkg/log"
+	"context"
 	"fmt"
 	"sync"
 	"time"
@@ -49,13 +50,13 @@ func (c *Consumer) Start() {
 
 func (c *Consumer) run() {
 	var err error
-	urls, options := GetOptions()
-	c.pool, err = bt.NewConsumerPool(urls, []string{c.tube}, options)
+	urls, config := GetOptions()
+	c.pool, err = bt.NewConsumerPool(urls, []string{c.tube}, config)
 	R("连接成功", "beanstalk消费者 ")
 	if err != nil {
 		log.Err("Unable to create beanstalk consumer pool: " + err.Error())
 	}
-	// defer c.pool.Stop()
+	defer c.pool.Stop()
 
 	for _, receiver := range c.receivers {
 		c.wg.Add(1)
@@ -70,26 +71,6 @@ func (c *Consumer) run() {
 	// 那么则需要重新连接，这里尝试销毁当前连接
 	defer c.distory()
 
-	/*
-		pool.Play()
-
-		for {
-			select {
-			case job := <-pool.C:
-				logmsg := fmt.Sprintf("收到延时任务 id: %d body: %s\n", job.ID, string(job.Body))
-				log.Info(logmsg)
-
-				ok, err := callback(Byte2String(job.Body))
-
-				if ok && err == nil {
-					_ = job.Delete()
-				} else {
-					logmsg := fmt.Sprintf("回退延时任务 id: %d body: %s\n", job.ID, string(job.Body))
-					log.Warn(logmsg)
-					_ = job.Bury()
-				}
-			}
-		} */
 }
 
 func (c *Consumer) listen(receiver Receiver) {
@@ -97,21 +78,20 @@ func (c *Consumer) listen(receiver Receiver) {
 
 	c.pool.Play()
 
-	for {
-		select {
-		case job := <-c.pool.C:
-			// logmsg := fmt.Sprintf("收到延时任务 id: %d body: %s\n", job.ID, string(job.Body))
-			// log.Info(logmsg)
+	var ctx = context.Background()
 
-			ok := receiver.OnReceive(Byte2String(job.Body))
+	for job := range c.pool.C {
+		// logmsg := fmt.Sprintf("收到延时任务 id: %d body: %s\n", job.ID, string(job.Body))
+		// log.Info(logmsg)
 
-			if ok {
-				_ = job.Delete()
-			} else {
-				logmsg := fmt.Sprintf("回退延时任务 id: %d body: %s\n", job.ID, string(job.Body))
-				log.Warn(logmsg)
-				_ = job.Bury()
-			}
+		ok := receiver.OnReceive(Byte2String(job.Body))
+
+		if ok {
+			_ = job.Delete(ctx)
+		} else {
+			logmsg := fmt.Sprintf("回退延时任务 id: %d body: %s\n", job.ID, string(job.Body))
+			log.Warn(logmsg)
+			_ = job.Bury(ctx)
 		}
 	}
 }

@@ -1,5 +1,5 @@
 hash: f7ae3c7471428cf515bbf8d5ea8411aa1d0d3db507118e843623f0d0ea359cc0
-updated: 2019-07-09T14:55:10.348895+08:00
+updated: 2019-08-09T13:40:24.542271+08:00
 imports:
 - name: github.com/beanstalkd/go-beanstalk
   version: 390b03b3064ae19363bc8afd4a947ec12ea52bf6
@@ -55,6 +55,10 @@ imports:
   - proto
 - name: github.com/Gurpartap/logrus-stack
   version: 89c00d8a28f43c567d92eb81a2945301a6a9fbb9
+- name: github.com/hashicorp/golang-lru
+  version: 7f827b33c0f158ec5dfbba01bb0b14a4541fd81d
+  subpackages:
+  - simplelru
 - name: github.com/jinzhu/gorm
   version: 836fb2c19d84dac7b0272958dfb9af7cf0d0ade4
 - name: github.com/jinzhu/inflection
@@ -76,7 +80,7 @@ imports:
 - name: github.com/pkg/errors
   version: ba968bfe8b2f7e042a574c888954fccecfa385b4
 - name: github.com/prep/beanstalk
-  version: e9ac7caae42f8691e3206753c484406e7d5780ce
+  version: 1fddb009d70319a34f3045c9c8b0e33dca863e3e
 - name: github.com/ql2005/multiconfig
   version: c8ed353c9652b273e8b50b41b1d1c284ac8b137a
 - name: github.com/silenceper/pool
@@ -86,7 +90,7 @@ imports:
 - name: github.com/streadway/amqp
   version: 75d898a42a940fbc854dfd1a4199eabdc00cf024
 - name: github.com/tidwall/gjson
-  version: d7c940e59395fdcaff4584cb442b2e7808f6711e
+  version: c5e72cdf74dff23857243dd662c465b810891c21
 - name: github.com/tidwall/match
   version: 33827db735fff6510490d69a8622612558a557ed
 - name: github.com/tidwall/pretty
@@ -97,6 +101,13 @@ imports:
   version: 1d65431a5776db967ae5481e33b789f9ffcea0ec
   subpackages:
   - codec
+- name: go.opencensus.io
+  version: b4a14686f0a98096416fe1b4cb848e384fb2b22b
+  subpackages:
+  - internal
+  - trace
+  - trace/internal
+  - trace/tracestate
 - name: golang.org/x/sys
   version: 953cdadca894cdc07be76fc99f95b40c28f06623
   subpackages:
