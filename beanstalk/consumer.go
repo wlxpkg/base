@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-28 15:39:03
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-08-08 18:09:51
+ * @Last Modified time: 2019-08-09 14:22:31
  */
 package beanstalk
 
@@ -78,7 +78,7 @@ func (c *Consumer) listen(receiver Receiver) {
 
 	c.pool.Play()
 
-	var ctx = context.Background()
+	ctx := context.Background()
 
 	for job := range c.pool.C {
 		// logmsg := fmt.Sprintf("收到延时任务 id: %d body: %s\n", job.ID, string(job.Body))
