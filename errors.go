@@ -48,10 +48,11 @@ var Errs = map[string]Errors{
 	"ERR_LINK_GROUP_BUYING_INVALID":      Errors{21104, "团购链接已失效"},
 	"GROUP_BOOKING_COMPLETE_FAILED":      Errors{21105, "人数不达标，无法提前完成拼团"},
 
-	"ERR_WALLET_PAY_FAIL": Errors{22000, "钱包支付失败"},
-	"ERR_WALLET_PAY_EXP":  Errors{22001, "钱包数额不正确"},
-	"ERR_GET_PRICE":       Errors{22003, "获取商品价格失败"},
-	"ERR_PAY_TYPE":        Errors{22002, "支付方式不正确"},
+	"ERR_WALLET_PAY_FAIL":        Errors{22000, "钱包支付失败"},
+	"ERR_WALLET_PAY_EXP":         Errors{22001, "钱包数额不正确"},
+	"ERR_GET_PRICE":              Errors{22003, "获取商品价格失败"},
+	"ERR_PAY_TYPE":               Errors{22002, "支付方式不正确"},
+	"ERR_PAY_NOT_SUPPORT_WALLET": Errors{22002, "该笔订单不支持钱包支付"},
 
 	"ERR_GOODS_EXIST":       Errors{23000, "商品已存在"},
 	"ERR_GOODS_NOT_EXIST":   Errors{23001, "商品不存在"},
