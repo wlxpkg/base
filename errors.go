@@ -1,3 +1,10 @@
+/*
+ * @Description:
+ * @Author: maxinyu
+ * @Date: 2019-08-12 16:39:06
+ * @LastEditTime: 2019-08-12 18:16:53
+ * @LastEditors: maxinyu
+ */
 package pkg
 
 import "errors"
@@ -46,7 +53,10 @@ var Errs = map[string]Errors{
 	"ERR_LINK_APPLY_AGENT_ALREADY_AGENT": Errors{21102, "申请代理的用户已经是代理用户"},
 	"ERR_LINK_GROUP_BOOKING_INVALID":     Errors{21103, "拼团已结束"},
 	"ERR_LINK_GROUP_BUYING_INVALID":      Errors{21104, "团购链接已失效"},
-	"GROUP_BOOKING_COMPLETE_FAILED":      Errors{21105, "人数不达标，无法提前完成拼团"},
+	"GROUP_BOOKING_COMPLETE_FAILED":      Errors{21105, "数量不达标，无法提前完成拼团"},
+	"ERR_GROUP_BOOKING_STATUS":           Errors{21106, "拼团状态必须为拼团中"},
+	"ERR_PRE_PRICE_NO_EXIST":             Errors{21107, "预付款价格获取失败"},
+	"ERR_PRE_PRICE_BOOKING_PRICE_ERROR":  Errors{21108, "拼团价格需高于预付款价格"},
 
 	"ERR_WALLET_PAY_FAIL":        Errors{22000, "钱包支付失败"},
 	"ERR_WALLET_PAY_EXP":         Errors{22001, "钱包数额不正确"},
