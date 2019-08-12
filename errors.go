@@ -44,10 +44,10 @@ var Errs = map[string]Errors{
 
 	"ERR_ORDER_NOT_EXIST":         Errors{21000, "订单不存在"},
 	"ERR_ORDER_ALREADY_PAY":       Errors{21001, "订单已经支付"},
-	"ERR_ORDER_ALREADY_REFUNDING": Errors{21001, "订单正在退款中"},
-	"ERR_ORDER_ALREADY_REFUND":    Errors{21001, "订单已经退款"},
-	"ERR_ORDER_ALREADY_CLOSE":     Errors{21001, "订单已经关闭"},
-	"ERR_ORDER_TIME_OUT":          Errors{21006, "订单已经超时，请重新下单"},
+	"ERR_ORDER_ALREADY_REFUNDING": Errors{21002, "订单正在退款中"},
+	"ERR_ORDER_ALREADY_REFUND":    Errors{21003, "订单已经退款"},
+	"ERR_ORDER_ALREADY_CLOSE":     Errors{21004, "订单已经关闭"},
+	"ERR_ORDER_TIME_OUT":          Errors{21005, "订单已经超时，请重新下单"},
 
 	"ERR_LINK_APPLY_AGENT_INVALID":       Errors{21101, "申请代理的链接失败"},
 	"ERR_LINK_APPLY_AGENT_ALREADY_AGENT": Errors{21102, "申请代理的用户已经是代理用户"},
