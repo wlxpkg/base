@@ -58,6 +58,7 @@ var Errs = map[string]Errors{
 	"ERR_PRE_PRICE_NO_EXIST":             Errors{21107, "预付款价格获取失败"},
 	"ERR_PRE_PRICE_BOOKING_PRICE_ERROR":  Errors{21108, "拼团价格需高于预付款价格"},
 	"ERR_BOOKING_PRICE_PRE_PRICE_ERROR":  Errors{21109, "预付款需低于拼团价格价格"},
+	"ERR_GROUP_BOOKING_TAIL_ALREADY_PAY": Errors{21109, "您已经支付过尾款了"},
 
 	"ERR_WALLET_PAY_FAIL":        Errors{22000, "钱包支付失败"},
 	"ERR_WALLET_PAY_EXP":         Errors{22001, "钱包数额不正确"},
