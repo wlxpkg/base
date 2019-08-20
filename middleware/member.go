@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-20 16:58:11
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-30 10:34:34
+ * @Last Modified time: 2019-08-20 10:34:29
  */
 package middleware
 
@@ -28,7 +28,7 @@ func Member() gin.HandlerFunc {
 			return
 		}
 
-		if userID == 0 {
+		if userID == 0 || userID == 403 {
 			c.Set("middleware", &Middleware{})
 			c.Next()
 		}
@@ -53,7 +53,7 @@ func Member() gin.HandlerFunc {
 
 // getPermission 检测会员是否有权限
 func getPermission(c *gin.Context, userID int64) bool {
-	if userID == 0 {
+	if userID == 0 || userID == 403 {
 		return false
 	}
 	path := c.Request.URL.Path
