@@ -1,3 +1,10 @@
+/*
+ * @Description:
+ * @Author: maxinyu
+ * @Date: 2019-08-12 16:39:06
+ * @LastEditTime: 2019-08-13 18:41:08
+ * @LastEditors: maxinyu
+ */
 package pkg
 
 import "errors"
@@ -37,21 +44,27 @@ var Errs = map[string]Errors{
 
 	"ERR_ORDER_NOT_EXIST":         Errors{21000, "订单不存在"},
 	"ERR_ORDER_ALREADY_PAY":       Errors{21001, "订单已经支付"},
-	"ERR_ORDER_ALREADY_REFUNDING": Errors{21001, "订单正在退款中"},
-	"ERR_ORDER_ALREADY_REFUND":    Errors{21001, "订单已经退款"},
-	"ERR_ORDER_ALREADY_CLOSE":     Errors{21001, "订单已经关闭"},
-	"ERR_ORDER_TIME_OUT":          Errors{21006, "订单已经超时，请重新下单"},
+	"ERR_ORDER_ALREADY_REFUNDING": Errors{21002, "订单正在退款中"},
+	"ERR_ORDER_ALREADY_REFUND":    Errors{21003, "订单已经退款"},
+	"ERR_ORDER_ALREADY_CLOSE":     Errors{21004, "订单已经关闭"},
+	"ERR_ORDER_TIME_OUT":          Errors{21005, "订单已经超时，请重新下单"},
 
 	"ERR_LINK_APPLY_AGENT_INVALID":       Errors{21101, "申请代理的链接失败"},
 	"ERR_LINK_APPLY_AGENT_ALREADY_AGENT": Errors{21102, "申请代理的用户已经是代理用户"},
 	"ERR_LINK_GROUP_BOOKING_INVALID":     Errors{21103, "拼团已结束"},
 	"ERR_LINK_GROUP_BUYING_INVALID":      Errors{21104, "团购链接已失效"},
-	"GROUP_BOOKING_COMPLETE_FAILED":      Errors{21105, "人数不达标，无法提前完成拼团"},
+	"GROUP_BOOKING_COMPLETE_FAILED":      Errors{21105, "数量不达标，无法提前完成拼团"},
+	"ERR_GROUP_BOOKING_STATUS":           Errors{21106, "拼团状态必须为拼团中"},
+	"ERR_PRE_PRICE_NO_EXIST":             Errors{21107, "预付款价格获取失败"},
+	"ERR_PRE_PRICE_BOOKING_PRICE_ERROR":  Errors{21108, "拼团价格需高于预付款价格"},
+	"ERR_BOOKING_PRICE_PRE_PRICE_ERROR":  Errors{21109, "预付款需低于拼团价格价格"},
+	"ERR_GROUP_BOOKING_TAIL_ALREADY_PAY": Errors{21109, "您已经支付过尾款了"},
 
-	"ERR_WALLET_PAY_FAIL": Errors{22000, "钱包支付失败"},
-	"ERR_WALLET_PAY_EXP":  Errors{22001, "钱包数额不正确"},
-	"ERR_GET_PRICE":       Errors{22003, "获取商品价格失败"},
-	"ERR_PAY_TYPE":        Errors{22002, "支付方式不正确"},
+	"ERR_WALLET_PAY_FAIL":        Errors{22000, "钱包支付失败"},
+	"ERR_WALLET_PAY_EXP":         Errors{22001, "钱包数额不正确"},
+	"ERR_GET_PRICE":              Errors{22003, "获取商品价格失败"},
+	"ERR_PAY_TYPE":               Errors{22002, "支付方式不正确"},
+	"ERR_PAY_NOT_SUPPORT_WALLET": Errors{22002, "该笔订单不支持钱包支付"},
 
 	"ERR_GOODS_EXIST":       Errors{23000, "商品已存在"},
 	"ERR_GOODS_NOT_EXIST":   Errors{23001, "商品不存在"},
