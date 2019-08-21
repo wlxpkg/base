@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-20 17:10:45
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-30 10:15:24
+ * @Last Modified time: 2019-08-21 12:05:33
  */
 package model
 
@@ -17,6 +17,12 @@ import (
 )
 
 var cache = redis.NewCache().SetPrefix("user")
+
+// GuestRoute 游客路由白名单
+func GuestRoute() []string {
+	key := "guest:route"
+	return cache.SMembers(key)
+}
 
 // MemberRoute 获取需要鉴权的路由
 func MemberRoute() []string {
