@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-18 15:01:17
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-30 10:32:46
+ * @Last Modified time: 2019-08-21 14:28:39
  */
 package middleware
 
@@ -45,6 +45,7 @@ func getUser(c *gin.Context) (userInfo map[string]string, err error) {
 	}
 
 	user_id, err := biz.Jwt2Token(jwt)
+	// fmt.Printf("user_id:%+v\n", user_id)
 
 	if user_id == "" || err != nil {
 		err = errors.New("ERR_INVALID_TOKEN")
