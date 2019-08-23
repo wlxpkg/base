@@ -144,7 +144,7 @@ func (c *Controller) Success(result interface{}) {
 func (c *Controller) Error(e error) {
 	errors, ok := Errs[e.Error()]
 	if !ok {
-		errors = Errs["ERR_UNKNOW_ERROR"]
+		errors = Errors{Code: 0, Message: e.Error()}
 	}
 
 	c.Ctx.JSON(http.StatusOK, gin.H{
