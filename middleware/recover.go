@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-08-22 18:26:18
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-08-23 09:33:05
+ * @Last Modified time: 2019-08-23 11:59:25
  */
 package middleware
 
@@ -41,6 +41,7 @@ func Recover() gin.HandlerFunc {
 					"message": errors.Message,
 					"data":    "",
 				})
+				c.Abort()
 			}
 		}()
 		c.Next()

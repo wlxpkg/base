@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-20 16:58:11
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-08-21 14:27:56
+ * @Last Modified time: 2019-08-23 11:59:51
  */
 package middleware
 
@@ -110,8 +110,10 @@ func getRoute(path string, method string, rtype int) (route string) {
 
 	for _, routes := range allRoute {
 		routeSli := strings.Split(routes, "@")
-		// R(routeSli, "routeSli")
-		// route := matchRoute(path, routeSli[1], method, routeSli[0])
+		if len(routeSli) < 2 {
+			return
+		}
+
 		if KeyMatch(path, routeSli[1]) && method == routeSli[0] {
 			route = routeSli[1]
 			return
