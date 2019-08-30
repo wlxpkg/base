@@ -69,6 +69,7 @@ var Errs = map[string]Errors{
 	"ERR_GOODS_EXIST":       Errors{23000, "商品已存在"},
 	"ERR_GOODS_NOT_EXIST":   Errors{23001, "商品不存在"},
 	"ERR_GOODS_OFF_SHELVES": Errors{23002, "商品已下架"},
+	"ERR_GOODS_LOCK":        Errors{23003, "商品锁定失败"},
 	"ERR_TIME_EXPIRE":       Errors{23004, "时间设置不正确"},
 }
 
