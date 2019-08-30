@@ -48,6 +48,7 @@ var Errs = map[string]Errors{
 	"ERR_ORDER_ALREADY_REFUND":    Errors{21003, "订单已经退款"},
 	"ERR_ORDER_ALREADY_CLOSE":     Errors{21004, "订单已经关闭"},
 	"ERR_ORDER_TIME_OUT":          Errors{21005, "订单已经超时，请重新下单"},
+	"ERR_ORDER_APPLY_AGENT_PRICE": Errors{21006, "订单商品未达到申请代理的价格的数量"},
 
 	"ERR_LINK_APPLY_AGENT_INVALID":       Errors{21101, "申请代理的链接失败"},
 	"ERR_LINK_APPLY_AGENT_ALREADY_AGENT": Errors{21102, "申请代理的用户已经是代理用户"},
@@ -59,6 +60,7 @@ var Errs = map[string]Errors{
 	"ERR_PRE_PRICE_BOOKING_PRICE_ERROR":  Errors{21108, "拼团价格需高于预付款价格"},
 	"ERR_BOOKING_PRICE_PRE_PRICE_ERROR":  Errors{21109, "预付款需低于拼团价格价格"},
 	"ERR_GROUP_BOOKING_TAIL_ALREADY_PAY": Errors{21109, "您已经支付过尾款了"},
+	"ERR_LINK_RETAIL_INVALID":            Errors{21110, "客服链接失效"},
 
 	"ERR_WALLET_PAY_FAIL":        Errors{22000, "钱包支付失败"},
 	"ERR_WALLET_PAY_EXP":         Errors{22001, "钱包数额不正确"},
