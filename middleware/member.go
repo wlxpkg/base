@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-20 16:58:11
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-30 10:34:34
+ * @Last Modified time: 2019-08-24 10:44:47
  */
 package middleware
 
@@ -22,13 +22,21 @@ func Member() gin.HandlerFunc {
 		userInfo, err := getUser(c)
 		userID, _ := String2Int64(userInfo["user_id"])
 
+		// R(userInfo, "userInfo")
 		if err != nil {
 			err = errors.New("ERR_INVALID_TOKEN")
 			Abort(c, err)
 			return
 		}
 
-		if userID == 0 {
+		guestAllow := checkGuest(c, userID)
+		if !guestAllow {
+			err = errors.New("ERR_UNLOGIN")
+			Abort(c, err)
+			return
+		}
+
+		if userID == 0 || userID == 403 {
 			c.Set("middleware", &Middleware{})
 			c.Next()
 		}
@@ -51,15 +59,30 @@ func Member() gin.HandlerFunc {
 	}
 }
 
+func checkGuest(c *gin.Context, userID int64) bool {
+	if userID == 0 || userID == 403 {
+		path := c.Request.URL.Path
+		method := c.Request.Method
+
+		route := getRoute(path, method, 0)
+		if route == "" {
+			// 没匹配到白名单, 则无权限, 需要登录
+			return false
+		}
+	}
+
+	return true
+}
+
 // getPermission 检测会员是否有权限
 func getPermission(c *gin.Context, userID int64) bool {
-	if userID == 0 {
+	if userID == 0 || userID == 403 {
 		return false
 	}
 	path := c.Request.URL.Path
 	method := c.Request.Method
 
-	route := getRoute(path, method)
+	route := getRoute(path, method, 1)
 	if route == "" {
 		// 无需鉴权则直接返回 false
 		return false
@@ -72,18 +95,28 @@ func getPermission(c *gin.Context, userID int64) bool {
 }
 
 // getRoute 获取本次请求匹配的路由
-func getRoute(path string, method string) (route string) {
-	allRoute := model.MemberRoute()
+// rtype 路由类型, 0:guest, 1:member
+func getRoute(path string, method string, rtype int) (route string) {
+
+	var allRoute []string
+	switch rtype {
+	case 0:
+		allRoute = model.GuestRoute()
+	case 1:
+		allRoute = model.MemberRoute()
+	}
 
 	route = ""
 
 	for _, routes := range allRoute {
 		routeSli := strings.Split(routes, "@")
-		// R(routeSli, "routeSli")
-		// route := matchRoute(path, routeSli[1], method, routeSli[0])
+		if len(routeSli) < 2 {
+			continue
+		}
+
 		if KeyMatch(path, routeSli[1]) && method == routeSli[0] {
 			route = routeSli[1]
-			return
+			break
 		}
 	}
 

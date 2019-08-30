@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-04-29 19:32:36
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-04 11:29:27
+ * @Last Modified time: 2019-08-22 15:48:23
  */
 package pkg
 
@@ -150,7 +150,14 @@ func Byte2String(b []byte) string {
 
 // float64 转 string
 func Float642String(v float64) string {
-	return strconv.FormatFloat(v, 'g', 10, 64)
+	return strconv.FormatFloat(v, 'g', 20, 64)
+}
+
+func Bool2Int(b bool) int {
+	if b {
+		return 1
+	}
+	return 0
 }
 
 // Data2Map 将数据转为 map
