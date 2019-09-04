@@ -2,8 +2,8 @@
  * @Description:
  * @Author: maxinyu
  * @Date: 2019-08-12 16:39:06
- * @LastEditTime: 2019-08-13 18:41:08
- * @LastEditors: maxinyu
+ * @LastEditTime: 2019-09-04 16:12:56
+ * @LastEditors: zhaoyabo
  */
 package pkg
 
@@ -36,6 +36,10 @@ var Errs = map[string]Errors{
 	"ERR_REDISPOOL_FAIL":     Errors{2104, "redis连接池丢失"},
 	"ERR_IDGEN_FAIL":         Errors{2404, "id生成失败"},
 
+	"ERR_ALBUM_GROUP_NAME_EMPTY": Errors{15000, "请输入团队名称"},
+	"ERR_ALBUM_GROUP_NOT_EXIST":  Errors{15001, "找不到团队，请核实团队暗号"},
+	"ERR_ALBUM_GROUP_HAS_JOIN":   Errors{15002, "您已加入该团队"},
+
 	"ERR_PAY_FUBEI_FAIL": Errors{20000, "支付请求失败"},
 
 	"ERR_VIDEO_NOT_EXIST":        Errors{25000, "视频不存在"},
@@ -48,6 +52,7 @@ var Errs = map[string]Errors{
 	"ERR_ORDER_ALREADY_REFUND":    Errors{21003, "订单已经退款"},
 	"ERR_ORDER_ALREADY_CLOSE":     Errors{21004, "订单已经关闭"},
 	"ERR_ORDER_TIME_OUT":          Errors{21005, "订单已经超时，请重新下单"},
+	"ERR_ORDER_APPLY_AGENT_PRICE": Errors{21006, "订单商品未达到申请代理的价格的数量"},
 
 	"ERR_LINK_APPLY_AGENT_INVALID":       Errors{21101, "申请代理的链接失败"},
 	"ERR_LINK_APPLY_AGENT_ALREADY_AGENT": Errors{21102, "申请代理的用户已经是代理用户"},
@@ -59,6 +64,7 @@ var Errs = map[string]Errors{
 	"ERR_PRE_PRICE_BOOKING_PRICE_ERROR":  Errors{21108, "拼团价格需高于预付款价格"},
 	"ERR_BOOKING_PRICE_PRE_PRICE_ERROR":  Errors{21109, "预付款需低于拼团价格价格"},
 	"ERR_GROUP_BOOKING_TAIL_ALREADY_PAY": Errors{21109, "您已经支付过尾款了"},
+	"ERR_LINK_RETAIL_INVALID":            Errors{21110, "客服链接失效"},
 
 	"ERR_WALLET_PAY_FAIL":        Errors{22000, "钱包支付失败"},
 	"ERR_WALLET_PAY_EXP":         Errors{22001, "钱包数额不正确"},
@@ -69,6 +75,7 @@ var Errs = map[string]Errors{
 	"ERR_GOODS_EXIST":       Errors{23000, "商品已存在"},
 	"ERR_GOODS_NOT_EXIST":   Errors{23001, "商品不存在"},
 	"ERR_GOODS_OFF_SHELVES": Errors{23002, "商品已下架"},
+	"ERR_GOODS_LOCK":        Errors{23003, "商品锁定失败"},
 	"ERR_TIME_EXPIRE":       Errors{23004, "时间设置不正确"},
 }
 
