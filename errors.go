@@ -2,7 +2,7 @@
  * @Description:
  * @Author: maxinyu
  * @Date: 2019-08-12 16:39:06
- * @LastEditTime: 2019-09-03 15:01:22
+ * @LastEditTime: 2019-09-04 16:12:56
  * @LastEditors: zhaoyabo
  */
 package pkg
@@ -38,6 +38,7 @@ var Errs = map[string]Errors{
 
 	"ERR_ALBUM_GROUP_NAME_EMPTY": Errors{15000, "请输入团队名称"},
 	"ERR_ALBUM_GROUP_NOT_EXIST":  Errors{15001, "找不到团队，请核实团队暗号"},
+	"ERR_ALBUM_GROUP_HAS_JOIN":   Errors{15002, "您已加入该团队"},
 
 	"ERR_PAY_FUBEI_FAIL": Errors{20000, "支付请求失败"},
 
