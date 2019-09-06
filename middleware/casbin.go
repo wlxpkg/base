@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-17 15:33:04
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-09-06 14:30:20
+ * @Last Modified time: 2019-09-06 16:05:13
  */
 
 package middleware
@@ -87,6 +87,10 @@ func addLog(c *gin.Context, adminId string, bodyString string) {
 		// 转
 		bodyData, _ = JsonDecode(bodyString)
 		bodyBytes, _ = JsonEncode(bodyData)
+	}
+
+	if bodyBytes == nil {
+		bodyBytes = []byte("[]")
 	}
 
 	log := model.AdminOperationLog{
