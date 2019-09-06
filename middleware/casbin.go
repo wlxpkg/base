@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-17 15:33:04
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-09-06 14:18:33
+ * @Last Modified time: 2019-09-06 14:30:20
  */
 
 package middleware
@@ -91,7 +91,7 @@ func addLog(c *gin.Context, adminId string, bodyString string) {
 
 	log := model.AdminOperationLog{
 		UserId:  adminId,
-		Path:    path,
+		Path:    "/" + Config.Redis.Prefix + path,
 		Method:  method,
 		Ip:      c.ClientIP(),
 		Request: bodyBytes,
