@@ -2,20 +2,23 @@
  * @Author: qiuling
  * @Date: 2019-06-17 15:33:04
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-30 10:29:14
+ * @Last Modified time: 2019-09-06 16:05:13
  */
 
 package middleware
 
 import (
-	// . "artifact/pkg"
+	. "artifact/pkg"
 	. "artifact/pkg/config"
 	"artifact/pkg/model"
 	"bytes"
 	"errors"
+	"io/ioutil"
+	"strings"
 
 	"github.com/casbin/casbin"
 	"github.com/gin-gonic/gin"
+	"github.com/joncalhoun/qson"
 )
 
 func Casbin() gin.HandlerFunc {
@@ -46,11 +49,60 @@ func Casbin() gin.HandlerFunc {
 		}
 
 		middleware := middlewareData(userInfo, true, 0)
-		// 设置 example 变量
+		// 设置中间件变量
 		c.Set("middleware", middleware)
 
+		// 后置数据准备
+		c.Set("adminid", userID)
+		bodyBytes, _ := ioutil.ReadAll(c.Request.Body)
+		c.Request.Body.Close()                                        //  must close
+		c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(bodyBytes)) // 重新赋值
+
+		// c.Set("bodyCopy", body)
+		// c.Set("dataType", dataType)
+
+		// 执行业务
 		c.Next()
+
+		// 后置中间件
+		if method != "GET" {
+			go addLog(c, userID, string(bodyBytes))
+		}
 	}
+}
+
+func addLog(c *gin.Context, adminId string, bodyString string) {
+	path := c.Request.URL.Path
+	method := c.Request.Method
+
+	// R(bodyString, "bodyString")
+	var bodyBytes []byte
+	var bodyData map[string]interface{}
+
+	contentType := c.ContentType()
+	// R(contentType, "contentType")
+	if strings.Contains(contentType, "form-urlencoded") {
+		bodyBytes, _ = qson.ToJSON(bodyString)
+	} else if strings.Contains(contentType, "json") {
+		// 转
+		bodyData, _ = JsonDecode(bodyString)
+		bodyBytes, _ = JsonEncode(bodyData)
+	}
+
+	if bodyBytes == nil {
+		bodyBytes = []byte("[]")
+	}
+
+	log := model.AdminOperationLog{
+		UserId:  adminId,
+		Path:    "/" + Config.Redis.Prefix + path,
+		Method:  method,
+		Ip:      c.ClientIP(),
+		Request: bodyBytes,
+	}
+	// R(log, "log")
+
+	DB.Debug().Create(&log)
 }
 
 func mysqlLink() string {

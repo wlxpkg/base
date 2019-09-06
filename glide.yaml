@@ -39,6 +39,7 @@ import:
 - package: github.com/silenceper/pool
   version: ^0.1.0
 - package: github.com/beanstalkd/go-beanstalk
+- package: github.com/joncalhoun/qson
 testImport:
 - package: github.com/stretchr/testify
   version: ^1.3.0

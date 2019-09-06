@@ -27,7 +27,7 @@ func newDB() (orm *gorm.DB) {
 	mysqlLink.WriteString("(" + Config.Mysql.Host)
 	mysqlLink.WriteString(":" + Config.Mysql.Port + ")")
 	mysqlLink.WriteString("/" + Config.Mysql.Database)
-	mysqlLink.WriteString("?charset=utf8&parseTime=True&loc=Local&timeout=100ms")
+	mysqlLink.WriteString("?charset=utf8mb4&parseTime=True&loc=Local&timeout=100ms")
 
 	for orm, err = gorm.Open("mysql", mysqlLink.String()); err != nil; {
 		log.Err("mysql connect err: " + err.Error())

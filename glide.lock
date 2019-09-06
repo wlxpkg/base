@@ -1,5 +1,5 @@
-hash: f7ae3c7471428cf515bbf8d5ea8411aa1d0d3db507118e843623f0d0ea359cc0
-updated: 2019-08-09T13:40:24.542271+08:00
+hash: 63266b9036d7d92422415ebf156bff4021e94cf75bba1f8275534c1c63af30b0
+updated: 2019-09-06T14:24:37.981112+08:00
 imports:
 - name: github.com/beanstalkd/go-beanstalk
   version: 390b03b3064ae19363bc8afd4a947ec12ea52bf6
@@ -39,7 +39,7 @@ imports:
   - internal/json
   - render
 - name: github.com/go-redis/redis
-  version: 75795aa4236dc7341eefac3bbe945e68c99ef9df
+  version: 17c058513b3e03c5e23136c18582fdd8ac8a3645
   subpackages:
   - internal
   - internal/consistenthash
@@ -63,6 +63,8 @@ imports:
   version: 836fb2c19d84dac7b0272958dfb9af7cf0d0ade4
 - name: github.com/jinzhu/inflection
   version: 04140366298a54a039076d798123ffa108fff46c
+- name: github.com/joncalhoun/qson
+  version: 8a9cab3a62b1b693e7dfa590a215dc6217552803
 - name: github.com/json-iterator/go
   version: 0ff49de124c6f76f8494e194af75bde0f1a49a29
 - name: github.com/Knetic/govaluate
@@ -130,6 +132,6 @@ testImports:
   subpackages:
   - difflib
 - name: github.com/stretchr/testify
-  version: ffdc059bfe9ce6a4e144ba849dbedead332c6053
+  version: 221dbe5ed46703ee255b1da0dec05086f5035f62
   subpackages:
   - assert
