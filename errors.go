@@ -65,8 +65,10 @@ var Errs = map[string]Errors{
 	"ERR_PRE_PRICE_NO_EXIST":             Errors{21107, "预付款价格获取失败"},
 	"ERR_PRE_PRICE_BOOKING_PRICE_ERROR":  Errors{21108, "拼团价格需高于预付款价格"},
 	"ERR_BOOKING_PRICE_PRE_PRICE_ERROR":  Errors{21109, "预付款需低于拼团价格价格"},
-	"ERR_GROUP_BOOKING_TAIL_ALREADY_PAY": Errors{21109, "您已经支付过尾款了"},
 	"ERR_LINK_RETAIL_INVALID":            Errors{21110, "客服链接失效"},
+	"ERR_GROUP_NAME_EXIST":               Errors{21111, "团队名称已存在"},
+	"ERR_GROUP_BOOKING_TAIL_ALREADY_PAY": Errors{21112, "您已经支付过尾款了"},
+	"ERR_GROUP_LINK_EXISTED":             Errors{21113, "当前团队已经有团购进行中, 请勿重复创建"},
 
 	"ERR_WALLET_PAY_FAIL":        Errors{22000, "钱包支付失败"},
 	"ERR_WALLET_PAY_EXP":         Errors{22001, "钱包数额不正确"},
