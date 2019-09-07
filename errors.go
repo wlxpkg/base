@@ -69,6 +69,7 @@ var Errs = map[string]Errors{
 	"ERR_GROUP_NAME_EXIST":               Errors{21111, "团队名称已存在"},
 	"ERR_GROUP_BOOKING_TAIL_ALREADY_PAY": Errors{21112, "您已经支付过尾款了"},
 	"ERR_GROUP_LINK_EXISTED":             Errors{21113, "当前团队已经有团购进行中, 请勿重复创建"},
+	"ERR_GROUP_BUY_EXCEED_NUM":           Errors{21114, "当前团队已超过购买数量"},
 
 	"ERR_WALLET_PAY_FAIL":        Errors{22000, "钱包支付失败"},
 	"ERR_WALLET_PAY_EXP":         Errors{22001, "钱包数额不正确"},
