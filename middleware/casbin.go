@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-17 15:33:04
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-09-06 16:05:13
+ * @Last Modified time: 2019-09-10 11:10:09
  */
 
 package middleware
@@ -23,8 +23,27 @@ import (
 
 func Casbin() gin.HandlerFunc {
 
+	text :=
+		`
+	[request_definition]
+	r = sub, obj, act
+
+	[policy_definition]
+	p = sub, obj, act, eft
+
+	[role_definition]
+	g = _, _
+
+	[policy_effect]
+	e = some(where (p.eft == allow)) && !some(where (p.eft == deny))
+
+	[matchers]
+	m = g(r.sub, p.sub) && keyMatch2(r.obj, p.obj) && regexMatch(r.act, p.act)
+	`
+	m := casbin.NewModel(text)
+
 	a := model.NewAdapter("mysql", mysqlLink(), true)
-	e := casbin.NewEnforcer("../vendor/artifact/pkg/middleware/lauthz-rbac-model.conf", a)
+	e := casbin.NewEnforcer(m, a)
 	_ = e.LoadPolicy()
 	// fmt.Printf("LoadPolicy ERR: %+v\n", err)
 
