@@ -2,14 +2,16 @@
  * @Author: qiuling
  * @Date: 2019-06-20 16:58:11
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-08-24 10:44:47
+ * @Last Modified time: 2019-09-10 15:00:45
  */
 package middleware
 
 import (
 	. "artifact/pkg"
 	"artifact/pkg/model"
+	"bytes"
 	"errors"
+	"io/ioutil"
 	"strings"
 	"time"
 
@@ -18,6 +20,13 @@ import (
 
 func Member() gin.HandlerFunc {
 	return func(c *gin.Context) {
+
+		// 后置数据准备
+		bodyBytes, _ := ioutil.ReadAll(c.Request.Body)
+		c.Request.Body.Close()                                        //  must close
+		c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(bodyBytes)) // 重新赋值
+
+		c.Set("bodyCopy", string(bodyBytes))
 
 		userInfo, err := getUser(c)
 		userID, _ := String2Int64(userInfo["user_id"])

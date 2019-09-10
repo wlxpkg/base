@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-17 15:33:04
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-09-10 11:10:09
+ * @Last Modified time: 2019-09-10 15:00:32
  */
 
 package middleware
@@ -49,6 +49,10 @@ func Casbin() gin.HandlerFunc {
 
 	return func(c *gin.Context) {
 
+		bodyBytes, _ := ioutil.ReadAll(c.Request.Body)
+		c.Request.Body.Close()                                        //  must close
+		c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(bodyBytes)) // 重新赋值
+
 		userInfo, err := getUser(c)
 		userID := userInfo["user_id"]
 
@@ -73,11 +77,7 @@ func Casbin() gin.HandlerFunc {
 
 		// 后置数据准备
 		c.Set("adminid", userID)
-		bodyBytes, _ := ioutil.ReadAll(c.Request.Body)
-		c.Request.Body.Close()                                        //  must close
-		c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(bodyBytes)) // 重新赋值
-
-		// c.Set("bodyCopy", body)
+		c.Set("bodyCopy", string(bodyBytes))
 		// c.Set("dataType", dataType)
 
 		// 执行业务
