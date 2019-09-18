@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-04-29 19:32:36
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-08-22 15:48:23
+ * @Last Modified time: 2019-09-18 11:10:55
  */
 package pkg
 
@@ -149,8 +149,8 @@ func Byte2String(b []byte) string {
 }
 
 // float64 转 string
-func Float642String(v float64) string {
-	return strconv.FormatFloat(v, 'g', 20, 64)
+func Float642String(v float64, p int) string {
+	return strconv.FormatFloat(v, 'f', p, 64)
 }
 
 func Bool2Int(b bool) int {

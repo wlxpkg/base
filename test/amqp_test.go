@@ -2,13 +2,14 @@
  * @Author: qiuling
  * @Date: 2019-07-01 17:12:05
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-02 15:18:27
+ * @Last Modified time: 2019-09-17 16:37:37
  */
 package test
 
 import (
 	. "artifact/pkg"
 	"artifact/pkg/amqp"
+	"artifact/pkg/log"
 	"testing"
 	"time"
 )
@@ -40,7 +41,8 @@ func amqpPublish(pub *amqp.Producer) {
 	err := pub.Publish("/test/publist", data)
 
 	if err != nil {
-		R("发送失败", "")
+		log.Warn(err)
+		R("", "发送失败")
 	} else {
 		R("发送成功", "")
 	}
