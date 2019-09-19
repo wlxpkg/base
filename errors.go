@@ -15,9 +15,10 @@ type Errors struct {
 }
 
 var Errs = map[string]Errors{
-	"ERR_UNKNOW_ERROR": Errors{0, "未知系统错误"},
-	"ERR_NOERROR":      Errors{1, ""},
-	"SUCCESS":          Errors{1, ""},
+	"ERR_UNKNOW_ERROR":     Errors{0, "未知系统错误"},
+	"ERR_NOERROR":          Errors{1, ""},
+	"SUCCESS":              Errors{1, ""},
+	"ERR_TOO_MANY_REQUEST": Errors{429, "操作过于频繁, 请稍候再试"},
 
 	"ERR_PARAM":         Errors{1000, "参数错误"},
 	"ERR_UNLOGIN":       Errors{1001, "请先注册登录"},

@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-05-13 16:01:39
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-30 15:10:52
+ * @Last Modified time: 2019-09-19 11:42:31
  */
 
 package pkg
@@ -17,6 +17,14 @@ import (
 
 type (
 	redis struct {
+		Host     string `default:"192.168.3.3"`
+		Port     string `default:"6379"`
+		Select   int    `default:"0"`
+		Password string
+		Prefix   string
+	}
+
+	rateRedis struct {
 		Host     string `default:"192.168.3.3"`
 		Port     string `default:"6379"`
 		Select   int    `default:"0"`
@@ -125,11 +133,18 @@ type (
 		Public  string
 		Private string
 	}
+
+	rate struct {
+		Whitelist []string
+		LongTime  []string
+		ShortTime []string
+	}
 )
 
 var Config = new(struct {
 	Port        string `default:"8000"`
 	Redis       redis
+	RateRedis   rateRedis
 	Mysql       mysql
 	Mongo       mongo
 	Idgenerator idgenerator
@@ -142,6 +157,7 @@ var Config = new(struct {
 	Service     service
 	Pay         pay
 	Rsa         rsa
+	Rate        rate
 })
 
 func init() {

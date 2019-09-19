@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-04-29 19:32:36
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-09-18 11:10:55
+ * @Last Modified time: 2019-09-19 10:38:33
  */
 package pkg
 
@@ -209,4 +209,13 @@ func JsonDecode(data string) (result map[string]interface{}, err error) {
 		return
 	}
 	return
+}
+
+func InArray(val string, array []string) bool {
+	for _, v := range array {
+		if val == v {
+			return true
+		}
+	}
+	return false
 }
