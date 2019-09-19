@@ -3,7 +3,7 @@
  * @Author: qiuling
  * @Date: 2019-09-18 16:16:34
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-09-19 11:45:33
+ * @Last Modified time: 2019-09-19 15:55:54
  */
 
 package middleware
@@ -23,11 +23,13 @@ func Rate() gin.HandlerFunc {
 		jwt := strings.TrimPrefix(authorization, "Bearer ")
 		path := c.Request.URL.Path
 
-		check := model.RateCheck(jwt, path)
-		if !check {
-			err := Excp("ERR_TOO_MANY_REQUEST")
-			Abort(c, err)
-			return
+		if jwt != "" {
+			check := model.RateCheck(jwt, path)
+			if !check {
+				err := Excp("ERR_TOO_MANY_REQUEST")
+				Abort(c, err)
+				return
+			}
 		}
 	}
 }
