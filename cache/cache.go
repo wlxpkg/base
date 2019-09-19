@@ -74,7 +74,7 @@ func (c *Cache) MapData(data interface{}) map[string]interface{} {
 
 	err := json.Unmarshal(j, &mdata)
 	if err != nil {
-		log.Warn(err)
+		log.Err(err)
 		return mdata
 	}
 	return mdata
@@ -87,13 +87,13 @@ func (c *Cache) MapData(data interface{}) map[string]interface{} {
 func (c *Cache) Set(key string, value interface{}, ttl int) {
 	val, err := json.Marshal(value)
 	if err != nil {
-		log.Warn(err)
+		log.Err(err)
 		return
 	}
 	key = c.prefixKey(key)
 	err = clients[c.db].Set(key, string(val), time.Duration(ttl)*time.Second).Err()
 	if err != nil {
-		log.Warn(err)
+		log.Err(err)
 		return
 	}
 }
@@ -105,7 +105,7 @@ func (c *Cache) Get(key string, structs interface{}) (err error) {
 	value, err := clients[c.db].Get(key).Result()
 	if err != nil {
 		if err != redis.Nil {
-			log.Warn(err)
+			log.Err(err)
 		}
 		return
 	}
@@ -114,7 +114,7 @@ func (c *Cache) Get(key string, structs interface{}) (err error) {
 	err = json.Unmarshal(str, &structs)
 	if err != nil {
 		fmt.Printf("err2: \n%#v\n", err)
-		log.Warn(err)
+		log.Err(err)
 		return
 	}
 	return
@@ -125,7 +125,7 @@ func (c *Cache) Del(key string) {
 	key = c.prefixKey(key)
 	err := clients[c.db].Del(key).Err()
 	if err != nil {
-		log.Warn(err)
+		log.Err(err)
 		return
 	}
 }
@@ -137,7 +137,7 @@ func (c *Cache) Exists(key string) (isExists bool) {
 	// R(value, "Exists value")
 
 	if err != nil {
-		log.Warn(err)
+		log.Err(err)
 		return false
 	}
 
@@ -152,7 +152,7 @@ func (c *Cache) Expire(key string, ttl int) {
 	key = c.prefixKey(key)
 	err := clients[c.db].Expire(key, time.Duration(ttl)*time.Second).Err()
 	if err != nil {
-		log.Warn(err)
+		log.Err(err)
 		return
 	}
 }
@@ -164,7 +164,7 @@ func (c *Cache) HSet(key string, field string, value interface{}) {
 	key = c.prefixKey(key)
 	err := clients[c.db].HSet(key, field, value).Err()
 	if err != nil {
-		log.Warn(err)
+		log.Err(err)
 		return
 	}
 }
@@ -176,7 +176,7 @@ func (c *Cache) HMSet(key string, data interface{}) {
 	key = c.prefixKey(key)
 	err := clients[c.db].HMSet(key, value).Err()
 	if err != nil {
-		log.Warn(err)
+		log.Err(err)
 		return
 	}
 }
@@ -187,7 +187,7 @@ func (c *Cache) HGet(key string, field string) (value string) {
 	// R(value, "Exists value")
 
 	if err != nil {
-		log.Warn(err)
+		log.Err(err)
 		return
 	}
 	return
@@ -197,7 +197,7 @@ func (c *Cache) HDel(key string, field string) {
 	key = c.prefixKey(key)
 	err := clients[c.db].HDel(key, field).Err()
 	if err != nil {
-		log.Warn(err)
+		log.Err(err)
 		return
 	}
 }
@@ -207,7 +207,7 @@ func (c *Cache) HGetAll(key string) (value map[string]string) {
 	value, err := clients[c.db].HGetAll(key).Result()
 
 	if err != nil {
-		log.Warn(err)
+		log.Err(err)
 		return
 	}
 	return
@@ -220,7 +220,7 @@ func (c *Cache) SMembers(key string) (value []string) {
 	value, err := clients[c.db].SMembers(key).Result()
 
 	if err != nil {
-		log.Warn(err)
+		log.Err(err)
 		return
 	}
 	return
