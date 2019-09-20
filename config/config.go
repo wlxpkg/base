@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-05-13 16:01:39
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-09-19 11:42:31
+ * @Last Modified time: 2019-09-19 17:48:31
  */
 
 package pkg
@@ -136,6 +136,7 @@ type (
 
 	rate struct {
 		Whitelist []string
+		Blacklist []string
 		LongTime  []string
 		ShortTime []string
 	}
