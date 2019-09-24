@@ -201,6 +201,29 @@ func (c *Cache) DecrBy(key string, decr int64) {
 
 /**************************  Hash  ********************************/
 
+// HExists hash 是否存在 field 字段
+func (c *Cache) HExists(key, field string) (isExists bool) {
+	key = c.prefixKey(key)
+	isExists, err := clients[c.db].HExists(key, field).Result()
+
+	if err != nil {
+		log.Err(err)
+		isExists = false
+		return
+	}
+	return
+}
+
+// HIncrBy hash incrBy
+func (c *Cache) HIncrBy(key, field string, incr int64) {
+	key = c.prefixKey(key)
+	err := clients[c.db].HIncrBy(key, field, incr).Err()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+}
+
 // HSet hash
 func (c *Cache) HSet(key string, field string, value interface{}) {
 	key = c.prefixKey(key)

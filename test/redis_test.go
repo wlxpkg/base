@@ -144,3 +144,30 @@ func TestDectBy(t *testing.T) {
 		assert.Empty(t, err, "err nil")
 	})
 }
+
+func TestHExists(t *testing.T) {
+	key := "test:hexists"
+	cache.Del(key)
+	field := "foo"
+	hValue := "bar"
+
+	cache.HSet(key, field, hValue)
+	cache.Expire(key, 100)
+	exists := cache.HExists(key, field)
+	t.Run("run hexists success", func(t *testing.T) {
+		assert.Equal(t, true, exists, "HExists cmd")
+	})
+}
+
+func TestHIncr(t *testing.T) {
+	key := "test:hincr"
+	cache.Del(key)
+	field := "foo"
+
+	cache.HIncrBy(key, field, 2)
+
+	result := cache.HGet(key, field)
+	t.Run("run hexists success", func(t *testing.T) {
+		assert.Equal(t, "2", result, "HIncrBy cmd")
+	})
+}
