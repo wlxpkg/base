@@ -157,9 +157,51 @@ func (c *Cache) Expire(key string, ttl int) {
 	}
 }
 
+/**************************  Incr  Decr ********************************/
+
+// Incr 执行 INCR cmd
+func (c *Cache) Incr(key string) {
+	key = c.prefixKey(key)
+	err := clients[c.db].Incr(key).Err()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+}
+
+// IncrBy 执行 INCRBY cmd
+func (c *Cache) IncrBy(key string, incr int64) {
+	key = c.prefixKey(key)
+	err := clients[c.db].IncrBy(key, incr).Err()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+}
+
+// Decr 执行 DECR cmd
+func (c *Cache) Decr(key string) {
+	key = c.prefixKey(key)
+	err := clients[c.db].Decr(key).Err()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+}
+
+// DecrBy 执行 DECRBY cmd
+func (c *Cache) DecrBy(key string, decr int64) {
+	key = c.prefixKey(key)
+	err := clients[c.db].DecrBy(key, decr).Err()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+}
+
 /**************************  Hash  ********************************/
 
-// HSet
+// HSet hash
 func (c *Cache) HSet(key string, field string, value interface{}) {
 	key = c.prefixKey(key)
 	err := clients[c.db].HSet(key, field, value).Err()

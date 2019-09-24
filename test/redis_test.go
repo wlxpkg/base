@@ -93,3 +93,54 @@ func TestIdgen(t *testing.T) {
 	ids, _ := redis.Batchid(10)
 	R(ids, "Batchid")
 }
+
+func TestIncr(t *testing.T) {
+	key := "test:incr"
+	cache.Del(key)
+	cache.Incr(key)
+	var incr int
+	err := cache.Get(key, &incr)
+	cache.Del(key)
+	assert.Equal(t, 1, incr, "incr cmd")
+	assert.Empty(t, err, "err nil")
+}
+
+func TestDecr(t *testing.T) {
+	key := "test:decr"
+	cache.Del(key)
+	cache.Incr(key)
+	var decr int
+	err := cache.Get(key, &decr)
+	cache.Del(key)
+	assert.Equal(t, 1, decr, "decr cmd")
+	assert.Empty(t, err, "err nil")
+}
+
+func TestIncrBy(t *testing.T) {
+	key := "test:incrBy"
+	cache.Del(key)
+	cache.IncrBy(key, 500)
+	var incr int
+	err := cache.Get(key, &incr)
+	cache.Del(key)
+	assert.Equal(t, 500, incr, "incrBy cmd")
+	assert.Empty(t, err, "err nil")
+}
+
+func TestDectBy(t *testing.T) {
+	key := "test:decrBy"
+	cache.Del(key)
+	cache.DecrBy(key, 500)
+	var decr int
+	err := cache.Get(key, &decr)
+	cache.Del(key)
+	t.Run("run decrBy success", func(t *testing.T) {
+		assert.Equal(t, -500, decr, "decrBy cmd")
+		assert.Empty(t, err, "err nil")
+	})
+
+	t.Run("run decrBy failed", func(t *testing.T) {
+		assert.Equal(t, -100, decr, "decrBy cmd")
+		assert.Empty(t, err, "err nil")
+	})
+}
