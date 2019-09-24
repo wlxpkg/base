@@ -14,6 +14,10 @@ var DB *gorm.DB
 
 func init() {
 	DB = newDB()
+
+	if Config.Mysql.Dump == "true" {
+		DB.LogMode(true)
+	}
 }
 
 func newDB() (orm *gorm.DB) {

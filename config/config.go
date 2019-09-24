@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-05-13 16:01:39
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-09-19 17:48:31
+ * @Last Modified time: 2019-09-24 10:54:25
  */
 
 package pkg
@@ -38,6 +38,7 @@ type (
 		Database string
 		Username string
 		Password string
+		Dump     string `default:"false"`
 	}
 
 	mongo struct {
