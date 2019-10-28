@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-17 15:33:04
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-09-10 15:00:32
+ * @Last Modified time: 2019-10-28 17:29:12
  */
 
 package middleware
@@ -121,7 +121,7 @@ func addLog(c *gin.Context, adminId string, bodyString string) {
 	}
 	// R(log, "log")
 
-	DB.Debug().Create(&log)
+	DB.Create(&log)
 }
 
 func mysqlLink() string {
