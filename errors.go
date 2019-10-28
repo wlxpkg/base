@@ -42,11 +42,14 @@ var Errs = map[string]Errors{
 	"ERR_ALBUM_GROUP_HAS_JOIN":          Errors{15002, "您已加入该团队"},
 	"ERR_ALBUM_GROUP_CREATE_OVER_LIMIT": Errors{15003, "您创建的团队已达上限"},
 	"ERR_ALBUM_GROUP_JOIN_OVER_LIMIT":   Errors{15004, "您加入的团队已达上限"},
+	"ERR_ALBUM_GROUP_PASSCODE_EXIST":    Errors{15005, "该暗号已存在"},
 
-	"ERR_MATERAL_CANNOT_PUSH":   Errors{16000, "非发布者无法发布"},
-	"ERR_MATERAL_NOT_EXIST":     Errors{16001, "素材不存在"},
-	"ERR_MATERAL_CANNOT_DELETE": Errors{16002, "无权删除"},
-	"ERR_MATERAL_CANNOT_TOP":    Errors{16003, "无权置顶"},
+	"ERR_MATERIAL_CANNOT_PUSH":      Errors{16000, "非发布者无法发布"},
+	"ERR_MATERIAL_NOT_EXIST":        Errors{16001, "素材不存在"},
+	"ERR_MATERIAL_CANNOT_DELETE":    Errors{16002, "无权删除"},
+	"ERR_MATERIAL_CANNOT_TOP":       Errors{16003, "无权置顶"},
+	"ERR_MATERIAL_PUBLISH_FAILED":   Errors{16004, "发布失败"},
+	"ERR_MATERIAL_PETAL_NOT_ENOUGH": Errors{16005, "花瓣不足，发布失败"},
 
 	"ERR_PAY_FUBEI_FAIL": Errors{20000, "支付请求失败"},
 
