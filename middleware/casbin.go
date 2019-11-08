@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-17 15:33:04
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-10-28 17:29:12
+ * @Last Modified time: 2019-11-08 17:47:24
  */
 
 package middleware
@@ -16,7 +16,7 @@ import (
 	"io/ioutil"
 	"strings"
 
-	"github.com/casbin/casbin"
+	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
 	"github.com/joncalhoun/qson"
 )
