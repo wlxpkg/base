@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-17 15:33:04
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-11-08 17:47:24
+ * @Last Modified time: 2019-11-08 18:50:53
  */
 
 package middleware
@@ -17,6 +17,7 @@ import (
 	"strings"
 
 	"github.com/casbin/casbin/v2"
+	casbinModel "github.com/casbin/casbin/v2/model"
 	"github.com/gin-gonic/gin"
 	"github.com/joncalhoun/qson"
 )
@@ -40,10 +41,10 @@ func Casbin() gin.HandlerFunc {
 	[matchers]
 	m = g(r.sub, p.sub) && keyMatch2(r.obj, p.obj) && regexMatch(r.act, p.act)
 	`
-	m := casbin.NewModel(text)
+	m, _ := casbinModel.NewModelFromString(text)
 
-	a := model.NewAdapter("mysql", mysqlLink(), true)
-	e := casbin.NewEnforcer(m, a)
+	a, _ := model.NewAdapter("mysql", mysqlLink())
+	e, _ := casbin.NewEnforcer(m, a)
 	_ = e.LoadPolicy()
 	// fmt.Printf("LoadPolicy ERR: %+v\n", err)
 
@@ -65,7 +66,7 @@ func Casbin() gin.HandlerFunc {
 		method := c.Request.Method
 		path := c.Request.URL.Path
 
-		if !e.Enforce(userID, path, method) {
+		if ok, _ := e.Enforce(userID, path, method); !ok {
 			err = errors.New("ERR_UNAUTHORIZED")
 			Abort(c, err)
 			return
