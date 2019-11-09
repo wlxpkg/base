@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-18 18:55:48
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-11-09 11:09:49
+ * @Last Modified time: 2019-11-09 11:10:22
  */
 // Copyright 2017 The casbin Authors. All Rights Reserved.
 //
@@ -150,10 +150,10 @@ func (a *Adapter) open() {
 	a.createTable()
 }
 
-func (a *Adapter) close() {
+/* func (a *Adapter) close() {
 	a.db.Close()
 	a.db = nil
-}
+} */
 
 func (a *Adapter) createTable() {
 	if a.db.HasTable(&CasbinRule{}) {
