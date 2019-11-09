@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-17 15:33:04
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-11-09 12:01:12
+ * @Last Modified time: 2019-11-09 14:19:23
  */
 
 package middleware
@@ -28,29 +28,28 @@ var timerTicker *time.Ticker
 func init() {
 	text :=
 		`
-	[request_definition]
-	r = sub, obj, act
+	 [request_definition]
+	 r = sub, obj, act
 
-	[policy_definition]
-	p = sub, obj, act, eft
+	 [policy_definition]
+	 p = sub, obj, act, eft
 
-	[role_definition]
-	g = _, _
+	 [role_definition]
+	 g = _, _
 
-	[policy_effect]
-	e = some(where (p.eft == allow)) && !some(where (p.eft == deny))
+	 [policy_effect]
+	 e = some(where (p.eft == allow)) && !some(where (p.eft == deny))
 
-	[matchers]
-	m = g(r.sub, p.sub) && keyMatch2(r.obj, p.obj) && regexMatch(r.act, p.act)
-	`
+	 [matchers]
+	 m = g(r.sub, p.sub) && keyMatch2(r.obj, p.obj) && regexMatch(r.act, p.act)
+	 `
 	m := casbin.NewModel(text)
 
 	a := model.NewAdapter("mysql", mysqlLink(), true)
-	e := casbin.NewEnforcer(m, a)
+	e = casbin.NewEnforcer(m, a)
 	_ = e.LoadPolicy()
 
-	timeRefresh()
-	// fmt.Printf("LoadPolicy ERR: %+v\n", err)
+	go timeRefresh()
 }
 
 func Casbin() gin.HandlerFunc {
@@ -151,10 +150,16 @@ func timeRefresh() {
 	timerTicker = time.NewTicker(10 * time.Minute) // 10分钟 定时器
 	defer timerTicker.Stop()
 
-	go func() {
-		for range timerTicker.C {
-			_ = e.LoadPolicy()
-			R("", "casbin load data")
-		}
-	}()
+	/* for {
+		 select {
+
+		 case <-timerTicker.C:
+			 R("", "2222222")
+			 _ = e.LoadPolicy()
+		 }
+	 } */
+
+	for range timerTicker.C {
+		_ = e.LoadPolicy()
+	}
 }
