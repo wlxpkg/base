@@ -9,7 +9,6 @@ require (
 	github.com/beanstalkd/go-beanstalk v0.0.0-20190515041346-390b03b3064a
 	github.com/buger/jsonparser v0.0.0-20181115193947-bf1c66bbce23
 	github.com/casbin/casbin v1.9.1
-	github.com/casbin/casbin/v2 v2.1.0
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/facebookgo/stack v0.0.0-20160209184415-751773369052
 	github.com/fatih/camelcase v1.0.0
