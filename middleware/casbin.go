@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-17 15:33:04
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-11-09 11:09:24
+ * @Last Modified time: 2019-11-09 12:01:12
  */
 
 package middleware
@@ -73,7 +73,7 @@ func Casbin() gin.HandlerFunc {
 		method := c.Request.Method
 		path := c.Request.URL.Path
 
-		if ok, _ := e.Enforce(userID, path, method); !ok {
+		if !e.Enforce(userID, path, method) {
 			err = errors.New("ERR_UNAUTHORIZED")
 			Abort(c, err)
 			return
