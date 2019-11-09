@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-28 15:38:14
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-09 16:45:31
+ * @Last Modified time: 2019-11-09 13:29:55
  */
 package beanstalk
 
@@ -36,7 +36,7 @@ func NewProducer() (producer *Producer, err error) {
 	//ping := func(v interface{}) error { return nil }
 
 	//创建一个连接池： 初始化5，最大连接30
-	poolConfig := &pool.PoolConfig{
+	poolConfig := &pool.Config{
 		InitialCap: 5,
 		MaxCap:     30,
 		Factory:    factory,
