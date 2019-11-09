@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-17 15:33:04
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-11-09 10:31:45
+ * @Last Modified time: 2019-11-09 11:09:24
  */
 
 package middleware
@@ -17,8 +17,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/casbin/casbin/v2"
-	casbinModel "github.com/casbin/casbin/v2/model"
+	"github.com/casbin/casbin"
 	"github.com/gin-gonic/gin"
 	"github.com/joncalhoun/qson"
 )
@@ -44,11 +43,10 @@ func init() {
 	[matchers]
 	m = g(r.sub, p.sub) && keyMatch2(r.obj, p.obj) && regexMatch(r.act, p.act)
 	`
-	m, _ := casbinModel.NewModelFromString(text)
+	m := casbin.NewModel(text)
 
-	a, _ := model.NewAdapter("mysql", mysqlLink())
-	e, _ := casbin.NewEnforcer(m, a)
-
+	a := model.NewAdapter("mysql", mysqlLink(), true)
+	e := casbin.NewEnforcer(m, a)
 	_ = e.LoadPolicy()
 
 	timeRefresh()
@@ -153,22 +151,6 @@ func timeRefresh() {
 	timerTicker = time.NewTicker(10 * time.Minute) // 10分钟 定时器
 	defer timerTicker.Stop()
 
-	/* select {
-	case <-timerTicker.C:
-		_ = e.LoadPolicy()
-	}
-
-	for {
-
-		select {
-
-		case <-timerTicker.C:
-
-			fmt.Println(time.Now())
-
-		}
-
-	} */
 	go func() {
 		for range timerTicker.C {
 			_ = e.LoadPolicy()
