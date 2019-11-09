@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-17 15:33:04
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-11-08 18:50:53
+ * @Last Modified time: 2019-11-09 10:31:45
  */
 
 package middleware
@@ -15,6 +15,7 @@ import (
 	"errors"
 	"io/ioutil"
 	"strings"
+	"time"
 
 	"github.com/casbin/casbin/v2"
 	casbinModel "github.com/casbin/casbin/v2/model"
@@ -22,8 +23,10 @@ import (
 	"github.com/joncalhoun/qson"
 )
 
-func Casbin() gin.HandlerFunc {
+var e *casbin.Enforcer
+var timerTicker *time.Ticker
 
+func init() {
 	text :=
 		`
 	[request_definition]
@@ -45,8 +48,14 @@ func Casbin() gin.HandlerFunc {
 
 	a, _ := model.NewAdapter("mysql", mysqlLink())
 	e, _ := casbin.NewEnforcer(m, a)
+
 	_ = e.LoadPolicy()
+
+	timeRefresh()
 	// fmt.Printf("LoadPolicy ERR: %+v\n", err)
+}
+
+func Casbin() gin.HandlerFunc {
 
 	return func(c *gin.Context) {
 
@@ -136,4 +145,34 @@ func mysqlLink() string {
 	// mysqlLink.WriteString("?charset=utf8&parseTime=True&loc=Local&timeout=100ms")
 
 	return mysqlLink.String()
+}
+
+// timeRefresh
+// 数据更新在php的服务中, 因此无法使用 watcher, 只能 定时更新 casbin数据
+func timeRefresh() {
+	timerTicker = time.NewTicker(10 * time.Minute) // 10分钟 定时器
+	defer timerTicker.Stop()
+
+	/* select {
+	case <-timerTicker.C:
+		_ = e.LoadPolicy()
+	}
+
+	for {
+
+		select {
+
+		case <-timerTicker.C:
+
+			fmt.Println(time.Now())
+
+		}
+
+	} */
+	go func() {
+		for range timerTicker.C {
+			_ = e.LoadPolicy()
+			R("", "casbin load data")
+		}
+	}()
 }
