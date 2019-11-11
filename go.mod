@@ -33,7 +33,7 @@ require (
 	github.com/pkg/errors v0.8.1
 	github.com/prep/beanstalk v1.3.0
 	github.com/ql2005/multiconfig v0.0.0-20190515064641-c8ed353c9652
-	github.com/silenceper/pool v0.0.0-20191105065223-1f4530b6ba17
+	github.com/silenceper/pool v0.0.0-20171030022714-e6b389d645e3
 	github.com/sirupsen/logrus v1.4.2
 	github.com/streadway/amqp v0.0.0-20190404075320-75d898a42a94
 	github.com/stretchr/testify v1.3.0
