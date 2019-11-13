@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-17 15:33:04
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-11-09 14:29:21
+ * @Last Modified time: 2019-11-13 16:08:35
  */
 
 package middleware
@@ -45,7 +45,8 @@ func init() {
 	`
 	m := casbin.NewModel(text)
 
-	a := model.NewAdapter("mysql", mysqlLink(), true)
+	// a := model.NewAdapter("mysql", mysqlLink(), true)
+	a := model.NewAdapterByDB(DB)
 	e = casbin.NewEnforcer(m, a)
 	_ = e.LoadPolicy()
 
@@ -131,18 +132,18 @@ func addLog(c *gin.Context, adminId string, bodyString string) {
 	DB.Create(&log)
 }
 
-func mysqlLink() string {
-	mysqlLink := bytes.NewBufferString("")
+/* func mysqlLink() string {
+	 mysqlLink := bytes.NewBufferString("")
 
-	mysqlLink.WriteString(Config.Mysql.Username)
-	mysqlLink.WriteString(":" + Config.Mysql.Password + "@tcp")
-	mysqlLink.WriteString("(" + Config.Mysql.Host)
-	mysqlLink.WriteString(":" + Config.Mysql.Port + ")")
-	mysqlLink.WriteString("/" + Config.Mysql.Database)
-	// mysqlLink.WriteString("?charset=utf8&parseTime=True&loc=Local&timeout=100ms")
+	 mysqlLink.WriteString(Config.Mysql.Username)
+	 mysqlLink.WriteString(":" + Config.Mysql.Password + "@tcp")
+	 mysqlLink.WriteString("(" + Config.Mysql.Host)
+	 mysqlLink.WriteString(":" + Config.Mysql.Port + ")")
+	 mysqlLink.WriteString("/" + Config.Mysql.Database)
+	 mysqlLink.WriteString("?charset=utf8mb4&parseTime=True&loc=Local&timeout=100ms")
 
-	return mysqlLink.String()
-}
+	 return mysqlLink.String()
+ } */
 
 // timeRefresh
 // 数据更新在php的服务中, 因此无法使用 watcher, 只能 定时更新 casbin数据
