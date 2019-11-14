@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-04-29 19:32:36
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-08-22 15:48:23
+ * @Last Modified time: 2019-10-18 17:30:16
  */
 package pkg
 
@@ -12,6 +12,7 @@ import (
 	"fmt"
 	"math/big"
 	"math/rand"
+	"runtime"
 	"runtime/debug"
 	"strconv"
 	"time"
@@ -34,7 +35,11 @@ type RespData struct {
 const TimeFormat = "2006-01-02 15:04:05"
 
 func R(data interface{}, name string) {
-	fmt.Printf("\n"+name+": \n%#v\n", data)
+	pc, file, line, ok := runtime.Caller(1)
+	if ok {
+		fmt.Println("\n["+time.Now().Format(TimeFormat)+"] ("+runtime.FuncForPC(pc).Name()+")", file, line)
+	}
+	fmt.Printf(name+": \n%#v\n", data)
 }
 
 func D(data interface{}) {
@@ -149,8 +154,8 @@ func Byte2String(b []byte) string {
 }
 
 // float64 转 string
-func Float642String(v float64) string {
-	return strconv.FormatFloat(v, 'g', 20, 64)
+func Float642String(v float64, p int) string {
+	return strconv.FormatFloat(v, 'f', p, 64)
 }
 
 func Bool2Int(b bool) int {
@@ -209,4 +214,13 @@ func JsonDecode(data string) (result map[string]interface{}, err error) {
 		return
 	}
 	return
+}
+
+func InArray(val string, array []string) bool {
+	for _, v := range array {
+		if val == v {
+			return true
+		}
+	}
+	return false
 }

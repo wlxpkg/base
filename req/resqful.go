@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-25 20:44:57
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-30 17:16:35
+ * @Last Modified time: 2019-10-18 17:41:21
  */
 package req
 
@@ -90,28 +90,28 @@ func (r *Restful) Req(method string, route string) (data interface{}, err error)
 
 	if err != nil {
 		reqStr, _ := json.Marshal(r.client.data)
-		log.Warn("微服务请求失败! service: " + r.client.baseUrl + " reqData: " + Byte2String(reqStr) + "method: " + method + "route: " + route)
+		log.Warn("微服务请求失败! service: " + r.client.baseUrl + ", reqData: " + Byte2String(reqStr) + ", method: " + method + ", route: " + route)
 		return
 	}
 
-	data, err = r.serviceData(resp)
+	data, err = r.serviceData(resp, method+"@"+route)
 	return
 }
 
 // serviceData 解析数据
-func (r *Restful) serviceData(resp string) (resData interface{}, err error) {
+func (r *Restful) serviceData(resp string, req string) (resData interface{}, err error) {
 
 	/* result, ok := gjson.Parse(resp).Value().(map[string]interface{})
-	if !ok {
-		reqStr, _ := json.Marshal(r.client.data)
-		log.Warn("微服务数据解析失败! service: " + r.client.baseUrl + " reqData: " + Byte2String(reqStr) + "resp: " + resp)
-		err = Excp("ERR_DATA_DECODE")
-		return
-	} */
+	 if !ok {
+		 reqStr, _ := json.Marshal(r.client.data)
+		 log.Warn("微服务数据解析失败! service: " + r.client.baseUrl + " reqData: " + Byte2String(reqStr) + "resp: " + resp)
+		 err = Excp("ERR_DATA_DECODE")
+		 return
+	 } */
 	result, err := JsonDecode(resp)
 	if err != nil {
 		reqStr, _ := json.Marshal(r.client.data)
-		log.Warn("微服务数据解析失败! service: " + r.client.baseUrl + " reqData: " + Byte2String(reqStr) + "resp: " + resp)
+		log.Warn("微服务数据解析失败! service: " + r.client.baseUrl + ", reqData: " + Byte2String(reqStr) + ", resp: " + resp + ", 请求的方法:" + req)
 		return
 	}
 
@@ -135,14 +135,14 @@ func (r *Restful) serviceData(resp string) (resData interface{}, err error) {
 	// message := gjson.Get(resp, "message")
 	// data := gjson.Get(resp, "data")
 	/* if r.exp {
-		if code.Int() != 1 {
-			err = errors.New(message.String())
-			return
-		}
-		resData = data.String()
-	} else {
-		resData = resp
-	} */
+		 if code.Int() != 1 {
+			 err = errors.New(message.String())
+			 return
+		 }
+		 resData = data.String()
+	 } else {
+		 resData = resp
+	 } */
 
 	return
 }

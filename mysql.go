@@ -14,6 +14,10 @@ var DB *gorm.DB
 
 func init() {
 	DB = newDB()
+
+	if Config.Mysql.Dump == "true" {
+		DB.LogMode(true)
+	}
 }
 
 func newDB() (orm *gorm.DB) {
@@ -41,6 +45,7 @@ func newDB() (orm *gorm.DB) {
 	// 全局禁用表名复数 TableName不受影响
 	orm.SingularTable(true)
 	orm.DB().SetMaxIdleConns(100)
+	orm.DB().SetConnMaxLifetime(55 * time.Second)
 	//orm.DB().SetMaxOpenConns(1000)
 
 	return

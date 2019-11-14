@@ -14,16 +14,24 @@ import (
 type Cache struct {
 	autoPrefix bool
 	prefix     string
+	db         string
 }
 
-var client *redis.Client
+// var client *redis.Client
+var clients = make(map[string]*redis.Client)
 
 func init() {
-	db := Config.Redis.Select
-	client = redis.NewClient(&redis.Options{
+	clients["cache"] = redis.NewClient(&redis.Options{
 		Addr:     Config.Redis.Host + ":" + Config.Redis.Port,
 		Password: Config.Redis.Password,
-		DB:       db,
+		DB:       Config.Redis.Select,
+		PoolSize: 100,
+	})
+
+	clients["rate"] = redis.NewClient(&redis.Options{
+		Addr:     Config.RateRedis.Host + ":" + Config.RateRedis.Port,
+		Password: Config.RateRedis.Password,
+		DB:       Config.RateRedis.Select,
 		PoolSize: 100,
 	})
 }
@@ -32,10 +40,7 @@ func NewCache() (cache *Cache) {
 	cache = new(Cache)
 	cache.autoPrefix = true
 	cache.prefix = Config.Redis.Prefix
-	// cache = &Cache{
-	// 	autoPrefix: true,
-	// 	prefix:     Config.Redis.Prefix,
-	// }
+	cache.db = "cache"
 	return
 }
 
@@ -46,6 +51,11 @@ func (c *Cache) SetAutoPrefix(auto bool) *Cache {
 
 func (c *Cache) SetPrefix(prefix string) *Cache {
 	c.prefix = prefix
+	return c
+}
+
+func (c *Cache) SetDB(db string) *Cache {
+	c.db = db
 	return c
 }
 
@@ -64,7 +74,7 @@ func (c *Cache) MapData(data interface{}) map[string]interface{} {
 
 	err := json.Unmarshal(j, &mdata)
 	if err != nil {
-		log.Warn(err)
+		log.Err(err)
 		return mdata
 	}
 	return mdata
@@ -77,13 +87,13 @@ func (c *Cache) MapData(data interface{}) map[string]interface{} {
 func (c *Cache) Set(key string, value interface{}, ttl int) {
 	val, err := json.Marshal(value)
 	if err != nil {
-		log.Warn(err)
+		log.Err(err)
 		return
 	}
 	key = c.prefixKey(key)
-	err = client.Set(key, string(val), time.Duration(ttl)*time.Second).Err()
+	err = clients[c.db].Set(key, string(val), time.Duration(ttl)*time.Second).Err()
 	if err != nil {
-		log.Warn(err)
+		log.Err(err)
 		return
 	}
 }
@@ -92,10 +102,10 @@ func (c *Cache) Set(key string, value interface{}, ttl int) {
 func (c *Cache) Get(key string, structs interface{}) (err error) {
 	key = c.prefixKey(key)
 
-	value, err := client.Get(key).Result()
+	value, err := clients[c.db].Get(key).Result()
 	if err != nil {
 		if err != redis.Nil {
-			log.Warn(err)
+			log.Err(err)
 		}
 		return
 	}
@@ -104,7 +114,7 @@ func (c *Cache) Get(key string, structs interface{}) (err error) {
 	err = json.Unmarshal(str, &structs)
 	if err != nil {
 		fmt.Printf("err2: \n%#v\n", err)
-		log.Warn(err)
+		log.Err(err)
 		return
 	}
 	return
@@ -113,9 +123,9 @@ func (c *Cache) Get(key string, structs interface{}) (err error) {
 // Del cache data
 func (c *Cache) Del(key string) {
 	key = c.prefixKey(key)
-	err := client.Del(key).Err()
+	err := clients[c.db].Del(key).Err()
 	if err != nil {
-		log.Warn(err)
+		log.Err(err)
 		return
 	}
 }
@@ -123,11 +133,11 @@ func (c *Cache) Del(key string) {
 // Exists 检测 key 是否存在
 func (c *Cache) Exists(key string) (isExists bool) {
 	key = c.prefixKey(key)
-	value, err := client.Exists(key).Result()
+	value, err := clients[c.db].Exists(key).Result()
 	// R(value, "Exists value")
 
 	if err != nil {
-		log.Warn(err)
+		log.Err(err)
 		return false
 	}
 
@@ -140,21 +150,86 @@ func (c *Cache) Exists(key string) (isExists bool) {
 // Expire 设置 key 的有效期为 ttl 秒
 func (c *Cache) Expire(key string, ttl int) {
 	key = c.prefixKey(key)
-	err := client.Expire(key, time.Duration(ttl)*time.Second).Err()
+	err := clients[c.db].Expire(key, time.Duration(ttl)*time.Second).Err()
 	if err != nil {
-		log.Warn(err)
+		log.Err(err)
+		return
+	}
+}
+
+/**************************  Incr  Decr ********************************/
+
+// Incr 执行 INCR cmd
+func (c *Cache) Incr(key string) {
+	key = c.prefixKey(key)
+	err := clients[c.db].Incr(key).Err()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+}
+
+// IncrBy 执行 INCRBY cmd
+func (c *Cache) IncrBy(key string, incr int64) {
+	key = c.prefixKey(key)
+	err := clients[c.db].IncrBy(key, incr).Err()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+}
+
+// Decr 执行 DECR cmd
+func (c *Cache) Decr(key string) {
+	key = c.prefixKey(key)
+	err := clients[c.db].Decr(key).Err()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+}
+
+// DecrBy 执行 DECRBY cmd
+func (c *Cache) DecrBy(key string, decr int64) {
+	key = c.prefixKey(key)
+	err := clients[c.db].DecrBy(key, decr).Err()
+	if err != nil {
+		log.Err(err)
 		return
 	}
 }
 
 /**************************  Hash  ********************************/
 
-// HSet
+// HExists hash 是否存在 field 字段
+func (c *Cache) HExists(key, field string) (isExists bool) {
+	key = c.prefixKey(key)
+	isExists, err := clients[c.db].HExists(key, field).Result()
+
+	if err != nil {
+		log.Err(err)
+		isExists = false
+		return
+	}
+	return
+}
+
+// HIncrBy hash incrBy
+func (c *Cache) HIncrBy(key, field string, incr int64) {
+	key = c.prefixKey(key)
+	err := clients[c.db].HIncrBy(key, field, incr).Err()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+}
+
+// HSet hash
 func (c *Cache) HSet(key string, field string, value interface{}) {
 	key = c.prefixKey(key)
-	err := client.HSet(key, field, value).Err()
+	err := clients[c.db].HSet(key, field, value).Err()
 	if err != nil {
-		log.Warn(err)
+		log.Err(err)
 		return
 	}
 }
@@ -164,20 +239,20 @@ func (c *Cache) HMSet(key string, data interface{}) {
 	value := c.MapData(data)
 
 	key = c.prefixKey(key)
-	err := client.HMSet(key, value).Err()
+	err := clients[c.db].HMSet(key, value).Err()
 	if err != nil {
-		log.Warn(err)
+		log.Err(err)
 		return
 	}
 }
 
 func (c *Cache) HGet(key string, field string) (value string) {
 	key = c.prefixKey(key)
-	value, err := client.HGet(key, field).Result()
+	value, err := clients[c.db].HGet(key, field).Result()
 	// R(value, "Exists value")
 
 	if err != nil {
-		log.Warn(err)
+		log.Err(err)
 		return
 	}
 	return
@@ -185,19 +260,19 @@ func (c *Cache) HGet(key string, field string) (value string) {
 
 func (c *Cache) HDel(key string, field string) {
 	key = c.prefixKey(key)
-	err := client.HDel(key, field).Err()
+	err := clients[c.db].HDel(key, field).Err()
 	if err != nil {
-		log.Warn(err)
+		log.Err(err)
 		return
 	}
 }
 
 func (c *Cache) HGetAll(key string) (value map[string]string) {
 	key = c.prefixKey(key)
-	value, err := client.HGetAll(key).Result()
+	value, err := clients[c.db].HGetAll(key).Result()
 
 	if err != nil {
-		log.Warn(err)
+		log.Err(err)
 		return
 	}
 	return
@@ -207,10 +282,10 @@ func (c *Cache) HGetAll(key string) (value map[string]string) {
 
 func (c *Cache) SMembers(key string) (value []string) {
 	key = c.prefixKey(key)
-	value, err := client.SMembers(key).Result()
+	value, err := clients[c.db].SMembers(key).Result()
 
 	if err != nil {
-		log.Warn(err)
+		log.Err(err)
 		return
 	}
 	return

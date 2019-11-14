@@ -25,6 +25,7 @@ require (
 	github.com/joncalhoun/qson v0.0.0-20170526102502-8a9cab3a62b1
 	github.com/json-iterator/go v1.1.6
 	github.com/konsorten/go-windows-terminal-sequences v1.0.2
+	github.com/lib/pq v1.1.1
 	github.com/mattn/go-isatty v0.0.8-0.20190424075123-c1975dc15c1d
 	github.com/mitchellh/mapstructure v1.1.2
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd
