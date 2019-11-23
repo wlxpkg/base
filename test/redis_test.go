@@ -171,3 +171,122 @@ func TestHIncr(t *testing.T) {
 		assert.Equal(t, "2", result, "HIncrBy cmd")
 	})
 }
+
+func TestSAdd(t *testing.T) {
+	key := "test:sadd"
+	cache.Del(key)
+	Cache.SAdd(key, 1, "2")
+	cache.SMembers(key)
+	result := cache.SMembers(key)
+	t.Run("run sadd success", func(t *testing.T) {
+		assert.Equal(t, []string{"1", "2"}, result, "sadd cmd")
+	})
+}
+
+func TestSCard(t *testing.T) {
+	key := "test:scard"
+	cache.Del(key)
+	Cache.SAdd(key, "2", 3, 4)
+	result := cache.SCard(key)
+	t.Run("run scard success", func(t *testing.T) {
+		assert.Equal(t, int64(2), result, "scard cmd")
+	})
+}
+
+func TestSDiff(t *testing.T) {
+	key1 := "test:diff:1"
+	Cache.SAdd(key1, 1, 2, 3)
+	key2 := "test:diff:2"
+	Cache.SAdd(key2, 3, 4, 5)
+	result := cache.SDiff(key1, key2)
+	t.Run("run sdiff success", func(t *testing.T) {
+		assert.Equal(t, []string{"1", "2"}, result, "sdiff cmd")
+	})
+}
+
+func TestSInter(t *testing.T) {
+	key1 := "test:inter:1"
+	key2 := "test:inter:2"
+	cache.Del(key1)
+	cache.Del(key2)
+	Cache.SAdd(key1, 1, 2, 3)
+	Cache.SAdd(key2, 3, 4, 5)
+	result := cache.SInter(key1, key2)
+	t.Run("run SInter success", func(t *testing.T) {
+		assert.Equal(t, []string{"3"}, result, "SInter cmd")
+	})
+}
+
+func TestSIsMember(t *testing.T) {
+	key := "test:SIsMember"
+	cache.Del(key)
+	Cache.SAdd(key, "2", 3, 4)
+	result := cache.SIsMember(key, 4)
+	t.Run("run SIsMember success", func(t *testing.T) {
+		assert.Equal(t, true, result, "SIsMember cmd")
+	})
+}
+
+func TestSPop(t *testing.T) {
+	key := "test:SPop"
+	cache.Del(key)
+	Cache.SAdd(key, "2", 3, 4)
+	result := cache.SPop(key)
+	t.Run("run SPop success", func(t *testing.T) {
+		assert.Equal(t, "2", result, "SPop cmd")
+	})
+}
+
+func TestSPopN(t *testing.T) {
+	key := "test:SPopN"
+	cache.Del(key)
+	Cache.SAdd(key, "2", 3, 4)
+	result := cache.SPopN(key, 2)
+	t.Run("run SPopN success", func(t *testing.T) {
+		assert.Equal(t, []string{"2", "3"}, result, "SPopN cmd")
+	})
+}
+
+func TestSRandMember(t *testing.T) {
+	key := "test:SRandMember"
+	cache.Del(key)
+	Cache.SAdd(key, "2", 3, 4)
+	result := cache.SRandMember(key)
+	t.Run("run SRandMember success", func(t *testing.T) {
+		assert.Equal(t, "2", result, "SRandMember cmd")
+	})
+}
+
+func TestSRandMemberN(t *testing.T) {
+	key := "test:SPopN"
+	cache.Del(key)
+	Cache.SAdd(key, "2", 3, 4)
+	result := cache.SRandMemberN(key, 2)
+	t.Run("run SRandMemberN success", func(t *testing.T) {
+		assert.Equal(t, []string{"2", "3"}, result, "SRandMemberN cmd")
+	})
+}
+
+func TestSRem(t *testing.T) {
+	key := "test:SRem"
+	cache.Del(key)
+	Cache.SAdd(key, "2", 3, 4)
+	result := cache.SRem(key, 2, 3)
+
+	t.Run("run SRem success", func(t *testing.T) {
+		assert.Equal(t, int64(2), result, "SRem cmd")
+	})
+}
+
+func TestSUnion(t *testing.T) {
+	key1 := "test:sunion:1"
+	key2 := "test:sunion:2"
+	cache.Del(key1)
+	cache.Del(key2)
+	Cache.SAdd(key1, 1, 2, 3)
+	Cache.SAdd(key2, 3, 4, 5)
+	result := cache.SUnion(key1, key2)
+	t.Run("run SUnion success", func(t *testing.T) {
+		assert.Equal(t, []string{"1", "2", "3", "4", "5"}, result, "SUnion cmd")
+	})
+}

@@ -280,9 +280,222 @@ func (c *Cache) HGetAll(key string) (value map[string]string) {
 
 /******************************* set *********************************/
 
+// SAdd 向集合添加一个或多个成员
+func (c *Cache) SAdd(key string, members ...interface{}) (value int64) {
+	key = c.prefixKey(key)
+	value, err := clients[c.db].SAdd(key, members...).Result()
+
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// SCard 获取集合的成员数
+func (c *Cache) SCard(key string) (value int64) {
+	key = c.prefixKey(key)
+	value, err := clients[c.db].SCard(key).Result()
+
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// SDiff 返回给定所有集合的差集
+func (c *Cache) SDiff(keys ...string) (value []string) {
+	for i, key := range keys {
+		keys[i] = c.prefixKey(key)
+	}
+
+	value, err := clients[c.db].SDiff(keys...).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// SDiffStore 返回给定所有集合的差集并存储在 destination 中
+func (c *Cache) SDiffStore(destination string, keys ...string) (value int64) {
+	for i, key := range keys {
+		keys[i] = c.prefixKey(key)
+	}
+
+	value, err := clients[c.db].SDiffStore(destination, keys...).Result()
+
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// SInter 返回给定所有集合的交集
+func (c *Cache) SInter(keys ...string) (value []string) {
+	for i, key := range keys {
+		keys[i] = c.prefixKey(key)
+	}
+
+	value, err := clients[c.db].SInter(keys...).Result()
+
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// SInterStore 返回给定所有集合的交集并存储在 destination 中
+func (c *Cache) SInterStore(destination string, keys ...string) (value int64) {
+	for i, key := range keys {
+		keys[i] = c.prefixKey(key)
+	}
+
+	value, err := clients[c.db].SInterStore(destination, keys...).Result()
+
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// SIsMember 判断 member 元素是否是集合 key 的成员
+func (c *Cache) SIsMember(key string, member interface{}) (isMember bool) {
+	key = c.prefixKey(key)
+	isMember, err := clients[c.db].SIsMember(key, member).Result()
+
+	if err != nil {
+		log.Err(err)
+		isMember = false
+		return
+	}
+	return
+}
+
+// SMembers 返回集合中的所有成员
 func (c *Cache) SMembers(key string) (value []string) {
 	key = c.prefixKey(key)
 	value, err := clients[c.db].SMembers(key).Result()
+
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// SMembersMap 返回集合中的所有成员
+func (c *Cache) SMembersMap(key string) (value map[string]struct{}) {
+	key = c.prefixKey(key)
+	value, err := clients[c.db].SMembersMap(key).Result()
+
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// SMove 将 member 元素从 source 集合移动到 destination 集合
+func (c *Cache) SMove(source, destination string, member interface{}) (isMove bool) {
+	source = c.prefixKey(source)
+	destination = c.prefixKey(destination)
+	isMove, err := clients[c.db].SMove(source, destination, member).Result()
+
+	if err != nil {
+		log.Err(err)
+		isMove = false
+		return
+	}
+	return
+}
+
+// SPop 移除并返回集合中的一个随机元素
+func (c *Cache) SPop(key string) (value string) {
+	key = c.prefixKey(key)
+	value, err := clients[c.db].SPop(key).Result()
+
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// SPopN 移除并返回集合中的 n 个随机元素
+func (c *Cache) SPopN(key string, count int64) (value []string) {
+	key = c.prefixKey(key)
+	value, err := clients[c.db].SPopN(key, count).Result()
+
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// SRandMember 返回集合中的一个随机元素
+func (c *Cache) SRandMember(key string) (value string) {
+	key = c.prefixKey(key)
+	value, err := clients[c.db].SRandMember(key).Result()
+
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// SRandMemberN 返回集合中的 n 个随机元素
+func (c *Cache) SRandMemberN(key string, count int64) (value []string) {
+	key = c.prefixKey(key)
+	value, err := clients[c.db].SRandMemberN(key, count).Result()
+
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// SRem 移除集合中一个或多个成员
+func (c *Cache) SRem(key string, members ...interface{}) (value int64) {
+	key = c.prefixKey(key)
+	value, err := clients[c.db].SRem(key, members...).Result()
+
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// SUnion 返回所有给定集合的并集
+func (c *Cache) SUnion(keys ...string) (value []string) {
+	for i, key := range keys {
+		keys[i] = c.prefixKey(key)
+	}
+
+	value, err := clients[c.db].SUnion(keys...).Result()
+
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// SUnionStore 所有给定集合的并集存储在 destination 集合中
+func (c *Cache) SUnionStore(destination string, keys ...string) (value int64) {
+	for i, key := range keys {
+		keys[i] = c.prefixKey(key)
+	}
+
+	value, err := clients[c.db].SUnionStore(destination, keys...).Result()
 
 	if err != nil {
 		log.Err(err)
