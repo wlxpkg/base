@@ -298,7 +298,7 @@ func TestTTL(t *testing.T) {
 	Cache.Set(key, "1", 60)
 	tm, _ := Cache.TTL(key)
 	t.Run("run ttl success", func(t *testing.T) {
-		assert.Equal(t, 60.0, tm.Seconds(), "ttl cmd")
+		assert.Equal(t, int64(60), tm, "ttl cmd")
 	})
 }
 
@@ -313,6 +313,6 @@ func TestExpireAt(t *testing.T) {
 	Cache.ExpireAt(key, tomorrow)
 	tm, _ := Cache.TTL(key)
 	t.Run("run ttl success", func(t *testing.T) {
-		assert.Equal(t, 60.0, tm.Seconds(), "ttl cmd")
+		assert.Equal(t, int64(60), tm, "ttl cmd")
 	})
 }

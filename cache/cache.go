@@ -168,13 +168,15 @@ func (c *Cache) ExpireAt(key string, tm time.Time) {
 }
 
 // TTL 以秒为单位返回 key 的剩余过期时间
-func (c *Cache) TTL(key string) (tm time.Duration, err error) {
+func (c *Cache) TTL(key string) (ttl int64, err error) {
 	key = c.prefixKey(key)
+	var tm time.Duration
 	tm, err = clients[c.db].TTL(key).Result()
 	if err != nil {
 		log.Err(err)
 		return
 	}
+	ttl = int64(tm / time.Second)
 
 	return
 }
