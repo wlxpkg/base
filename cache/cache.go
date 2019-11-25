@@ -157,6 +157,28 @@ func (c *Cache) Expire(key string, ttl int) {
 	}
 }
 
+// ExpireAt 设置 key 的过期时间 tm
+func (c *Cache) ExpireAt(key string, tm time.Time) {
+	key = c.prefixKey(key)
+	err := clients[c.db].ExpireAt(key, tm).Err()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+}
+
+// TTL 以秒为单位返回 key 的剩余过期时间
+func (c *Cache) TTL(key string) (tm time.Duration, err error) {
+	key = c.prefixKey(key)
+	tm, err = clients[c.db].TTL(key).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+
+	return
+}
+
 /**************************  Incr  Decr ********************************/
 
 // Incr 执行 INCR cmd

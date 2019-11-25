@@ -11,6 +11,7 @@ import (
 	. "artifact/pkg"
 	redis "artifact/pkg/cache"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -288,5 +289,30 @@ func TestSUnion(t *testing.T) {
 	result := cache.SUnion(key1, key2)
 	t.Run("run SUnion success", func(t *testing.T) {
 		assert.Equal(t, []string{"1", "2", "3", "4", "5"}, result, "SUnion cmd")
+	})
+}
+
+func TestTTL(t *testing.T) {
+	key := "test:ttl"
+	Cache.Del(key)
+	Cache.Set(key, "1", 60)
+	tm, _ := Cache.TTL(key)
+	t.Run("run ttl success", func(t *testing.T) {
+		assert.Equal(t, 60.0, tm.Seconds(), "ttl cmd")
+	})
+}
+
+func TestExpireAt(t *testing.T) {
+	key := "test:expireAt"
+	Cache.Del(key)
+	Cache.Set(key, "1", 0)
+	timeStr := time.Now().Format("2006-01-02")
+	t11, _ := time.ParseInLocation("2006-01-02", timeStr, time.Local)
+	tomorrow := t11.AddDate(0, 0, 1)
+
+	Cache.ExpireAt(key, tomorrow)
+	tm, _ := Cache.TTL(key)
+	t.Run("run ttl success", func(t *testing.T) {
+		assert.Equal(t, 60.0, tm.Seconds(), "ttl cmd")
 	})
 }
