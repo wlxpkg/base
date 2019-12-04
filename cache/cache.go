@@ -1,10 +1,10 @@
 package cache
 
 import (
-	. "zwyd/pkg/config"
-	"zwyd/pkg/log"
 	"encoding/json"
 	"fmt"
+	. "git.wlx/zwyd/pkg/config"
+	"git.wlx/zwyd/pkg/log"
 	"strings"
 	"time"
 

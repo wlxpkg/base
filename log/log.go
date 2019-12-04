@@ -7,7 +7,7 @@
 package log
 
 import (
-	. "zwyd/pkg/config"
+	. "git.wlx/zwyd/pkg/config"
 
 	graylog "github.com/gemnasium/logrus-graylog-hook"
 

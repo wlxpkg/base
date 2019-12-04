@@ -7,10 +7,10 @@
 package middleware
 
 import (
-	. "zwyd/pkg"
-	"zwyd/pkg/biz"
-	"zwyd/pkg/log"
 	"errors"
+	. "git.wlx/zwyd/pkg"
+	"git.wlx/zwyd/pkg/biz"
+	"git.wlx/zwyd/pkg/log"
 	"net/http"
 	"regexp"
 	"strings"

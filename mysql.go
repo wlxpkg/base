@@ -1,15 +1,16 @@
 package pkg
 
 import (
-	. "zwyd/pkg/config"
-	"zwyd/pkg/log"
 	"bytes"
+	. "git.wlx/zwyd/pkg/config"
+	"git.wlx/zwyd/pkg/log"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 )
 
+// DB gorm.DB
 var DB *gorm.DB
 
 func init() {

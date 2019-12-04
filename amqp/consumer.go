@@ -7,9 +7,9 @@
 package amqp
 
 import (
-	. "zwyd/pkg"
-	"zwyd/pkg/log"
 	"fmt"
+	. "git.wlx/zwyd/pkg"
+	"git.wlx/zwyd/pkg/log"
 	"sync"
 	"time"
 

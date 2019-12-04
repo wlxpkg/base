@@ -7,8 +7,8 @@
 package test
 
 import (
-	. "zwyd/pkg"
-	"zwyd/pkg/req"
+	. "git.wlx/zwyd/pkg"
+	"git.wlx/zwyd/pkg/req"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

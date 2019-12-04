@@ -7,7 +7,7 @@
 package beanstalk
 
 import (
-	. "zwyd/pkg"
+	. "git.wlx/zwyd/pkg"
 )
 
 type Receiver interface {

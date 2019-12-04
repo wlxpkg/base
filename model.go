@@ -8,11 +8,11 @@
 package pkg
 
 import (
-	"zwyd/pkg/cache"
-	"zwyd/pkg/log"
 	"database/sql/driver"
 	"errors"
 	"fmt"
+	"git.wlx/zwyd/pkg/cache"
+	"git.wlx/zwyd/pkg/log"
 	"strings"
 	"time"
 )

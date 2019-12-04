@@ -13,8 +13,8 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
-	. "zwyd/pkg/config"
-	"zwyd/pkg/log"
+	. "git.wlx/zwyd/pkg/config"
+	"git.wlx/zwyd/pkg/log"
 
 	"github.com/dgrijalva/jwt-go"
 )

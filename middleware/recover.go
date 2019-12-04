@@ -7,9 +7,9 @@
 package middleware
 
 import (
-	. "zwyd/pkg"
-	"zwyd/pkg/log"
 	"errors"
+	. "git.wlx/zwyd/pkg"
+	"git.wlx/zwyd/pkg/log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

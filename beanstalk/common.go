@@ -7,7 +7,7 @@
 package beanstalk
 
 import (
-	. "zwyd/pkg/config"
+	. "git.wlx/zwyd/pkg/config"
 	"log"
 	"os"
 	"time"

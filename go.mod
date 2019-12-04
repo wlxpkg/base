@@ -1,4 +1,4 @@
-module git.tools.wailianxia.com/zwyd/pkg
+module git.wlx/zwyd/pkg
 
 go 1.13
 

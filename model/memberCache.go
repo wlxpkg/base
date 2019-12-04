@@ -12,8 +12,8 @@ package model
 // 	return $this->cache->setAutoPrefix(false)->get($key);
 // }
 import (
-	. "zwyd/pkg"
-	redis "zwyd/pkg/cache"
+	. "git.wlx/zwyd/pkg"
+	redis "git.wlx/zwyd/pkg/cache"
 )
 
 var cache = redis.NewCache().SetPrefix("user")

@@ -9,10 +9,10 @@ package beanstalk
 import (
 	"context"
 	"fmt"
+	. "git.wlx/zwyd/pkg"
+	"git.wlx/zwyd/pkg/log"
 	"sync"
 	"time"
-	. "zwyd/pkg"
-	"zwyd/pkg/log"
 
 	bt "github.com/prep/beanstalk"
 )

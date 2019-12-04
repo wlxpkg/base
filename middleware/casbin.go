@@ -8,11 +8,11 @@
 package middleware
 
 import (
-	. "zwyd/pkg"
-	. "zwyd/pkg/config"
-	"zwyd/pkg/model"
 	"bytes"
 	"errors"
+	. "git.wlx/zwyd/pkg"
+	. "git.wlx/zwyd/pkg/config"
+	"git.wlx/zwyd/pkg/model"
 	"io/ioutil"
 	"strings"
 	"time"

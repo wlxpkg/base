@@ -7,13 +7,10 @@
 package test
 
 import (
-	"zwyd/pkg/log"
-
+	"git.wlx/zwyd/pkg/log"
 	"github.com/pkg/errors"
-
-	"testing"
-
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 func TestLog(t *testing.T) {

@@ -7,7 +7,7 @@
 package model
 
 import (
-	. "zwyd/pkg"
+	. "git.wlx/zwyd/pkg"
 )
 
 type AdminOperationLog struct {
