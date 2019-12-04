@@ -7,7 +7,6 @@
 package pkg
 
 import (
-	"artifact/pkg/log"
 	"crypto/md5"
 	"fmt"
 	"math/big"
@@ -17,6 +16,7 @@ import (
 	"strconv"
 	"time"
 	"unsafe"
+	"zwyd/pkg/log"
 
 	jsoniter "github.com/json-iterator/go"
 
@@ -33,6 +33,7 @@ type RespData struct {
 }
 
 const TimeFormat = "2006-01-02 15:04:05"
+const DateFormat = "2006-01-02"
 
 func R(data interface{}, name string) {
 	pc, file, line, ok := runtime.Caller(1)
@@ -106,7 +107,14 @@ func Unix2Time(stamp int64) time.Time {
 	return timer
 }
 
-// 生成随机字符串
+// TodayDate 今天凌晨时间
+func TodayDate() (tm time.Time) {
+	timeStr := time.Now().Format(DateFormat)
+	tm, _ = time.ParseInLocation(DateFormat, timeStr, time.Local)
+	return
+}
+
+// RandStr 生成随机字符串
 func RandStr(l int) string {
 	str := "0123456789abcdefghijklmnopqrstuvwxyz"
 	bytes := []byte(str)

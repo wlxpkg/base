@@ -7,8 +7,8 @@
 package middleware
 
 import (
-	. "artifact/pkg"
-	"artifact/pkg/log"
+	. "zwyd/pkg"
+	"zwyd/pkg/log"
 	"errors"
 	"net/http"
 

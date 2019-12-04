@@ -7,7 +7,7 @@
 package log
 
 import (
-	. "artifact/pkg/config"
+	. "zwyd/pkg/config"
 
 	graylog "github.com/gemnasium/logrus-graylog-hook"
 

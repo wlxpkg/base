@@ -7,9 +7,9 @@
 package test
 
 import (
-	. "artifact/pkg"
-	"artifact/pkg/beanstalk"
-	"artifact/pkg/log"
+	. "zwyd/pkg"
+	"zwyd/pkg/beanstalk"
+	"zwyd/pkg/log"
 	"testing"
 	"time"
 )

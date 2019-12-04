@@ -8,9 +8,9 @@
 package middleware
 
 import (
-	. "artifact/pkg"
-	. "artifact/pkg/config"
-	"artifact/pkg/model"
+	. "zwyd/pkg"
+	. "zwyd/pkg/config"
+	"zwyd/pkg/model"
 	"bytes"
 	"errors"
 	"io/ioutil"

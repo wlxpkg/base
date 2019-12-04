@@ -7,15 +7,14 @@
 package amqp
 
 import (
-	// . "artifact/pkg"
-	. "artifact/pkg/config"
-	"artifact/pkg/log"
 	"strings"
+	. "zwyd/pkg/config"
+	"zwyd/pkg/log"
 
 	"github.com/streadway/amqp"
 )
 
-const exchange = "artifact"
+const exchange = "zwyd"
 const exchangeType = "direct"
 
 func Conn() (conn *amqp.Connection, channel *amqp.Channel, err error) {

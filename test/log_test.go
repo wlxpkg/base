@@ -7,7 +7,7 @@
 package test
 
 import (
-	"artifact/pkg/log"
+	"zwyd/pkg/log"
 
 	"github.com/pkg/errors"
 

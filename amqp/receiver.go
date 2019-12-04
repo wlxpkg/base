@@ -7,8 +7,8 @@
 package amqp
 
 import (
-	. "artifact/pkg"
-	"artifact/pkg/log"
+	. "zwyd/pkg"
+	"zwyd/pkg/log"
 
 	"github.com/streadway/amqp"
 )
