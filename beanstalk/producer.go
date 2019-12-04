@@ -7,9 +7,9 @@
 package beanstalk
 
 import (
-	. "artifact/pkg"
-	. "artifact/pkg/config"
-	"artifact/pkg/log"
+	. "zwyd/pkg"
+	. "zwyd/pkg/config"
+	"zwyd/pkg/log"
 	"strings"
 	"time"
 

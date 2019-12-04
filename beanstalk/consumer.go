@@ -7,12 +7,12 @@
 package beanstalk
 
 import (
-	. "artifact/pkg"
-	"artifact/pkg/log"
 	"context"
 	"fmt"
 	"sync"
 	"time"
+	. "zwyd/pkg"
+	"zwyd/pkg/log"
 
 	bt "github.com/prep/beanstalk"
 )

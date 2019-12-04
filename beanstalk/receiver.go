@@ -7,7 +7,7 @@
 package beanstalk
 
 import (
-	. "artifact/pkg"
+	. "zwyd/pkg"
 )
 
 type Receiver interface {

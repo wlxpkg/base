@@ -7,7 +7,7 @@
 package test
 
 import (
-	. "artifact/pkg"
+	. "zwyd/pkg"
 	"testing"
 )
 

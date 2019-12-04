@@ -7,8 +7,8 @@
 package cache
 
 import (
-	. "artifact/pkg/config"
-	"artifact/pkg/log"
+	. "zwyd/pkg/config"
+	"zwyd/pkg/log"
 	"errors"
 	"strings"
 

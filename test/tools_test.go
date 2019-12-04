@@ -1,9 +1,9 @@
 package test
 
 import (
-	. "artifact/pkg"
 	"fmt"
 	"testing"
+	. "zwyd/pkg"
 )
 
 // BenchmarkRandomNum 随机一定范围内的数字

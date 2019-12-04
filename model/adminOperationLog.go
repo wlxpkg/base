@@ -7,7 +7,7 @@
 package model
 
 import (
-	. "artifact/pkg"
+	. "zwyd/pkg"
 )
 
 type AdminOperationLog struct {

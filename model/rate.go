@@ -7,9 +7,9 @@
 package model
 
 import (
-	. "artifact/pkg"
-	redis "artifact/pkg/cache"
-	. "artifact/pkg/config"
+	. "zwyd/pkg"
+	redis "zwyd/pkg/cache"
+	. "zwyd/pkg/config"
 )
 
 const cacheTime = 3

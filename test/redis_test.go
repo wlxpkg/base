@@ -8,8 +8,8 @@
 package test
 
 import (
-	. "artifact/pkg"
-	redis "artifact/pkg/cache"
+	. "zwyd/pkg"
+	redis "zwyd/pkg/cache"
 	"testing"
 	"time"
 

@@ -7,9 +7,9 @@
 package req
 
 import (
-	. "artifact/pkg"
-	. "artifact/pkg/config"
-	"artifact/pkg/log"
+	. "zwyd/pkg"
+	. "zwyd/pkg/config"
+	"zwyd/pkg/log"
 	// "encoding/json"
 )
 
@@ -32,19 +32,19 @@ func NewRestful(name string) *Restful {
 func (r *Restful) setService() {
 	config := Config.Server
 
-	serverUrl := make(map[string]string)
+	serverURL := make(map[string]string)
 
-	serverUrl["tools"] = "http://" + config.Tools
-	serverUrl["user"] = "http://" + config.User
-	serverUrl["course"] = "http://" + config.Course
-	serverUrl["discovery"] = "http://" + config.Discovery
-	serverUrl["common"] = "http://" + config.Common
-	serverUrl["grant"] = "http://" + config.Grant
-	serverUrl["shop"] = "http://" + config.Shop
-	serverUrl["message"] = "http://" + config.Message
-	serverUrl["game"] = "http://" + config.Game
+	serverURL["tools"] = "http://" + config.Tools
+	serverURL["user"] = "http://" + config.User
+	serverURL["course"] = "http://" + config.Course
+	serverURL["discovery"] = "http://" + config.Discovery
+	serverURL["common"] = "http://" + config.Common
+	serverURL["grant"] = "http://" + config.Grant
+	serverURL["shop"] = "http://" + config.Shop
+	serverURL["message"] = "http://" + config.Message
+	serverURL["game"] = "http://" + config.Game
 
-	r.service = serverUrl
+	r.service = serverURL
 }
 
 // GetService 获取一个服务地址设置给 http 客户端

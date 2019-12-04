@@ -58,9 +58,9 @@ type (
 	amqp struct {
 		Host  string `default:"192.168.3.3"`
 		Port  string `default:"5672"`
-		User  string `default:"artifact"`
-		Pass  string `default:"artifact"`
-		Vhost string `default:"/artifact"`
+		User  string `default:"zwyd"`
+		Pass  string `default:"zwyd"`
+		Vhost string `default:"/zwyd"`
 	}
 
 	beanstalk struct {

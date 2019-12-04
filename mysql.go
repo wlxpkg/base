@@ -1,8 +1,8 @@
 package pkg
 
 import (
-	. "artifact/pkg/config"
-	"artifact/pkg/log"
+	. "zwyd/pkg/config"
+	"zwyd/pkg/log"
 	"bytes"
 	"time"
 

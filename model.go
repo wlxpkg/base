@@ -8,8 +8,8 @@
 package pkg
 
 import (
-	"artifact/pkg/cache"
-	"artifact/pkg/log"
+	"zwyd/pkg/cache"
+	"zwyd/pkg/log"
 	"database/sql/driver"
 	"errors"
 	"fmt"

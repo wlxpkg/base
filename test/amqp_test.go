@@ -7,9 +7,9 @@
 package test
 
 import (
-	. "artifact/pkg"
-	"artifact/pkg/amqp"
-	"artifact/pkg/log"
+	. "zwyd/pkg"
+	"zwyd/pkg/amqp"
+	"zwyd/pkg/log"
 	"testing"
 	"time"
 )

@@ -1,7 +1,7 @@
 package pkg
 
 import (
-	. "artifact/pkg/config"
+	. "zwyd/pkg/config"
 	"net/http"
 	"strings"
 

@@ -8,7 +8,7 @@
 package biz
 
 import (
-	redis "artifact/pkg/cache"
+	redis "zwyd/pkg/cache"
 )
 
 var cache = redis.NewCache().SetPrefix("user")

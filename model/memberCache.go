@@ -12,8 +12,8 @@ package model
 // 	return $this->cache->setAutoPrefix(false)->get($key);
 // }
 import (
-	. "artifact/pkg"
-	redis "artifact/pkg/cache"
+	. "zwyd/pkg"
+	redis "zwyd/pkg/cache"
 )
 
 var cache = redis.NewCache().SetPrefix("user")

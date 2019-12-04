@@ -8,14 +8,13 @@
 package biz
 
 import (
-	// . "artifact/pkg"
-	. "artifact/pkg/config"
-	"artifact/pkg/log"
 	"crypto/rand"
 	"crypto/rsa"
 	"encoding/base64"
 	"errors"
 	"fmt"
+	. "zwyd/pkg/config"
+	"zwyd/pkg/log"
 
 	"github.com/dgrijalva/jwt-go"
 )
@@ -47,8 +46,8 @@ func Jwt2Token(tokenString string) (uid string, err error) {
 
 	if claims, ok := jwtToken.Claims.(jwt.MapClaims); ok && jwtToken.Valid {
 		// fmt.Printf("claims:%#v\n", claims)
-		// fmt.Println(claims["artifact"], claims["token"])
-		if claims["artifact"].(string) != Config.Jwt.Uid {
+		// fmt.Println(claims["zwyd"], claims["token"])
+		if claims["zwyd"].(string) != Config.Jwt.Uid {
 			err = errors.New("ERR_INVALID_TOKEN")
 			return
 		}

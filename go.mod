@@ -1,4 +1,4 @@
-module artifact/pkg
+module zwyd/pkg
 
 go 1.13
 
