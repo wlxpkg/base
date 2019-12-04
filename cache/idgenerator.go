@@ -7,9 +7,9 @@
 package cache
 
 import (
-	. "zwyd/pkg/config"
-	"zwyd/pkg/log"
 	"errors"
+	. "git.wlx/zwyd/pkg/config"
+	"git.wlx/zwyd/pkg/log"
 	"strings"
 
 	"github.com/go-redis/redis"

@@ -7,9 +7,9 @@
 package model
 
 import (
-	. "zwyd/pkg"
-	redis "zwyd/pkg/cache"
-	. "zwyd/pkg/config"
+	. "git.wlx/zwyd/pkg"
+	redis "git.wlx/zwyd/pkg/cache"
+	. "git.wlx/zwyd/pkg/config"
 )
 
 const cacheTime = 3

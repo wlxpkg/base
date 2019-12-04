@@ -1,7 +1,7 @@
 package pkg
 
 import (
-	. "zwyd/pkg/config"
+	. "git.wlx/zwyd/pkg/config"
 	"net/http"
 	"strings"
 

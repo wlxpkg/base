@@ -2,8 +2,8 @@ package test
 
 import (
 	"fmt"
+	. "git.wlx/zwyd/pkg"
 	"testing"
-	. "zwyd/pkg"
 )
 
 // BenchmarkRandomNum 随机一定范围内的数字

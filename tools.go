@@ -9,6 +9,7 @@ package pkg
 import (
 	"crypto/md5"
 	"fmt"
+	"git.wlx/zwyd/pkg/log"
 	"math/big"
 	"math/rand"
 	"runtime"
@@ -16,7 +17,6 @@ import (
 	"strconv"
 	"time"
 	"unsafe"
-	"zwyd/pkg/log"
 
 	jsoniter "github.com/json-iterator/go"
 

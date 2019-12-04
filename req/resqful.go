@@ -7,9 +7,9 @@
 package req
 
 import (
-	. "zwyd/pkg"
-	. "zwyd/pkg/config"
-	"zwyd/pkg/log"
+	. "git.wlx/zwyd/pkg"
+	. "git.wlx/zwyd/pkg/config"
+	"git.wlx/zwyd/pkg/log"
 	// "encoding/json"
 )
 

@@ -8,8 +8,8 @@
 package test
 
 import (
-	. "zwyd/pkg"
-	redis "zwyd/pkg/cache"
+	. "git.wlx/zwyd/pkg"
+	redis "git.wlx/zwyd/pkg/cache"
 	"testing"
 	"time"
 

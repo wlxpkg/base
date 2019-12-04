@@ -9,8 +9,8 @@
 package middleware
 
 import (
-	. "zwyd/pkg"
-	"zwyd/pkg/model"
+	. "git.wlx/zwyd/pkg"
+	"git.wlx/zwyd/pkg/model"
 	"strings"
 
 	"github.com/gin-gonic/gin"

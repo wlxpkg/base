@@ -7,7 +7,7 @@
 package test
 
 import (
-	. "zwyd/pkg"
+	. "git.wlx/zwyd/pkg"
 	"testing"
 )
 

@@ -7,9 +7,9 @@
 package test
 
 import (
-	. "zwyd/pkg"
-	"zwyd/pkg/amqp"
-	"zwyd/pkg/log"
+	. "git.wlx/zwyd/pkg"
+	"git.wlx/zwyd/pkg/amqp"
+	"git.wlx/zwyd/pkg/log"
 	"testing"
 	"time"
 )
