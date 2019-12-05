@@ -12,17 +12,16 @@ require (
 	github.com/fatih/camelcase v1.0.0 // indirect
 	github.com/fatih/structs v1.1.0 // indirect
 	github.com/gemnasium/logrus-graylog-hook v2.0.7+incompatible
-	github.com/gin-gonic/gin v1.4.0
 	github.com/go-redis/redis v6.15.5+incompatible
 	github.com/go-sql-driver/mysql v1.4.1
 	github.com/golang/protobuf v1.3.2-0.20190409050943-e91709a02e0e // indirect
 	github.com/hashicorp/golang-lru v0.5.3 // indirect
 	github.com/jinzhu/gorm v1.9.10
-	github.com/joncalhoun/qson v0.0.0-20170526102502-8a9cab3a62b1
 	github.com/json-iterator/go v1.1.6
 	github.com/konsorten/go-windows-terminal-sequences v1.0.2 // indirect
 	github.com/kr/pretty v0.1.0 // indirect
-	github.com/mattn/go-isatty v0.0.8-0.20190424075123-c1975dc15c1d // indirect
+	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
+	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/pkg/errors v0.8.1
 	github.com/prep/beanstalk v1.3.0
 	github.com/ql2005/multiconfig v0.0.0-20190515064641-c8ed353c9652
@@ -32,8 +31,8 @@ require (
 	github.com/stretchr/testify v1.3.0
 	github.com/tidwall/gjson v1.3.2
 	github.com/tv42/base58 v0.0.0-20150113235651-b6649477bfe6
-	github.com/ugorji/go v1.1.5-0.20190421134600-1d65431a5776 // indirect
 	go.opencensus.io v0.22.1-0.20190713072201-b4a14686f0a9 // indirect
+	golang.org/x/net v0.0.0-20190503192946-f4e77d36d62c // indirect
 	google.golang.org/appengine v1.5.0 // indirect
 	launchpad.net/gocheck v0.0.0-20140225173054-000000000087 // indirect
 )
