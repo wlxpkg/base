@@ -2,14 +2,14 @@
  * @Author: qiuling
  * @Date: 2019-04-29 19:32:36
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-12-05 11:10:17
+ * @Last Modified time: 2019-12-05 11:28:47
  */
-package pkg
+package base
 
 import (
 	"crypto/md5"
+	"errors"
 	"fmt"
-	"github.com/wlxpkg/base/log"
 	"math/big"
 	"math/rand"
 	"runtime"
@@ -17,6 +17,8 @@ import (
 	"strconv"
 	"time"
 	"unsafe"
+
+	"github.com/wlxpkg/base/log"
 
 	jsoniter "github.com/json-iterator/go"
 
@@ -218,7 +220,7 @@ func JsonDecode(data string) (result map[string]interface{}, err error) {
 	result, ok := gjson.Parse(data).Value().(map[string]interface{})
 	if !ok {
 		log.Warn("数据解析失败! data: " + data)
-		err = Excp("ERR_DATA_DECODE")
+		err = errors.New("数据解析失败")
 		return
 	}
 	return

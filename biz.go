@@ -1,4 +1,4 @@
-package pkg
+package base
 
 type Biz struct {
 }

@@ -2,16 +2,17 @@
  * @Author: qiuling
  * @Date: 2019-07-01 17:12:05
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-12-05 11:10:17
+ * @Last Modified time: 2019-12-05 11:38:04
  */
 package test
 
 import (
+	"testing"
+	"time"
+
 	. "github.com/wlxpkg/base"
 	"github.com/wlxpkg/base/amqp"
 	"github.com/wlxpkg/base/log"
-	"testing"
-	"time"
 )
 
 func TestAmqpPublish(t *testing.T) {
@@ -33,6 +34,8 @@ func TestAmqpPublish(t *testing.T) {
 }
 
 func amqpPublish(pub *amqp.Producer) {
+	data := make(map[string]string)
+
 	data["name"] = "测试角色"
 	data["slug"] = "customer"
 	data["type"] = "99"

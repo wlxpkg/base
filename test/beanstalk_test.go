@@ -2,16 +2,17 @@
  * @Author: qiuling
  * @Date: 2019-06-28 19:13:57
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-12-05 11:10:17
+ * @Last Modified time: 2019-12-05 11:38:14
  */
 package test
 
 import (
+	"testing"
+	"time"
+
 	. "github.com/wlxpkg/base"
 	"github.com/wlxpkg/base/beanstalk"
 	"github.com/wlxpkg/base/log"
-	"testing"
-	"time"
 )
 
 var producer = newProducer()
@@ -47,6 +48,7 @@ func TestPublish(t *testing.T) {
 }
 
 func publish() {
+	data := make(map[string]string)
 
 	data["name"] = "测试角色"
 	data["slug"] = "customer"
