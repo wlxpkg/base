@@ -2,13 +2,13 @@
  * @Author: qiuling
  * @Date: 2019-06-25 17:34:31
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-28 17:10:24
+ * @Last Modified time: 2019-12-05 11:10:17
  */
 package test
 
 import (
-	. "git.wlx/zwyd/pkg"
-	"git.wlx/zwyd/pkg/req"
+	. "github.com/wlxpkg/base"
+	"github.com/wlxpkg/base/req"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

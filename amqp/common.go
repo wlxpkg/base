@@ -2,13 +2,13 @@
  * @Author: qiuling
  * @Date: 2019-07-01 17:49:56
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-01 22:06:01
+ * @Last Modified time: 2019-12-05 11:10:17
  */
 package amqp
 
 import (
-	. "git.wlx/zwyd/pkg/config"
-	"git.wlx/zwyd/pkg/log"
+	. "github.com/wlxpkg/base/config"
+	"github.com/wlxpkg/base/log"
 	"strings"
 
 	"github.com/streadway/amqp"

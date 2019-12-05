@@ -2,12 +2,12 @@
  * @Author: qiuling
  * @Date: 2019-05-10 16:46:20
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-05-10 17:09:00
+ * @Last Modified time: 2019-12-05 11:10:17
  */
 package test
 
 import (
-	. "git.wlx/zwyd/pkg"
+	. "github.com/wlxpkg/base"
 	"testing"
 )
 

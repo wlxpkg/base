@@ -1,4 +1,4 @@
-module git.wlx/zwyd/pkg
+module github.com/wlxpkg/base
 
 go 1.13
 

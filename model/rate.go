@@ -2,14 +2,14 @@
  * @Author: qiuling
  * @Date: 2019-09-19 10:27:59
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-09-19 17:57:26
+ * @Last Modified time: 2019-12-05 11:10:17
  */
 package model
 
 import (
-	. "git.wlx/zwyd/pkg"
-	redis "git.wlx/zwyd/pkg/cache"
-	. "git.wlx/zwyd/pkg/config"
+	. "github.com/wlxpkg/base"
+	redis "github.com/wlxpkg/base/cache"
+	. "github.com/wlxpkg/base/config"
 )
 
 const cacheTime = 3

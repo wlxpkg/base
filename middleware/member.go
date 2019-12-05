@@ -2,15 +2,15 @@
  * @Author: qiuling
  * @Date: 2019-06-20 16:58:11
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-09-10 15:00:45
+ * @Last Modified time: 2019-12-05 11:10:17
  */
 package middleware
 
 import (
 	"bytes"
 	"errors"
-	. "git.wlx/zwyd/pkg"
-	"git.wlx/zwyd/pkg/model"
+	. "github.com/wlxpkg/base"
+	"github.com/wlxpkg/base/model"
 	"io/ioutil"
 	"strings"
 	"time"

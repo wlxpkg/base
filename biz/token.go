@@ -2,13 +2,13 @@
  * @Author: qiuling
  * @Date: 2019-06-17 19:32:28
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-30 10:06:25
+ * @Last Modified time: 2019-12-05 11:10:17
  */
 
 package biz
 
 import (
-	redis "git.wlx/zwyd/pkg/cache"
+	redis "github.com/wlxpkg/base/cache"
 )
 
 var cache = redis.NewCache().SetPrefix("user")

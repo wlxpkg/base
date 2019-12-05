@@ -2,15 +2,15 @@
  * @Author: qiuling
  * @Date: 2019-06-18 15:01:17
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-08-21 14:28:39
+ * @Last Modified time: 2019-12-05 11:10:17
  */
 package middleware
 
 import (
 	"errors"
-	. "git.wlx/zwyd/pkg"
-	"git.wlx/zwyd/pkg/biz"
-	"git.wlx/zwyd/pkg/log"
+	. "github.com/wlxpkg/base"
+	"github.com/wlxpkg/base/biz"
+	"github.com/wlxpkg/base/log"
 	"net/http"
 	"regexp"
 	"strings"

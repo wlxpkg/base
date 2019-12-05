@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-05-10 14:43:57
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-28 18:17:52
+ * @Last Modified time: 2019-12-05 11:10:17
  */
 
 // http 请求连接池
@@ -10,7 +10,7 @@ package req
 
 import (
 	"bytes"
-	"git.wlx/zwyd/pkg/log"
+	"github.com/wlxpkg/base/log"
 
 	jsoniter "github.com/json-iterator/go"
 

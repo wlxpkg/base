@@ -2,7 +2,7 @@ package test
 
 import (
 	"fmt"
-	. "git.wlx/zwyd/pkg"
+	. "github.com/wlxpkg/base"
 	"testing"
 )
 

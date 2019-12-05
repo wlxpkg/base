@@ -2,14 +2,14 @@
  * @Author: qiuling
  * @Date: 2019-06-25 20:44:57
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-10-18 17:41:21
+ * @Last Modified time: 2019-12-05 11:10:17
  */
 package req
 
 import (
-	. "git.wlx/zwyd/pkg"
-	. "git.wlx/zwyd/pkg/config"
-	"git.wlx/zwyd/pkg/log"
+	. "github.com/wlxpkg/base"
+	. "github.com/wlxpkg/base/config"
+	"github.com/wlxpkg/base/log"
 	// "encoding/json"
 )
 

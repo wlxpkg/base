@@ -2,8 +2,8 @@ package pkg
 
 import (
 	"bytes"
-	. "git.wlx/zwyd/pkg/config"
-	"git.wlx/zwyd/pkg/log"
+	. "github.com/wlxpkg/base/config"
+	"github.com/wlxpkg/base/log"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"

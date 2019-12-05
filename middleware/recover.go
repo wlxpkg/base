@@ -2,14 +2,14 @@
  * @Author: qiuling
  * @Date: 2019-08-22 18:26:18
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-09-10 15:30:23
+ * @Last Modified time: 2019-12-05 11:10:17
  */
 package middleware
 
 import (
 	"errors"
-	. "git.wlx/zwyd/pkg"
-	"git.wlx/zwyd/pkg/log"
+	. "github.com/wlxpkg/base"
+	"github.com/wlxpkg/base/log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

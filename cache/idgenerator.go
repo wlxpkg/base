@@ -2,14 +2,14 @@
  * @Author: qiuling
  * @Date: 2019-06-17 15:57:14
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-17 16:57:07
+ * @Last Modified time: 2019-12-05 11:10:17
  */
 package cache
 
 import (
 	"errors"
-	. "git.wlx/zwyd/pkg/config"
-	"git.wlx/zwyd/pkg/log"
+	. "github.com/wlxpkg/base/config"
+	"github.com/wlxpkg/base/log"
 	"strings"
 
 	"github.com/go-redis/redis"

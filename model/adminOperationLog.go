@@ -2,12 +2,12 @@
  * @Author: qiuling
  * @Date: 2019-09-05 16:01:26
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-09-06 09:57:08
+ * @Last Modified time: 2019-12-05 11:10:17
  */
 package model
 
 import (
-	. "git.wlx/zwyd/pkg"
+	. "github.com/wlxpkg/base"
 )
 
 type AdminOperationLog struct {

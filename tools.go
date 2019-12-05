@@ -2,14 +2,14 @@
  * @Author: qiuling
  * @Date: 2019-04-29 19:32:36
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-10-18 17:30:16
+ * @Last Modified time: 2019-12-05 11:10:17
  */
 package pkg
 
 import (
 	"crypto/md5"
 	"fmt"
-	"git.wlx/zwyd/pkg/log"
+	"github.com/wlxpkg/base/log"
 	"math/big"
 	"math/rand"
 	"runtime"

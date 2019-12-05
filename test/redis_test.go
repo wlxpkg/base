@@ -2,14 +2,14 @@
  * @Author: qiuling
  * @Date: 2019-05-06 19:00:55
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-06-24 14:56:56
+ * @Last Modified time: 2019-12-05 11:10:17
  */
 
 package test
 
 import (
-	. "git.wlx/zwyd/pkg"
-	redis "git.wlx/zwyd/pkg/cache"
+	. "github.com/wlxpkg/base"
+	redis "github.com/wlxpkg/base/cache"
 	"testing"
 	"time"
 

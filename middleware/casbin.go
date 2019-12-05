@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-17 15:33:04
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-11-13 16:08:35
+ * @Last Modified time: 2019-12-05 11:10:17
  */
 
 package middleware
@@ -10,9 +10,9 @@ package middleware
 import (
 	"bytes"
 	"errors"
-	. "git.wlx/zwyd/pkg"
-	. "git.wlx/zwyd/pkg/config"
-	"git.wlx/zwyd/pkg/model"
+	. "github.com/wlxpkg/base"
+	. "github.com/wlxpkg/base/config"
+	"github.com/wlxpkg/base/model"
 	"io/ioutil"
 	"strings"
 	"time"

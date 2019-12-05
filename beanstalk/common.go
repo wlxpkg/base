@@ -2,12 +2,12 @@
  * @Author: qiuling
  * @Date: 2019-07-02 16:21:23
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-08-08 18:08:18
+ * @Last Modified time: 2019-12-05 11:10:17
  */
 package beanstalk
 
 import (
-	. "git.wlx/zwyd/pkg/config"
+	. "github.com/wlxpkg/base/config"
 	"log"
 	"os"
 	"time"

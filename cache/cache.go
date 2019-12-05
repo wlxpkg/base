@@ -3,8 +3,8 @@ package cache
 import (
 	"encoding/json"
 	"fmt"
-	. "git.wlx/zwyd/pkg/config"
-	"git.wlx/zwyd/pkg/log"
+	. "github.com/wlxpkg/base/config"
+	"github.com/wlxpkg/base/log"
 	"strings"
 	"time"
 
