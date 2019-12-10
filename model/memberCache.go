@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-20 17:10:45
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-12-05 11:10:17
+ * @Last Modified time: 2019-12-10 18:40:13
  */
 package model
 
@@ -30,28 +30,18 @@ func MemberRoute() []string {
 	return cache.SMembers(key)
 }
 
-func GetRoleIds(route string, method string) []string {
+/* func GetRoleIds(route string, method string) []string {
 	key := "member:route:" + method + "@" + route
 	return cache.SMembers(key)
-}
+} */
 
-func MemberRole(user_id int64, role_id string, client_id string) (expireAt string) {
-	key := "memberRole:" + Int642String(user_id) + ":" + role_id + ":" + client_id
+func MemberTime(user_id int64, client_id string) (expireAt string) {
+	key := "memberTime:" + Int642String(user_id) + ":" + client_id
 
 	// var countStr string
 	err := cache.Get(key, &expireAt)
 	if err != nil {
 		expireAt = ""
-	}
-	return
-}
-
-func GetFlower(userID int64) (count int64) {
-	key := "flower:" + Int642String(userID)
-
-	err := cache.Get(key, &count)
-	if err != nil {
-		count = 0
 	}
 	return
 }

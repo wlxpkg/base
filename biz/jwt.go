@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-17 19:32:16
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-07-19 16:25:03
+ * @Last Modified time: 2019-12-10 18:58:05
  */
 
 package biz
@@ -13,6 +13,7 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
+
 	. "github.com/wlxpkg/base/config"
 	"github.com/wlxpkg/base/log"
 
@@ -47,7 +48,7 @@ func Jwt2Token(tokenString string) (uid string, err error) {
 	if claims, ok := jwtToken.Claims.(jwt.MapClaims); ok && jwtToken.Valid {
 		// fmt.Printf("claims:%#v\n", claims)
 		// fmt.Println(claims["zwyd"], claims["token"])
-		if claims["zwyd"].(string) != Config.Jwt.Uid {
+		if claims["zwyd"] == nil || claims["zwyd"].(string) != Config.Jwt.Uid {
 			err = errors.New("ERR_INVALID_TOKEN")
 			return
 		}
