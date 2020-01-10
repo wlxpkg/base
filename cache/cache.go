@@ -98,6 +98,36 @@ func (c *Cache) Set(key string, value interface{}, ttl int) {
 	}
 }
 
+// SetNX Redis `SET key value [expiration] NX` command.
+func (c *Cache) SetNX(key string, value interface{}, ttl int) {
+	val, err := json.Marshal(value)
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	key = c.prefixKey(key)
+	err = clients[c.db].SetNX(key, string(val), time.Duration(ttl)*time.Second).Err()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+}
+
+// SetXX Redis `SET key value [expiration] XX` command.
+func (c *Cache) SetXX(key string, value interface{}, ttl int) {
+	val, err := json.Marshal(value)
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	key = c.prefixKey(key)
+	err = clients[c.db].SetXX(key, string(val), time.Duration(ttl)*time.Second).Err()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+}
+
 // Get cache data
 func (c *Cache) Get(key string, structs interface{}) (err error) {
 	key = c.prefixKey(key)
@@ -258,7 +288,7 @@ func (c *Cache) HSet(key string, field string, value interface{}) {
 	}
 }
 
-// HMSet
+// HMSet 同时将多个 field-value (域-值)对设置到哈希表 key 中
 func (c *Cache) HMSet(key string, data interface{}) {
 	value := c.MapData(data)
 
@@ -270,10 +300,10 @@ func (c *Cache) HMSet(key string, data interface{}) {
 	}
 }
 
+// HGet 返回哈希表 key 中给定域 field 的值
 func (c *Cache) HGet(key string, field string) (value string) {
 	key = c.prefixKey(key)
 	value, err := clients[c.db].HGet(key, field).Result()
-	// R(value, "Exists value")
 
 	if err != nil {
 		log.Err(err)
@@ -282,6 +312,7 @@ func (c *Cache) HGet(key string, field string) (value string) {
 	return
 }
 
+// HDel 删除 hash 一个域
 func (c *Cache) HDel(key string, field string) {
 	key = c.prefixKey(key)
 	err := clients[c.db].HDel(key, field).Err()
@@ -291,6 +322,7 @@ func (c *Cache) HDel(key string, field string) {
 	}
 }
 
+// HGetAll 返回哈希表 key 中，所有的域和值
 func (c *Cache) HGetAll(key string) (value map[string]string) {
 	key = c.prefixKey(key)
 	value, err := clients[c.db].HGetAll(key).Result()

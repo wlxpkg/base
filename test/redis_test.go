@@ -63,6 +63,15 @@ func TestSetGet(t *testing.T) {
 	assert.Equal(t, str, valString, "valString")
 }
 
+func TestSetNx(t *testing.T) {
+	testKey := "test:getkey"
+	cache.SetNX(testKey, student, 100)
+}
+
+func TestSetXX(t *testing.T) {
+	testKey := "test:getkey"
+	cache.SetNX(testKey, "1111", 100)
+}
 func TestHSetGet(t *testing.T) {
 	testKey := "test:hkey"
 	filde := "man"
