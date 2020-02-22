@@ -61,10 +61,10 @@ func Paginator(page int, count int, list interface{}) map[string]interface{} {
 }
 
 func RandomNum(min, max int) int {
-	if min >= max || min == 0 || max == 0 {
-		return max
+	if min >= max {
+		return -9999999
 	}
-	rand.Seed(time.Now().Unix())
+	rand.Seed(time.Now().UnixNano())
 	return rand.Intn(max-min) + min
 }
 
