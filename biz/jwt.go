@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-06-17 19:32:16
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-12-10 18:58:05
+ * @Last Modified time: 2020-05-22 22:21:38
  */
 
 package biz
@@ -21,6 +21,8 @@ import (
 )
 
 func Jwt2Token(tokenString string) (uid string, err error) {
+
+	issuer := Config.Jwt.Iss
 
 	/* jwtToken, err := jwt.Parse(tokenString, func(jwtToken *jwt.Token) (interface{}, error) {
 		// Don't forget to validate the alg is what you expect:
@@ -48,7 +50,7 @@ func Jwt2Token(tokenString string) (uid string, err error) {
 	if claims, ok := jwtToken.Claims.(jwt.MapClaims); ok && jwtToken.Valid {
 		// fmt.Printf("claims:%#v\n", claims)
 		// fmt.Println(claims["zwyd"], claims["token"])
-		if claims["zwyd"] == nil || claims["zwyd"].(string) != Config.Jwt.Uid {
+		if claims[issuer] == nil || claims[issuer].(string) != Config.Jwt.Uid {
 			err = errors.New("ERR_INVALID_TOKEN")
 			return
 		}
