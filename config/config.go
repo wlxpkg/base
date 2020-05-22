@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-05-13 16:01:39
  * @Last Modified by: qiuling
- * @Last Modified time: 2020-04-30 18:29:10
+ * @Last Modified time: 2020-05-22 22:27:55
  */
 
 package pkg
@@ -56,11 +56,12 @@ type (
 	}
 
 	amqp struct {
-		Host  string `default:"192.168.3.3"`
-		Port  string `default:"5672"`
-		User  string `default:"zwyd"`
-		Pass  string `default:"zwyd"`
-		Vhost string `default:"/zwyd"`
+		Host     string `default:"192.168.3.3"`
+		Port     string `default:"5672"`
+		User     string `default:"zwyd"`
+		Pass     string `default:"zwyd"`
+		Vhost    string `default:"/zwyd"`
+		Exchange string `default:"zwyd"`
 	}
 
 	beanstalk struct {
@@ -90,6 +91,7 @@ type (
 	jwt struct {
 		Secret string
 		Uid    string
+		Iss    string
 	}
 
 	server struct {
