@@ -41,7 +41,7 @@ type Jwt struct {
 	RefreshToken string `json:"refresh_token"`
 }
 
-func CreateJwt(user_id string) (jwtData Jwt, err error) {
+func CreateJwt(userID, clientID string) (jwtData Jwt, err error) {
 	issuer := Config.Jwt.Iss
 	priv, err := jwt.ParseRSAPrivateKeyFromPEM([]byte(Config.Rsa.Private))
 	if err != nil {
@@ -49,7 +49,7 @@ func CreateJwt(user_id string) (jwtData Jwt, err error) {
 		return
 	}
 
-	uid := []byte(user_id)
+	uid := []byte(userID)
 	uidRsa, _ := rsaEncrypt(uid)
 
 	// base64 decode
@@ -75,22 +75,25 @@ func CreateJwt(user_id string) (jwtData Jwt, err error) {
 		return
 	}
 
-	jwtData.RefreshToken = RandStr(32)
+	if clientID != "" {
+		jwtData.RefreshToken = RandStr(32)
 
-	refreshClaims := RefreshClaims{
-		uidRsaStr,
-		Config.Jwt.Uid,
-		jwtData.RefreshToken,
-		jwt.StandardClaims{
-			Id:        RandStr(32),
-			IssuedAt:  time.Now().Unix(),
-			ExpiresAt: time.Now().Add(time.Hour * 24 * 30).Unix(), // 30天有效期
-			Issuer:    issuer,
-		},
+		refreshClaims := RefreshClaims{
+			uidRsaStr,
+			Config.Jwt.Uid,
+			jwtData.RefreshToken,
+			jwt.StandardClaims{
+				Id:        RandStr(32),
+				IssuedAt:  time.Now().Unix(),
+				ExpiresAt: time.Now().Add(time.Hour * 24 * 30).Unix(), // 30天有效期
+				Issuer:    issuer,
+			},
+		}
+
+		refreshToken := jwt.NewWithClaims(jwt.SigningMethodRS256, refreshClaims)
+		jwtData.Refresh, err = refreshToken.SignedString(priv)
 	}
 
-	refreshToken := jwt.NewWithClaims(jwt.SigningMethodRS256, refreshClaims)
-	jwtData.Refresh, err = refreshToken.SignedString(priv)
 	return
 }
 
@@ -99,14 +102,14 @@ func Jwt2Token(tokenString string) (uid string, err error) {
 	issuer := Config.Jwt.Iss
 
 	/* jwtToken, err := jwt.Parse(tokenString, func(jwtToken *jwt.Token) (interface{}, error) {
-		  // Don't forget to validate the alg is what you expect:
-		  if _, ok := jwtToken.Method.(*jwt.SigningMethodRSA); !ok {
-			  return nil, fmt.Errorf("Unexpected signing method: %v", jwtToken.Header["alg"])
-		  }
-		  // hmacSampleSecret is a []byte containing your secret, e.g. []byte("my_secret_key")
-		  return []byte(Config.Jwt.Secret), nil
-		  // return *rsa.PrivateKey, nil
-	  }) */
+		   // Don't forget to validate the alg is what you expect:
+		   if _, ok := jwtToken.Method.(*jwt.SigningMethodRSA); !ok {
+			   return nil, fmt.Errorf("Unexpected signing method: %v", jwtToken.Header["alg"])
+		   }
+		   // hmacSampleSecret is a []byte containing your secret, e.g. []byte("my_secret_key")
+		   return []byte(Config.Jwt.Secret), nil
+		   // return *rsa.PrivateKey, nil
+	   }) */
 
 	jwtToken, err := jwt.Parse(tokenString, func(jwtToken *jwt.Token) (interface{}, error) {
 		// Don't forget to validate the alg is what you expect:
