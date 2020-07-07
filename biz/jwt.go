@@ -123,7 +123,7 @@ func Jwt2Token(tokenString string) (uid string, err error) {
 	})
 
 	if claims, ok := jwtToken.Claims.(jwt.MapClaims); ok && jwtToken.Valid {
-		fmt.Printf("claims:%#v\n", claims)
+		// fmt.Printf("claims:%#v\n", claims)
 		// fmt.Println(claims["zwyd"], claims["token"])
 		if claims[issuer] == nil || claims[issuer].(string) != Config.Jwt.Uid {
 			err = errors.New("ERR_INVALID_TOKEN")
