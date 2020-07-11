@@ -2,7 +2,7 @@
  * @Author: qiuling
  * @Date: 2019-04-29 19:32:36
  * @Last Modified by: qiuling
- * @Last Modified time: 2019-12-05 11:28:47
+ * @Last Modified time: 2020-07-11 15:31:53
  */
 package base
 
@@ -61,10 +61,10 @@ func Paginator(page int, count int, list interface{}) map[string]interface{} {
 }
 
 func RandomNum(min, max int) int {
-	if min >= max || min == 0 || max == 0 {
-		return max
+	if min >= max {
+		return -9999999
 	}
-	rand.Seed(time.Now().Unix())
+	rand.Seed(time.Now().UnixNano())
 	return rand.Intn(max-min) + min
 }
 
@@ -166,6 +166,11 @@ func Byte2String(b []byte) string {
 // float64 转 string
 func Float642String(v float64, p int) string {
 	return strconv.FormatFloat(v, 'f', p, 64)
+}
+
+// string 转 float64
+func String2Float64(str string) (float64, error) {
+	return strconv.ParseFloat(str, 64)
 }
 
 func Bool2Int(b bool) int {
