@@ -8,9 +8,10 @@ package cache
 
 import (
 	"errors"
+	"strings"
+
 	. "github.com/wlxpkg/base/config"
 	"github.com/wlxpkg/base/log"
-	"strings"
 
 	"github.com/go-redis/redis"
 )

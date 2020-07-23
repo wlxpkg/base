@@ -3,10 +3,11 @@ package cache
 import (
 	"encoding/json"
 	"fmt"
-	. "github.com/wlxpkg/base/config"
-	"github.com/wlxpkg/base/log"
 	"strings"
 	"time"
+
+	. "github.com/wlxpkg/base/config"
+	"github.com/wlxpkg/base/log"
 
 	"github.com/go-redis/redis"
 )
@@ -258,7 +259,7 @@ func (c *Cache) HSet(key string, field string, value interface{}) {
 	}
 }
 
-// HMSet
+// HMSet 同时将多个 field-value (字段-值)对设置到哈希表中
 func (c *Cache) HMSet(key string, data interface{}) {
 	value := c.MapData(data)
 
@@ -270,10 +271,10 @@ func (c *Cache) HMSet(key string, data interface{}) {
 	}
 }
 
+// HGet 返回哈希表中指定字段的值
 func (c *Cache) HGet(key string, field string) (value string) {
 	key = c.prefixKey(key)
 	value, err := clients[c.db].HGet(key, field).Result()
-	// R(value, "Exists value")
 
 	if err != nil {
 		log.Err(err)
@@ -282,6 +283,7 @@ func (c *Cache) HGet(key string, field string) (value string) {
 	return
 }
 
+// HDel 删除哈希表 key 中的一个或多个指定字段
 func (c *Cache) HDel(key string, field string) {
 	key = c.prefixKey(key)
 	err := clients[c.db].HDel(key, field).Err()
@@ -291,6 +293,7 @@ func (c *Cache) HDel(key string, field string) {
 	}
 }
 
+// HGetAll 返回哈希表中，所有的字段和
 func (c *Cache) HGetAll(key string) (value map[string]string) {
 	key = c.prefixKey(key)
 	value, err := clients[c.db].HGetAll(key).Result()
@@ -521,6 +524,225 @@ func (c *Cache) SUnionStore(destination string, keys ...string) (value int64) {
 
 	value, err := clients[c.db].SUnionStore(destination, keys...).Result()
 
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+/******************************* list *********************************/
+
+// BLPop 移出并获取列表的第一个元素， 如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止
+func (c *Cache) BLPop(timeout time.Duration, keys ...string) (value []string) {
+	for i, key := range keys {
+		keys[i] = c.prefixKey(key)
+	}
+	value, err := clients[c.db].BLPop(timeout, keys...).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// BRPop 移出并获取列表的最后一个元素， 如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止
+func (c *Cache) BRPop(timeout time.Duration, keys ...string) (value []string) {
+	for i, key := range keys {
+		keys[i] = c.prefixKey(key)
+	}
+	value, err := clients[c.db].BRPop(timeout, keys...).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// BRPopLPush 从列表中弹出一个值，将弹出的元素插入到另外一个列表中并返回它;
+// 如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止。
+func (c *Cache) BRPopLPush(source, destination string, timeout time.Duration) (value string) {
+	source = c.prefixKey(source)
+	destination = c.prefixKey(destination)
+	value, err := clients[c.db].BRPopLPush(source, destination, timeout).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// LIndex 通过索引获取列表中的元素
+func (c *Cache) LIndex(key string, index int64) (value string) {
+	key = c.prefixKey(key)
+	value, err := clients[c.db].LIndex(key, index).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// LInsert 在列表的元素前或者后插入元素
+func (c *Cache) LInsert(key, op string, pivot, value interface{}) {
+	key = c.prefixKey(key)
+	value, err := clients[c.db].LInsert(key, op, pivot, value).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// LInsertBefore 在列表的元素前插入元素
+func (c *Cache) LInsertBefore(key string, pivot, value interface{}) (res int64) {
+	key = c.prefixKey(key)
+	res, err := clients[c.db].LInsertBefore(key, pivot, value).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// LInsertAfter 在列表的元素后插入元素
+func (c *Cache) LInsertAfter(key string, pivot, value interface{}) (res int64) {
+	key = c.prefixKey(key)
+	res, err := clients[c.db].LInsertAfter(key, pivot, value).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// LLen 获取列表长度
+func (c *Cache) LLen(key string) (value int64) {
+	key = c.prefixKey(key)
+	value, err := clients[c.db].LLen(key).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// LPop 移出并获取列表的第一个元素
+func (c *Cache) LPop(key string) (value int64) {
+	key = c.prefixKey(key)
+	value, err := clients[c.db].LLen(key).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// LPush 将一个或多个值插入到列表头部
+func (c *Cache) LPush(key string, values ...interface{}) (value int64) {
+	key = c.prefixKey(key)
+	value, err := clients[c.db].LPush(key, values...).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// LPushX 将一个值插入到已存在的列表头部
+func (c *Cache) LPushX(key string, value interface{}) (res int64) {
+	key = c.prefixKey(key)
+	res, err := clients[c.db].LPushX(key, value).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// LRange 获取列表指定范围内的元素 区间以偏移量 START 和 STOP 指定
+func (c *Cache) LRange(key string, start, stop int64) (value []string) {
+	key = c.prefixKey(key)
+	value, err := clients[c.db].LRange(key, start, stop).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// LRem 根据参数 COUNT 的值，移除列表中与参数 VALUE 相等的元素
+func (c *Cache) LRem(key string, count int64, value interface{}) (res int64) {
+	key = c.prefixKey(key)
+	res, err := clients[c.db].LRem(key, count, value).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// LSet 通过索引来设置元素的值
+func (c *Cache) LSet(key string, index int64, value interface{}) (res string) {
+	key = c.prefixKey(key)
+	res, err := clients[c.db].LSet(key, index, value).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+
+}
+
+// LTrim 让列表只保留指定区间内的元素，不在指定区间之内的元素都将被删除
+func (c *Cache) LTrim(key string, start, stop int64) (value string) {
+	key = c.prefixKey(key)
+	value, err := clients[c.db].LTrim(key, start, stop).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// RPop 移除列表的最后一个元素，返回值为移除的元素
+func (c *Cache) RPop(key string) (value string) {
+	key = c.prefixKey(key)
+	value, err := clients[c.db].RPop(key).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// RPopLPush 移除列表的最后一个元素，并将该元素添加到另一个列表并返回
+func (c *Cache) RPopLPush(source, destination string) (value string) {
+	source = c.prefixKey(source)
+	destination = c.prefixKey(destination)
+	value, err := clients[c.db].RPopLPush(source, destination).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// RPush 将一个或多个值插入到列表的尾部
+func (c *Cache) RPush(key string, values ...interface{}) (value int64) {
+	key = c.prefixKey(key)
+	value, err := clients[c.db].RPush(key, values...).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// RPushX 将一个值插入到列表的尾部
+func (c *Cache) RPushX(key string, value interface{}) (res int64) {
+	key = c.prefixKey(key)
+	res, err := clients[c.db].RPushX(key, value).Result()
 	if err != nil {
 		log.Err(err)
 		return
