@@ -8,10 +8,11 @@
 package test
 
 import (
-	. "github.com/wlxpkg/base"
-	redis "github.com/wlxpkg/base/cache"
 	"testing"
 	"time"
+
+	. "github.com/wlxpkg/base"
+	redis "github.com/wlxpkg/base/cache"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -323,5 +324,15 @@ func TestExpireAt(t *testing.T) {
 	tm, _ := Cache.TTL(key)
 	t.Run("run ttl success", func(t *testing.T) {
 		assert.Equal(t, int64(60), tm, "ttl cmd")
+	})
+}
+
+func TestLPush(t *testing.T) {
+	key := "test:list"
+	Cache.Del(key)
+	Cache.LPush(key, "hello")
+	result := Cache.LLen(key)
+	t.Run("run LPush success", func(t *testing.T) {
+		assert.Equal(t, int64(1), result, "LPush cmd")
 	})
 }
