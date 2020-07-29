@@ -729,3 +729,115 @@ func (c *Cache) RPushX(key string, value interface{}) (res int64) {
 	}
 	return
 }
+
+/******************************* sorted set *********************************/
+
+// ZAdd 将一个或多个成员元素及其分数值加入到有序集当中
+func (c *Cache) ZAdd(key string, members ...redis.Z) (res int64) {
+	key = c.prefixKey(key)
+	res, err := clients[c.db].ZAdd(key, members...).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// ZAddNX 将一个或多个成员元素及其分数值加入到有序集当中
+func (c *Cache) ZAddNX(key string, members ...redis.Z) (res int64) {
+	key = c.prefixKey(key)
+	res, err := clients[c.db].ZAddNX(key, members...).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// ZIncr 对有序集合中指定成员的分数加上1
+func (c *Cache) ZIncr(key string, member redis.Z) (res float64) {
+	key = c.prefixKey(key)
+	res, err := clients[c.db].ZIncr(key, member).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// ZIncrNX 对有序集合中指定成员的分数加上1
+func (c *Cache) ZIncrNX(key string, member redis.Z) (res float64) {
+	key = c.prefixKey(key)
+	res, err := clients[c.db].ZIncrNX(key, member).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// ZIncrBy 对有序集合中指定成员的分数加上increment
+func (c *Cache) ZIncrBy(key string, increment float64, member string) (res float64) {
+	key = c.prefixKey(key)
+	res, err := clients[c.db].ZIncrBy(key, increment, member).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// ZCard 计算集合中元素的数量
+func (c *Cache) ZCard(key string) (res int64) {
+	key = c.prefixKey(key)
+	res, err := clients[c.db].ZCard(key).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// ZScore 返回有序集中，成员的分数值
+func (c *Cache) ZScore(key, member string) (res float64) {
+	key = c.prefixKey(key)
+	res, err := clients[c.db].ZScore(key, member).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// ZRange 返回有序集中，按分数值递增返回指定区间内的成员
+func (c *Cache) ZRange(key string, start, stop int64) (res []string) {
+	key = c.prefixKey(key)
+	res, err := clients[c.db].ZRange(key, start, stop).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// ZRevRange 返回有序集中，按分数值递减返回指定区间内的成员
+func (c *Cache) ZRevRange(key string, start, stop int64) (res []string) {
+	key = c.prefixKey(key)
+	res, err := clients[c.db].ZRevRange(key, start, stop).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
+
+// ZRem 移除有序集合中的一个或多个成员
+func (c *Cache) ZRem(key string, members ...interface{}) (res int64) {
+	key = c.prefixKey(key)
+	res, err := clients[c.db].ZRem(key, members...).Result()
+	if err != nil {
+		log.Err(err)
+		return
+	}
+	return
+}
