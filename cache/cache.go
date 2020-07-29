@@ -215,43 +215,27 @@ func (c *Cache) TTL(key string) (ttl int64, err error) {
 /**************************  Incr  Decr ********************************/
 
 // Incr 执行 INCR cmd
-func (c *Cache) Incr(key string) {
+func (c *Cache) Incr(key string) int64 {
 	key = c.prefixKey(key)
-	err := clients[c.db].Incr(key).Err()
-	if err != nil {
-		log.Err(err)
-		return
-	}
+	return clients[c.db].Incr(key).Val()
 }
 
 // IncrBy 执行 INCRBY cmd
-func (c *Cache) IncrBy(key string, incr int64) {
+func (c *Cache) IncrBy(key string, incr int64) int64 {
 	key = c.prefixKey(key)
-	err := clients[c.db].IncrBy(key, incr).Err()
-	if err != nil {
-		log.Err(err)
-		return
-	}
+	return clients[c.db].IncrBy(key, incr).Val()
 }
 
 // Decr 执行 DECR cmd
-func (c *Cache) Decr(key string) {
+func (c *Cache) Decr(key string) int64 {
 	key = c.prefixKey(key)
-	err := clients[c.db].Decr(key).Err()
-	if err != nil {
-		log.Err(err)
-		return
-	}
+	return clients[c.db].Decr(key).Val()
 }
 
 // DecrBy 执行 DECRBY cmd
-func (c *Cache) DecrBy(key string, decr int64) {
+func (c *Cache) DecrBy(key string, decr int64) int64 {
 	key = c.prefixKey(key)
-	err := clients[c.db].DecrBy(key, decr).Err()
-	if err != nil {
-		log.Err(err)
-		return
-	}
+	return clients[c.db].DecrBy(key, decr).Val()
 }
 
 /**************************  Hash  ********************************/
@@ -270,13 +254,9 @@ func (c *Cache) HExists(key, field string) (isExists bool) {
 }
 
 // HIncrBy hash incrBy
-func (c *Cache) HIncrBy(key, field string, incr int64) {
+func (c *Cache) HIncrBy(key, field string, incr int64) int64 {
 	key = c.prefixKey(key)
-	err := clients[c.db].HIncrBy(key, field, incr).Err()
-	if err != nil {
-		log.Err(err)
-		return
-	}
+	return clients[c.db].HIncrBy(key, field, incr).Val()
 }
 
 // HSet hash
