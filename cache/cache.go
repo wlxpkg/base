@@ -638,9 +638,9 @@ func (c *Cache) LLen(key string) (value int64) {
 }
 
 // LPop 移出并获取列表的第一个元素
-func (c *Cache) LPop(key string) (value int64) {
+func (c *Cache) LPop(key string) (value string) {
 	key = c.prefixKey(key)
-	value, err := clients[c.db].LLen(key).Result()
+	value, err := clients[c.db].LPop(key).Result()
 	if err != nil {
 		log.Err(err)
 		return
