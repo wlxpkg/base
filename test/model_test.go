@@ -7,8 +7,9 @@
 package test
 
 import (
-	. "github.com/wlxpkg/base"
 	"testing"
+
+	. "github.com/wlxpkg/base"
 )
 
 func TestCreateId(t *testing.T) {

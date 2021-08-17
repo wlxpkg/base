@@ -172,12 +172,12 @@ func (c *HttpClient) buildData(method string, route string) (requrl string, body
 
 			body = strings.NewReader(v.Encode())
 		default:
-			jsonBype, jsonErr := json.Marshal(c.Data)
+			jsonByte, jsonErr := json.Marshal(c.Data)
 			if jsonErr != nil {
 				err = jsonErr
 				return
 			} else {
-				jsonBuf := bytes.NewBuffer(jsonBype)
+				jsonBuf := bytes.NewBuffer(jsonByte)
 				body = strings.NewReader(jsonBuf.String())
 			}
 		}
@@ -185,18 +185,18 @@ func (c *HttpClient) buildData(method string, route string) (requrl string, body
 	return
 }
 
-func (c *HttpClient) buildHeader(reqest *http.Request, postType string) *http.Request {
+func (c *HttpClient) buildHeader(request *http.Request, postType string) *http.Request {
 	if len(c.Header) != 0 {
 		for k, h := range c.Header {
-			reqest.Header.Set(k, h)
+			request.Header.Set(k, h)
 		}
 	}
 
 	if postType == "FORM" {
-		reqest.Header.Set("Content-Type", "application/x-www-form-urlencoded;param=value")
+		request.Header.Set("Content-Type", "application/x-www-form-urlencoded;param=value")
 	} else {
-		reqest.Header.Set("Content-Type", "application/json; charset=utf-8")
+		request.Header.Set("Content-Type", "application/json; charset=utf-8")
 	}
 
-	return reqest
+	return request
 }

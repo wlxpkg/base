@@ -9,8 +9,10 @@ package beanstalk
 import (
 	"context"
 	"fmt"
+
 	. "github.com/wlxpkg/base"
 	"github.com/wlxpkg/base/log"
+
 	"sync"
 	"time"
 
@@ -69,7 +71,7 @@ func (c *Consumer) run() {
 
 	// 理论上c.run()在程序的执行过程中是不会结束的
 	// 那么则需要重新连接，这里尝试销毁当前连接
-	defer c.distory()
+	defer c.destroy()
 
 }
 
@@ -96,6 +98,6 @@ func (c *Consumer) listen(receiver Receiver) {
 	}
 }
 
-func (c *Consumer) distory() {
+func (c *Consumer) destroy() {
 	go c.pool.Stop()
 }
