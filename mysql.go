@@ -2,9 +2,10 @@ package base
 
 import (
 	"bytes"
+	"time"
+
 	. "github.com/wlxpkg/base/config"
 	"github.com/wlxpkg/base/log"
-	"time"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
@@ -47,7 +48,7 @@ func newDB() (orm *gorm.DB) {
 	orm.SingularTable(true)
 	orm.DB().SetMaxIdleConns(100)
 	orm.DB().SetConnMaxLifetime(55 * time.Second)
-	//orm.DB().SetMaxOpenConns(1000)
+	// orm.DB().SetMaxOpenConns(1000)
 
 	return
 }

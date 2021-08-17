@@ -7,10 +7,12 @@
 package beanstalk
 
 import (
-	. "github.com/wlxpkg/base/config"
 	"log"
+
 	"os"
 	"time"
+
+	. "github.com/wlxpkg/base/config"
 
 	bt "github.com/prep/beanstalk"
 )

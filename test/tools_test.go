@@ -2,8 +2,9 @@ package test
 
 import (
 	"fmt"
-	. "github.com/wlxpkg/base"
 	"testing"
+
+	. "github.com/wlxpkg/base"
 )
 
 // BenchmarkRandomNum 随机一定范围内的数字

@@ -144,12 +144,12 @@ func String2Uint(str string) uint {
 	return uint(u64)
 }
 
-// int 转 string
+// Int2String int 转 string
 func Int2String(intval int) string {
 	return strconv.Itoa(intval)
 }
 
-// int64 转 string
+// Int642String int64 转 string
 func Int642String(intval int64) string {
 	return strconv.FormatInt(intval, 10)
 }
@@ -163,12 +163,12 @@ func Byte2String(b []byte) string {
 	return *(*string)(unsafe.Pointer(&b))
 }
 
-// float64 转 string
+// Float642String float64 转 string
 func Float642String(v float64, p int) string {
 	return strconv.FormatFloat(v, 'f', p, 64)
 }
 
-// string 转 float64
+// String2Float64 string 转 float64
 func String2Float64(str string) (float64, error) {
 	return strconv.ParseFloat(str, 64)
 }
@@ -193,7 +193,7 @@ func Data2Map(data interface{}) map[string]interface{} {
 	return mdata
 }
 
-// Base58Encode int64 -> 58进制转换
+// Base58Encode int64 58进制转换
 func Base58Encode(id int64) string {
 	bigint := new(big.Int).SetInt64(id)
 
@@ -211,11 +211,11 @@ func Base58Decode(str string) int64 {
 func Md5(str string) string {
 	data := []byte(str)
 	has := md5.Sum(data)
-	md5str := fmt.Sprintf("%x", has) //将[]byte转成16进制
+	md5str := fmt.Sprintf("%x", has) // 将[]byte转成16进制
 	return md5str
 }
 
-// JsonDecode
+// JsonEncode json encode
 func JsonEncode(data interface{}) ([]byte, error) {
 	return json.Marshal(data)
 }

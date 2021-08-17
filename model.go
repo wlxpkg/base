@@ -29,6 +29,17 @@ type JSONTime struct {
 	time.Time
 }
 
+func (t *JSONTime) UnmarshalJSON(data []byte) (err error) {
+	if len(data) == 2 {
+		*t = JSONTime{Time: time.Time{}}
+		return
+	}
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	now, err := time.ParseInLocation(`"`+TimeFormat+`"`, string(data), loc)
+	*t = JSONTime{Time: now}
+	return
+}
+
 // MarshalJSON on JSONTime format Time field with Y-m-d H:i:s
 func (t JSONTime) MarshalJSON() ([]byte, error) {
 	if t.Time.IsZero() {

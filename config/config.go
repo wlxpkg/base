@@ -182,8 +182,8 @@ func substr(s string, pos, length int) string {
 	return string(runes[pos:l])
 }
 
-func GetParentDirectory(dirctory string) string {
-	return substr(dirctory, 0, strings.LastIndex(dirctory, "/"))
+func GetParentDirectory(directory string) string {
+	return substr(directory, 0, strings.LastIndex(directory, "/"))
 }
 
 func GetCurrentDirectory() string {

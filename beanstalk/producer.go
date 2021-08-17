@@ -9,9 +9,11 @@ package beanstalk
 import (
 	. "github.com/wlxpkg/base"
 	. "github.com/wlxpkg/base/config"
-	"github.com/wlxpkg/base/log"
+
 	"strings"
 	"time"
+
+	"github.com/wlxpkg/base/log"
 
 	"github.com/beanstalkd/go-beanstalk"
 	"github.com/silenceper/pool"
@@ -24,25 +26,26 @@ type Producer struct {
 func NewProducer() (producer *Producer, err error) {
 	producer = &Producer{}
 
-	//factory 创建连接的方法
+	// factory 创建连接的方法
 	factory := func() (interface{}, error) {
 		return beanstalk.Dial("tcp", Config.Beanstalk.Host+":"+Config.Beanstalk.Port)
 	}
-	//close 关闭连接的方法
+	// close 关闭连接的方法
 	close := func(v interface{}) error {
 		return v.(*beanstalk.Conn).Close()
 	}
-	//ping 检测连接的方法
-	//ping := func(v interface{}) error { return nil }
+	// ping 检测连接的方法
+	// ping := func(v interface{}) error { return nil }
 
-	//创建一个连接池： 初始化5，最大连接30
-	poolConfig := &pool.PoolConfig{
+	// 创建一个连接池： 初始化5，最大连接30
+	poolConfig := &pool.Config{
 		InitialCap: 5,
 		MaxCap:     30,
+		MaxIdle:    0,
 		Factory:    factory,
 		Close:      close,
-		//Ping:       ping,
-		//连接最大空闲时间，超过该时间的连接 将会关闭，可避免空闲时连接EOF，自动失效的问题
+		// Ping:       ping,
+		// 连接最大空闲时间，超过该时间的连接 将会关闭，可避免空闲时连接EOF，自动失效的问题
 		IdleTimeout: 15 * time.Second,
 	}
 	pool, err := pool.NewChannelPool(poolConfig)
@@ -95,7 +98,7 @@ func (producer *Producer) Publish(
 
 	id, err := conn.Put(messageData, 1, time.Duration(delay)*time.Second, 30*time.Second)
 
-	//将连接放回连接池中
+	// 将连接放回连接池中
 	_ = producer.pool.Put(puter)
 
 	return id, err

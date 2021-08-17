@@ -8,12 +8,12 @@ package amqp
 
 import (
 	"fmt"
-	. "github.com/wlxpkg/base"
-	"github.com/wlxpkg/base/log"
 	"sync"
 	"time"
 
 	"github.com/streadway/amqp"
+	. "github.com/wlxpkg/base"
+	"github.com/wlxpkg/base/log"
 )
 
 // Consumer 用于管理和维护rabbitmq的对象
