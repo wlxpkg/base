@@ -41,7 +41,7 @@ func NewProducer() (producer *Producer, err error) {
 	poolConfig := &pool.Config{
 		InitialCap: 5,
 		MaxCap:     30,
-		MaxIdle:    0,
+		MaxIdle:    6,
 		Factory:    factory,
 		Close:      close,
 		// Ping:       ping,
