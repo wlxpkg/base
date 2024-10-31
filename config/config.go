@@ -108,6 +108,7 @@ type (
 
 	service struct {
 		Secret string
+		AppEnv string
 	}
 
 	fubei struct {
@@ -144,6 +145,12 @@ type (
 		LongTime  []string
 		ShortTime []string
 	}
+	appleStore struct {
+		BundleID string
+		KeyID    string
+		Key      string
+		Issuer   string
+	}
 )
 
 var Config = new(struct {
@@ -163,6 +170,7 @@ var Config = new(struct {
 	Pay         pay
 	Rsa         rsa
 	Rate        rate
+	AppleStore  appleStore
 })
 
 func init() {
