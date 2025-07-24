@@ -158,6 +158,7 @@ var Config = new(struct {
 	Redis       redis
 	RateRedis   rateRedis
 	Mysql       mysql
+	MysqlZWYD   mysql
 	Mongo       mongo
 	Idgenerator idgenerator
 	Amqp        amqp
