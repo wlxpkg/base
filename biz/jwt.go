@@ -24,12 +24,16 @@ import (
 
 type JwtClaims struct {
 	Uid  string `json:"uid"`
+	Aid  string `json:"aid"`
+	Sid  string `json:"sid"`
 	Name string `json:"cj"`
 	jwt.StandardClaims
 }
 
 type RefreshClaims struct {
 	Uid          string `json:"uid"`
+	Aid          string `json:"aid"`
+	Sid          string `json:"sid"`
 	Name         string `json:"cj"`
 	RefreshToken string `json:"token"`
 	jwt.StandardClaims
@@ -41,12 +45,29 @@ type Jwt struct {
 	RefreshToken string `json:"refresh_token"`
 }
 
+type TokenData struct {
+	Uid          string `json:"uid"`
+	Aid          string `json:"aid"`
+	Sid          string `json:"sid"`
+	RefreshToken string `json:"refresh_token"`
+}
+
 func CreateJwt(userID, clientID string) (jwtData Jwt, err error) {
+	return CreateJwtWithSession(userID, clientID, "1", RandStr(32))
+}
+
+func CreateJwtWithSession(userID, clientID, appID, sid string) (jwtData Jwt, err error) {
 	issuer := Config.Jwt.Iss
 	priv, err := jwt.ParseRSAPrivateKeyFromPEM([]byte(Config.Rsa.Private))
 	if err != nil {
 		log.Err(err)
 		return
+	}
+	if appID == "" {
+		appID = "1"
+	}
+	if sid == "" {
+		sid = RandStr(32)
 	}
 
 	uid := []byte(userID)
@@ -57,9 +78,11 @@ func CreateJwt(userID, clientID string) (jwtData Jwt, err error) {
 
 	// Create the Claims
 	claims := JwtClaims{
-		uidRsaStr,
-		Config.Jwt.Uid,
-		jwt.StandardClaims{
+		Uid:  uidRsaStr,
+		Aid:  appID,
+		Sid:  sid,
+		Name: Config.Jwt.Uid,
+		StandardClaims: jwt.StandardClaims{
 			Id:        RandStr(32),
 			IssuedAt:  time.Now().Unix(),
 			ExpiresAt: time.Now().Add(time.Hour * 12).Unix(), // 12小时有效期
@@ -79,10 +102,12 @@ func CreateJwt(userID, clientID string) (jwtData Jwt, err error) {
 		jwtData.RefreshToken = RandStr(32)
 
 		refreshClaims := RefreshClaims{
-			uidRsaStr,
-			Config.Jwt.Uid,
-			jwtData.RefreshToken,
-			jwt.StandardClaims{
+			Uid:          uidRsaStr,
+			Aid:          appID,
+			Sid:          sid,
+			Name:         Config.Jwt.Uid,
+			RefreshToken: jwtData.RefreshToken,
+			StandardClaims: jwt.StandardClaims{
 				Id:        RandStr(32),
 				IssuedAt:  time.Now().Unix(),
 				ExpiresAt: time.Now().Add(time.Hour * 24 * 30).Unix(), // 30天有效期
@@ -98,7 +123,14 @@ func CreateJwt(userID, clientID string) (jwtData Jwt, err error) {
 }
 
 func Jwt2Token(tokenString string) (uid string, err error) {
+	tokenData, err := Jwt2Data(tokenString)
+	if err != nil {
+		return "", err
+	}
+	return tokenData.Uid, nil
+}
 
+func Jwt2Data(tokenString string) (data TokenData, err error) {
 	issuer := Config.Jwt.Iss
 
 	/* jwtToken, err := jwt.Parse(tokenString, func(jwtToken *jwt.Token) (interface{}, error) {
@@ -130,14 +162,23 @@ func Jwt2Token(tokenString string) (uid string, err error) {
 			return
 		}
 
-		uid = ""
+		uid := ""
 		if _, ok := claims["uid"]; ok {
 			uid = claims["uid"].(string)
 		}
+		if aid, ok := claims["aid"].(string); ok {
+			data.Aid = aid
+		}
+		if sid, ok := claims["sid"].(string); ok {
+			data.Sid = sid
+		}
+		if refreshToken, ok := claims["token"].(string); ok {
+			data.RefreshToken = refreshToken
+		}
 
 		// base64 decode
-		var data []byte
-		data, err = base64.StdEncoding.DecodeString(uid)
+		var uidData []byte
+		uidData, err = base64.StdEncoding.DecodeString(uid)
 		if err != nil {
 			log.Err(err)
 			err = errors.New("ERR_INVALID_TOKEN")
@@ -146,14 +187,14 @@ func Jwt2Token(tokenString string) (uid string, err error) {
 
 		// RSA 解密
 		var user_id []byte
-		user_id, err = rsaDecrypt(data)
+		user_id, err = rsaDecrypt(uidData)
 		if err != nil {
 			log.Err(err)
 			err = errors.New("ERR_INVALID_TOKEN")
 			return
 		}
 
-		uid = string(user_id)
+		data.Uid = string(user_id)
 		return
 	} else {
 		fmt.Println(err)

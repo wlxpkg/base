@@ -28,3 +28,9 @@ func TokenGetUser(uid string) (userInfo map[string]string) {
 	userInfo = cache.HGetAll(baseKey)
 	return
 }
+
+func TokenGetSession(appID, uid string) (session map[string]string) {
+	sessionKey := "session:" + appID + ":" + uid
+	session = cache.HGetAll(sessionKey)
+	return
+}
