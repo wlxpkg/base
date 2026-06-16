@@ -29,8 +29,7 @@ require (
 	github.com/sirupsen/logrus v1.8.1
 	github.com/streadway/amqp v1.0.0
 	github.com/stretchr/testify v1.3.0
-	github.com/tidwall/gjson v1.8.1
-	github.com/tidwall/pretty v1.2.0 // indirect
+	github.com/tidwall/gjson v1.9.3
 	github.com/tv42/base58 v1.0.0
 	go.opencensus.io v0.22.1-0.20190713072201-b4a14686f0a9 // indirect
 	golang.org/x/sys v0.0.0-20210816183151-1e6c022a8912 // indirect
